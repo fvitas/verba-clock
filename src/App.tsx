@@ -42,7 +42,7 @@ function ClockScreen() {
   if (settings.presentation === 'wall') {
     return (
       <main
-        className="flex h-dvh w-dvw items-center justify-center overflow-hidden bg-[radial-gradient(120%_100%_at_50%_20%,#38342f,#211f1c)] font-[DINish]"
+        className="flex h-dvh w-dvw items-center justify-center overflow-hidden bg-[radial-gradient(120%_100%_at_50%_20%,#38342f,#211f1c)] font-[DINish,'Noto_Sans']"
         style={{ filter: `brightness(${settings.brightness})` }}
         onClick={toggleMode}
       >
@@ -58,7 +58,7 @@ function ClockScreen() {
 
   return (
     <main
-      className="relative flex h-dvh w-dvw items-center justify-center overflow-hidden font-[DINish] [container-type:size]"
+      className="relative flex h-dvh w-dvw items-center justify-center overflow-hidden font-[DINish,'Noto_Sans'] [container-type:size]"
       style={{ background: finish.surface, filter: `brightness(${settings.brightness})` }}
       onClick={toggleMode}
     >

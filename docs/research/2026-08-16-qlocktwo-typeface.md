@@ -20,4 +20,27 @@
 - Closest free descendant of the DIN lineage QLOCKTWO actually uses (D-DIN base + human-reader refinements).
 - OFL 1.1 permits bundling in web + store apps.
 - Cyrillic coverage serves the custom Serbian matrix; broad Latin coverage serves the QLOCKTWO catalog languages.
-- Caveat: non-Latin/non-Cyrillic matrices (Chinese, Japanese, Arabic, Hebrew, Greek if attempted in Plan 3) are NOT covered — those need per-language font fallbacks or count toward D4 discards.
+- Caveat: non-Latin/non-Cyrillic matrices are NOT covered by DINish — resolved below (user made CN/JP/AR/HE must-haves, no discards).
+
+## Official language catalog (researched 2026-08-16)
+
+QLOCKTWO EARTH ships in 23–24 face variants. Codes from [Clock Forward's EARTH 90 listing](https://clockforward.com/qlocktwo/earth-90-large-word-clock/):
+CA Catalan, CH Swiss German, CN Chinese, CZ Czech, D2/D3 (Swabian)/D4/DE German variants, DK Danish, E2/EN English variants, ES Spanish, FR French, GR Greek, HE Hebrew, IT Italian, JP Japanese, NL Dutch, NO Norwegian, PE Portuguese, RO Romanian, RU Russian, SE Swedish, TR Turkish.
+Arabic exists in the [QLOCKTWO W line](https://quillandpad.com/2018/08/31/word-for-word-qlocktwo-presents-a-new-approach-to-telling-the-time/) (7 languages incl. Arabic).
+Finish names confirmed on [qlocktwo.com Earth 45](https://www.qlocktwo.com/en-us/earth/45): Steel Series, Desert (marble), Glintscape, Metamorphite (slate), Rust, Vintage Copper, Silver & Gold, Gold, Platinum, Moon Gold, Black/Grey/White Pepper, Hazelnut, Stainless Steel.
+
+## Non-Latin script fonts (must-have per user, 2026-08-16)
+
+| Script | Languages | Font | Why |
+|---|---|---|---|
+| Latin | EN, DE×4, FR, IT, ES, CA, NL, DK, NO, SE, CZ, RO, PE, TR, CH | DINish Medium | closest free DIN descendant |
+| Cyrillic | RU, custom Serbian | DINish Medium | covered since v3.006 |
+| Arabic | AR | [Noto Kufi Arabic](https://fonts.google.com/noto/specimen/Noto+Kufi+Arabic) | OFL; "simplified, unmodulated Kufi" — geometric/engineered like DIN; angular, constant-thickness strokes; ideal for signage/UI (a clock face is display use, not long-form text) |
+| Hebrew | HE | Noto Sans Hebrew | OFL, Medium weight available, consistent with Noto system |
+| Chinese | CN | Noto Sans SC | OFL; large font solved by subsetting (below) |
+| Japanese | JP | Noto Sans JP | OFL; subsetting (below) |
+| Greek | GR | Noto Sans (Greek) | DINish has no Greek; Noto Sans is the weight-matched fallback |
+
+**Size strategy:** every matrix uses at most ~110 fixed glyphs, so at build time each non-Latin font is **subset to exactly its matrix's characters** (fonttools/pyftsubset → woff2). A CJK font collapses from ~10 MB to a few KB. OFL permits subsetting and redistribution with the license file retained.
+
+**Fidelity note:** the physical CN/JP/AR/HE QLOCKTWO faces use the manufacturer's own letterforms; ours will be the closest open equivalents, weight-matched to DINish Medium (Arabic set one optical step larger per bilingual-pairing practice, since Arabic has no capitals — [Medium: Matching Arabic & Latin scripts](https://medium.com/3azalam/matching-arabic-latin-scripts-in-logotypes-777db80c5c17)).

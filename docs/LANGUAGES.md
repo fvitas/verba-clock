@@ -1,14 +1,36 @@
 # Language Verification Status
 
-A language ships only when `verified`. Discarded languages keep their row with the reason (per D4).
+A language ships only when `verified`. Per D4 a language may be discarded with a documented reason — EXCEPT Chinese, Japanese, Arabic, Hebrew: user declared these must-haves (2026-08-16), they cannot be discarded.
 
-| Language | File | Status | Notes |
-|---|---|---|---|
-| English | `src/clock/languages/en.ts` | verified | Table-driven spec, 16 phrase cases + grid integrity |
-| German | — | pending | incl. regional variants (dreiviertel) |
-| French | — | pending | |
-| Italian | — | pending | |
-| Spanish | — | pending | |
-| Dutch | — | pending | |
-| Serbian (custom) | — | pending | our own matrix; user is native verifier (D4b) |
-| Remaining QLOCKTWO catalog | — | pending | enumerate during Plan 3 |
+Official catalog source: Clock Forward EARTH 90 listing + QLOCKTWO W line (see `docs/research/2026-08-16-qlocktwo-typeface.md`).
+
+| Code | Language | Script / Font | File | Status | Notes |
+|---|---|---|---|---|---|
+| EN | English | Latin / DINish | `src/clock/languages/en.ts` | verified | 16 phrase cases + grid integrity |
+| E2 | English (alt display) | Latin / DINish | — | pending | variant of EN face |
+| DE | German | Latin / DINish | — | pending | |
+| D2 | German (alt) | Latin / DINish | — | pending | |
+| D3 | German (Swabian) | Latin / DINish | — | pending | dialect |
+| D4 | German (alt) | Latin / DINish | — | pending | |
+| CH | Swiss German | Latin / DINish | — | pending | |
+| FR | French | Latin / DINish | — | pending | |
+| IT | Italian | Latin / DINish | — | pending | |
+| ES | Spanish | Latin / DINish | — | pending | |
+| CA | Catalan | Latin / DINish | — | pending | |
+| NL | Dutch | Latin / DINish | — | pending | |
+| DK | Danish | Latin / DINish | — | pending | |
+| NO | Norwegian | Latin / DINish | — | pending | |
+| SE | Swedish | Latin / DINish | — | pending | |
+| CZ | Czech | Latin / DINish | — | pending | |
+| RO | Romanian | Latin / DINish | — | pending | |
+| PE | Portuguese | Latin / DINish | — | pending | |
+| TR | Turkish | Latin / DINish | — | pending | |
+| GR | Greek | Greek / Noto Sans | — | pending | DINish lacks Greek |
+| RU | Russian | Cyrillic / DINish | — | pending | |
+| HE | Hebrew | Hebrew / Noto Sans Hebrew | — | pending | **must-have**; RTL |
+| AR | Arabic | Arabic / Noto Kufi Arabic | — | pending | **must-have**; RTL; from QLOCKTWO W line |
+| CN | Chinese | Han / Noto Sans SC (subset) | — | pending | **must-have** |
+| JP | Japanese | Kana+Han / Noto Sans JP (subset) | — | pending | **must-have** |
+| SR | Serbian (custom) | Cyrillic / DINish | — | pending | our own matrix (D4b); user verifies |
+
+Non-Latin fonts are subset at build time to each matrix's exact glyphs (few-KB files even for CJK).

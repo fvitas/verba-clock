@@ -81,3 +81,10 @@ Rules: every settled question gets an entry. Mockups for uncertain decisions liv
 **Decision:** DINish v4.007 Medium (SIL OFL 1.1), self-hosted woff2 in `public/fonts/` with license file. Closest maintained free descendant of the DIN lineage; covers 243 Latin-based languages + Cyrillic (Serbian matrix). Non-Latin/non-Cyrillic matrices in Plan 3 need per-language fallbacks or become D4 discards.
 **Research:** `docs/research/2026-08-16-qlocktwo-typeface.md`. Mockups: `mockups/typography-choice.html` (Barlow/Jost/Archivo round, superseded), `mockups/typography-dinish-2026-08-16.png`.
 **Options considered:** Barlow, Jost, Archivo (Google Fonts approximations), D-DIN, Alte DIN 1451, DINish.
+
+### D12 — Non-Latin scripts are must-haves with per-script companion fonts (2026-08-16)
+
+**Question:** Discard Chinese/Japanese/Arabic/Hebrew matrices (DINish can't render them) or support them?
+**Decision:** Must-haves per user — no discards for CN/JP/AR/HE. Per-script OFL companions, weight-matched to DINish Medium: Noto Kufi Arabic (AR — geometric Kufi, the DIN-equivalent for Arabic), Noto Sans Hebrew (HE), Noto Sans SC (CN), Noto Sans JP (JP), Noto Sans (GR). Fonts are subset at build time to each matrix's exact glyphs, so even CJK faces cost a few KB.
+**Amends:** D4 (discard option no longer applies to these four), D11 caveat resolved.
+**Research:** `docs/research/2026-08-16-qlocktwo-typeface.md`; full catalog table in `docs/LANGUAGES.md` (26 faces + custom Serbian).

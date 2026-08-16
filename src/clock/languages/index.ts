@@ -16,7 +16,9 @@ import { turkish } from './tr';
 import { swissGerman } from './ch';
 import { germanD2 } from './d2';
 import { swabian } from './d3';
+import { germanD4 } from './d4';
+import { englishE2 } from './e2';
 
-export const LANGUAGES: LanguageDef[] = [english, german, germanD2, swabian, swissGerman, french, italian, spanish, catalan, dutch, danish, norwegian, swedish, czech, romanian, portuguese, turkish];
+export const LANGUAGES: LanguageDef[] = [english, englishE2, german, germanD2, swabian, germanD4, swissGerman, french, italian, spanish, catalan, dutch, danish, norwegian, swedish, czech, romanian, portuguese, turkish];
 
 export const getLanguage = (id: string): LanguageDef => LANGUAGES.find((l) => l.id === id) ?? english;

@@ -7,11 +7,11 @@ Official catalog source: Clock Forward EARTH 90 listing + QLOCKTWO W line (see `
 | Code | Language | Script / Font | File | Status | Notes |
 |---|---|---|---|---|---|
 | EN | English | Latin / DINish | `src/clock/languages/en.ts` | verified | 16 phrase cases + grid integrity |
-| E2 | English (alt display) | Latin / DINish | — | pending | variant of EN face |
+| E2 | English (alt display) | Latin / DINish | `src/clock/languages/e2.ts` | verified | 15 phrase cases; own faceplate (QUARTER without A, O CLOCK split); source: ukw100 tables12h-en2.c |
 | DE | German | Latin / DINish | `src/clock/languages/de.ts` | verified | 17 phrase cases + grid integrity; source: https://github.com/ministubbe/clock/blob/master/qlocktwo.html |
 | D2 | German (alt) | Latin / DINish | `src/clock/languages/d2.ts` | verified | 15 phrase cases; same DE faceplate, DREIVIERTEL at :45, halb pivot from :20; sources: bramp GermanAlternative + ukw100 de modes |
 | D3 | German (Swabian) | Latin / DINish | `src/clock/languages/d3.ts` | verified | 15 phrase cases; own faceplate; VIERTL/DREIVIERTL next-hour from :15; sources: QLOCKGENERATOR + bramp D3 reference |
-| D4 | German (alt) | Latin / DINish | — | pending | |
+| D4 | German (alt) | Latin / DINish | `src/clock/languages/d4.ts` | verified | 16 phrase cases; same DE faceplate, East German VIERTEL/DREIVIERTEL next-hour from :15; sources: bramp EastGerman + ukw100 OSSI mode |
 | CH | Swiss German | Latin / DINish | `src/clock/languages/ch.ts` | verified | 16 phrase cases + grid integrity; sources: QLOCKGENERATOR + ukw100 ch1 + bracci renderer logic |
 | FR | French | Latin / DINish | `src/clock/languages/fr.ts` | verified | 20 phrase cases + grid integrity; sources: QLOCKGENERATOR languages.ts + bracci/Qlockthree Woerter_FR.h |
 | IT | Italian | Latin / DINish | `src/clock/languages/it.ts` | verified | 18 phrase cases + grid integrity; sources: QLOCKGENERATOR + ukw100/wordclock24h tables12h-it.c; hour-dependent it-is (SONO LE / È) via new `itIsFor` |

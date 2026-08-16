@@ -10,7 +10,8 @@ import { danish } from './dk';
 import { norwegian } from './no';
 import { swedish } from './se';
 import { czech } from './cz';
+import { romanian } from './ro';
 
-export const LANGUAGES: LanguageDef[] = [english, german, french, italian, spanish, catalan, dutch, danish, norwegian, swedish, czech];
+export const LANGUAGES: LanguageDef[] = [english, german, french, italian, spanish, catalan, dutch, danish, norwegian, swedish, czech, romanian];
 
 export const getLanguage = (id: string): LanguageDef => LANGUAGES.find((l) => l.id === id) ?? english;

@@ -18,7 +18,7 @@
 - Create: `src/settings/store.ts`, `src/settings/SettingsContext.tsx`
 - Test: `src/settings/store.test.ts`
 
-- [ ] **Step 1: Write the failing test `src/settings/store.test.ts`**
+- [x] **Step 1: Write the failing test `src/settings/store.test.ts`**
 
 ```ts
 import { beforeEach, describe, expect, it } from 'vitest';
@@ -54,12 +54,12 @@ describe('settings store', () => {
 });
 ```
 
-- [ ] **Step 2: Run test to verify it fails**
+- [x] **Step 2: Run test to verify it fails**
 
 Run: `pnpm vitest run src/settings/store.test.ts`
 Expected: FAIL — cannot resolve `./store`.
 
-- [ ] **Step 3: Write `src/settings/store.ts`**
+- [x] **Step 3: Write `src/settings/store.ts`**
 
 ```ts
 export type Presentation = 'fullbleed' | 'wall';
@@ -101,12 +101,12 @@ export function saveSettings(storage: Storage, settings: Settings): void {
 }
 ```
 
-- [ ] **Step 4: Run test to verify it passes**
+- [x] **Step 4: Run test to verify it passes**
 
 Run: `pnpm vitest run src/settings/store.test.ts`
 Expected: PASS (5 tests).
 
-- [ ] **Step 5: Write `src/settings/SettingsContext.tsx`**
+- [x] **Step 5: Write `src/settings/SettingsContext.tsx`**
 
 ```tsx
 import { createContext, useContext, useState, type ReactNode } from 'react';
@@ -140,7 +140,7 @@ export function useSettings(): SettingsContextValue {
 }
 ```
 
-- [ ] **Step 6: Commit**
+- [x] **Step 6: Commit**
 
 ```bash
 git add src/settings && git commit -m "Add versioned settings store with React context"
@@ -154,7 +154,7 @@ git add src/settings && git commit -m "Add versioned settings store with React c
 - Create: `src/finishes/catalog.ts`
 - Test: `src/finishes/catalog.test.ts`
 
-- [ ] **Step 1: Write the failing test `src/finishes/catalog.test.ts`**
+- [x] **Step 1: Write the failing test `src/finishes/catalog.test.ts`**
 
 ```ts
 import { describe, expect, it } from 'vitest';
@@ -190,12 +190,12 @@ describe('finish catalog', () => {
 });
 ```
 
-- [ ] **Step 2: Run test to verify it fails**
+- [x] **Step 2: Run test to verify it fails**
 
 Run: `pnpm vitest run src/finishes/catalog.test.ts`
 Expected: FAIL — cannot resolve `./catalog`.
 
-- [ ] **Step 3: Write `src/finishes/catalog.ts`**
+- [x] **Step 3: Write `src/finishes/catalog.ts`**
 
 ```ts
 export type Finish = {
@@ -250,12 +250,12 @@ export const FINISHES: Finish[] = [
 export const getFinish = (id: string): Finish => FINISHES.find((f) => f.id === id) ?? FINISHES[0];
 ```
 
-- [ ] **Step 4: Run test to verify it passes**
+- [x] **Step 4: Run test to verify it passes**
 
 Run: `pnpm vitest run src/finishes/catalog.test.ts`
 Expected: PASS (5 tests).
 
-- [ ] **Step 5: Commit**
+- [x] **Step 5: Commit**
 
 ```bash
 git add src/finishes && git commit -m "Add 16-finish EARTH catalog with procedural surfaces"
@@ -269,7 +269,7 @@ git add src/finishes && git commit -m "Add 16-finish EARTH catalog with procedur
 - Modify: `src/components/ClockFace.tsx`, `src/components/CornerDots.tsx`
 - Modify test: `src/components/ClockFace.test.tsx`
 
-- [ ] **Step 1: Extend the test — add a finish-scheme case and update props**
+- [x] **Step 1: Extend the test — add a finish-scheme case and update props**
 
 Replace `src/components/ClockFace.test.tsx` with:
 
@@ -305,12 +305,12 @@ describe('ClockFace', () => {
 });
 ```
 
-- [ ] **Step 2: Run to verify the new/changed tests fail**
+- [x] **Step 2: Run to verify the new/changed tests fail**
 
 Run: `pnpm vitest run src/components/ClockFace.test.tsx`
 Expected: FAIL — `finish` prop not accepted / class assertions.
 
-- [ ] **Step 3: Update `src/components/ClockFace.tsx`**
+- [x] **Step 3: Update `src/components/ClockFace.tsx`**
 
 ```tsx
 import { cellKey } from '../clock/engine';
@@ -358,7 +358,7 @@ export function ClockFace({ rows, lit, finish }: ClockFaceProps) {
 }
 ```
 
-- [ ] **Step 4: Update `src/components/CornerDots.tsx`**
+- [x] **Step 4: Update `src/components/CornerDots.tsx`**
 
 ```tsx
 type CornerDotsProps = {
@@ -388,7 +388,7 @@ export function CornerDots({ count, letter }: CornerDotsProps) {
 }
 ```
 
-- [ ] **Step 5: Fix `src/App.tsx` compile errors minimally** (full rewrite comes in Task 7)
+- [x] **Step 5: Fix `src/App.tsx` compile errors minimally** (full rewrite comes in Task 7)
 
 ```tsx
 import { resolveTime } from './clock/engine';
@@ -415,12 +415,12 @@ export function App() {
 }
 ```
 
-- [ ] **Step 6: Run full suite and build**
+- [x] **Step 6: Run full suite and build**
 
 Run: `pnpm test && pnpm build`
 Expected: all tests PASS (34), build OK.
 
-- [ ] **Step 7: Commit**
+- [x] **Step 7: Commit**
 
 ```bash
 git add -A && git commit -m "Render face and dots per finish letter scheme"
@@ -434,7 +434,7 @@ git add -A && git commit -m "Render face and dots per finish letter scheme"
 - Create: `src/clock/seconds.ts`
 - Test: `src/clock/seconds.test.ts`
 
-- [ ] **Step 1: Write the failing test `src/clock/seconds.test.ts`**
+- [x] **Step 1: Write the failing test `src/clock/seconds.test.ts`**
 
 ```ts
 import { describe, expect, it } from 'vitest';
@@ -475,12 +475,12 @@ describe('resolveSeconds', () => {
 });
 ```
 
-- [ ] **Step 2: Run test to verify it fails**
+- [x] **Step 2: Run test to verify it fails**
 
 Run: `pnpm vitest run src/clock/seconds.test.ts`
 Expected: FAIL — cannot resolve `./seconds`.
 
-- [ ] **Step 3: Write `src/clock/seconds.ts`**
+- [x] **Step 3: Write `src/clock/seconds.ts`**
 
 ```ts
 import { cellKey } from './engine';
@@ -515,12 +515,12 @@ export function resolveSeconds(seconds: number, cols = 11, rows = 10): ReadonlyS
 }
 ```
 
-- [ ] **Step 4: Run test to verify it passes**
+- [x] **Step 4: Run test to verify it passes**
 
 Run: `pnpm vitest run src/clock/seconds.test.ts`
 Expected: PASS (5 tests).
 
-- [ ] **Step 5: Commit**
+- [x] **Step 5: Commit**
 
 ```bash
 git add src/clock/seconds.ts src/clock/seconds.test.ts
@@ -534,7 +534,7 @@ git commit -m "Add seconds mode digits rendered on the letter grid"
 **Files:**
 - Create: `src/clock/languages/index.ts`
 
-- [ ] **Step 1: Write `src/clock/languages/index.ts`** (Plan 3 appends here; keeps App decoupled from individual languages)
+- [x] **Step 1: Write `src/clock/languages/index.ts`** (Plan 3 appends here; keeps App decoupled from individual languages)
 
 ```ts
 import type { LanguageDef } from '../types';
@@ -545,12 +545,12 @@ export const LANGUAGES: LanguageDef[] = [english];
 export const getLanguage = (id: string): LanguageDef => LANGUAGES.find((l) => l.id === id) ?? english;
 ```
 
-- [ ] **Step 2: Verify compile**
+- [x] **Step 2: Verify compile**
 
 Run: `pnpm build`
 Expected: OK.
 
-- [ ] **Step 3: Commit**
+- [x] **Step 3: Commit**
 
 ```bash
 git add src/clock/languages/index.ts && git commit -m "Add language registry"
@@ -565,11 +565,11 @@ git add src/clock/languages/index.ts && git commit -m "Add language registry"
 - Test: `src/settings/SettingsPanel.test.tsx`
 - Modify: `package.json` (new deps)
 
-- [ ] **Step 1: Install Radix primitives**
+- [x] **Step 1: Install Radix primitives**
 
 Run: `pnpm add @radix-ui/react-dialog @radix-ui/react-switch @radix-ui/react-slider`
 
-- [ ] **Step 2: Write the failing test `src/settings/SettingsPanel.test.tsx`**
+- [x] **Step 2: Write the failing test `src/settings/SettingsPanel.test.tsx`**
 
 ```tsx
 import { fireEvent, render, screen } from '@testing-library/react';
@@ -611,12 +611,12 @@ describe('SettingsPanel', () => {
 });
 ```
 
-- [ ] **Step 3: Run test to verify it fails**
+- [x] **Step 3: Run test to verify it fails**
 
 Run: `pnpm vitest run src/settings/SettingsPanel.test.tsx`
 Expected: FAIL — cannot resolve `./SettingsPanel`.
 
-- [ ] **Step 4: Write `src/settings/SettingsPanel.tsx`**
+- [x] **Step 4: Write `src/settings/SettingsPanel.tsx`**
 
 ```tsx
 import * as React from 'react';
@@ -740,12 +740,12 @@ export function SettingsPanel() {
 }
 ```
 
-- [ ] **Step 5: Run test to verify it passes**
+- [x] **Step 5: Run test to verify it passes**
 
 Run: `pnpm vitest run src/settings/SettingsPanel.test.tsx`
 Expected: PASS (3 tests).
 
-- [ ] **Step 6: Commit**
+- [x] **Step 6: Commit**
 
 ```bash
 git add -A && git commit -m "Add Radix settings panel with finish swatches and controls"
@@ -758,7 +758,7 @@ git add -A && git commit -m "Add Radix settings panel with finish swatches and c
 **Files:**
 - Modify: `src/App.tsx` (full rewrite below)
 
-- [ ] **Step 1: Rewrite `src/App.tsx`**
+- [x] **Step 1: Rewrite `src/App.tsx`**
 
 ```tsx
 import { useState } from 'react';
@@ -833,16 +833,16 @@ function ClockScreen() {
 
 Note: `ClockFace` sizes with `min(82vw,82vh)` which overflows the wall panel slightly — acceptable for this step only if visually verified; if it overflows, change the grid width class in `ClockFace.tsx` from `w-[min(82vw,82vh)]` to `w-[74%]` and font-size style to `fontSize: 'min(3.4vw, 3.4vh)'` — verify both presentations after.
 
-- [ ] **Step 2: Run full suite and build**
+- [x] **Step 2: Run full suite and build**
 
 Run: `pnpm test && pnpm build`
 Expected: all tests PASS, build OK.
 
-- [ ] **Step 3: Visual verification (dev server + Playwright)**
+- [x] **Step 3: Visual verification (dev server + Playwright)**
 
 With dev server running: check full-bleed Deep Black; open settings → pick Rust, Gold (dark letters), Wall mode; click face → seconds digits tick; brightness slider dims. Save screenshots of at least Rust full-bleed + Wall mode into `mockups/` (never deleted), e.g. `mockups/plan2-rust-2026-08-16.png`, `mockups/plan2-wall-2026-08-16.png`.
 
-- [ ] **Step 4: Commit**
+- [x] **Step 4: Commit**
 
 ```bash
 git add -A && git commit -m "Assemble settings-driven clock with presentations, seconds mode, dimming"

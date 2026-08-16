@@ -1,10 +1,9 @@
 // Custom Verba matrix (no QLOCKTWO Serbian exists) — decision D4b
-// Grammar and layout verified by the user (native speaker) via mockups/serbian-matrix.html on 2026-08-16
-// Fillers hide ВЕРБА in reading order: (0,4)(1,8)(1,9)(1,10)(2,8)
+// Grammar and layout verified by the user (native speaker) via mockups/serbian-matrix.html on 2026-08-16, reworked same day per feedback
 import { word, type LanguageDef, type WordCoord } from '../types';
 
-const SADA = word('САДА', 0, 0);
-const JE = word('ЈЕ', 0, 5);
+const SAD = word('САД', 0, 0);
+const JE = word('ЈЕ', 0, 4);
 const POLA = word('ПОЛА', 0, 7);
 const DVADESET_PRE = word('ДВАДЕСЕТ', 1, 0);
 const DESET_PRE = word('ДЕСЕТ', 1, 3);
@@ -58,20 +57,20 @@ function phrase(hours: number, minutes: number): WordCoord[] {
 export const serbian: LanguageDef = {
   id: 'sr',
   name: 'Српски',
-  sample: 'САДА ЈЕ',
+  sample: 'САД ЈЕ',
   rows: [
-    'САДАВЈЕПОЛА',
-    'ДВАДЕСЕТЕРБ',
-    'ПЕТНАЕСТАДО',
-    'ЈЕДАНАЕСТФВ',
+    'САДМЈЕЛПОЛА',
+    'ДВАДЕСЕТКРМ',
+    'ПЕТНАЕСТРДО',
+    'ЈЕДАНАЕСТМК',
     'ДВАНАЕСТТРИ',
     'ЧЕТИРИДЕСЕТ',
     'ПЕТШЕСТОСАМ',
-    'СЕДАМДЕВЕТЖ',
-    'ИДВАДЕСЕТЉЊ',
-    'ПЕТНАЕСТСАТ',
+    'СЕДАМДЕВЕТК',
+    'ИДВАДЕСЕТКМ',
+    'ПЕТНАЕСТРКЛ',
   ],
-  itIs: [SADA, JE],
-  words: [SADA, JE, POLA, DVADESET_PRE, DESET_PRE, PETNAEST_PRE, PET_PRE, DO, JEDANAEST, JEDAN, DVANAEST, DVA, TRI, CETIRI, DESET_HOUR, PET_HOUR, SEST, OSAM, SEDAM, DEVET, I, DVADESET_POST, DESET_POST, PETNAEST_POST, PET_POST],
+  itIs: [SAD, JE],
+  words: [SAD, JE, POLA, DVADESET_PRE, DESET_PRE, PETNAEST_PRE, PET_PRE, DO, JEDANAEST, JEDAN, DVANAEST, DVA, TRI, CETIRI, DESET_HOUR, PET_HOUR, SEST, OSAM, SEDAM, DEVET, I, DVADESET_POST, DESET_POST, PETNAEST_POST, PET_POST],
   phrase,
 };

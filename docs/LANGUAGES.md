@@ -12,7 +12,7 @@ Official catalog source: Clock Forward EARTH 90 listing + QLOCKTWO W line (see `
 | D2 | German (alt) | Latin / DINish | — | pending | |
 | D3 | German (Swabian) | Latin / DINish | — | pending | dialect |
 | D4 | German (alt) | Latin / DINish | — | pending | |
-| CH | Swiss German | Latin / DINish | — | pending | |
+| CH | Swiss German | Latin / DINish | `src/clock/languages/ch.ts` | verified | 16 phrase cases + grid integrity; sources: QLOCKGENERATOR + ukw100 ch1 + bracci renderer logic |
 | FR | French | Latin / DINish | `src/clock/languages/fr.ts` | verified | 20 phrase cases + grid integrity; sources: QLOCKGENERATOR languages.ts + bracci/Qlockthree Woerter_FR.h |
 | IT | Italian | Latin / DINish | `src/clock/languages/it.ts` | verified | 18 phrase cases + grid integrity; sources: QLOCKGENERATOR + ukw100/wordclock24h tables12h-it.c; hour-dependent it-is (SONO LE / È) via new `itIsFor` |
 | ES | Spanish | Latin / DINish | `src/clock/languages/es.ts` | verified | 18 phrase cases + grid integrity; sources: QLOCKGENERATOR + ukw100 tables12h-es.c; ES LA UNA vs SON LAS via itIsFor |

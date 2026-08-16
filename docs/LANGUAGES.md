@@ -9,7 +9,7 @@ Official catalog source: Clock Forward EARTH 90 listing + QLOCKTWO W line (see `
 | EN | English | Latin / DINish | `src/clock/languages/en.ts` | verified | 16 phrase cases + grid integrity |
 | E2 | English (alt display) | Latin / DINish | — | pending | variant of EN face |
 | DE | German | Latin / DINish | `src/clock/languages/de.ts` | verified | 17 phrase cases + grid integrity; source: https://github.com/ministubbe/clock/blob/master/qlocktwo.html |
-| D2 | German (alt) | Latin / DINish | — | pending | |
+| D2 | German (alt) | Latin / DINish | `src/clock/languages/d2.ts` | verified | 15 phrase cases; same DE faceplate, DREIVIERTEL at :45, halb pivot from :20; sources: bramp GermanAlternative + ukw100 de modes |
 | D3 | German (Swabian) | Latin / DINish | — | pending | dialect |
 | D4 | German (alt) | Latin / DINish | — | pending | |
 | CH | Swiss German | Latin / DINish | `src/clock/languages/ch.ts` | verified | 16 phrase cases + grid integrity; sources: QLOCKGENERATOR + ukw100 ch1 + bracci renderer logic |

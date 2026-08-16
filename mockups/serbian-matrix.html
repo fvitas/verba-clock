@@ -1,0 +1,115 @@
+<!doctype html>
+<html lang="sr">
+<head>
+<meta charset="utf-8" />
+<title>Verba — predlog srpske matrice (D4b)</title>
+<style>
+  body { background: #171513; color: #d8d4cf; font-family: -apple-system, sans-serif; padding: 2rem; }
+  h1 { font-weight: 500; } h2 { margin-top: 2.5rem; font-weight: 500; }
+  .boards { display: flex; flex-wrap: wrap; gap: 2rem; }
+  .board { background: #0a0a0a; padding: 1.5rem 2rem; box-shadow: 0 15px 30px rgba(0,0,0,.6); }
+  .caption { text-align: center; margin-top: .8rem; font-size: .85rem; color: #9a958e; }
+  .grid { display: grid; grid-template-columns: repeat(11, 1.7em); font-family: 'Helvetica Neue', sans-serif; font-weight: 500; letter-spacing: .1em; }
+  .grid span { display: flex; align-items: center; justify-content: center; aspect-ratio: 1; color: rgba(255,255,255,.14); font-size: .95rem; }
+  .grid span.on { color: #fff; text-shadow: 0 0 .4em rgba(255,255,255,.55); }
+  .grid span.filler { color: rgba(255,180,120,.25); }
+  table { border-collapse: collapse; margin-top: 1rem; }
+  td, th { border: 1px solid #3a3733; padding: .35rem .8rem; font-size: .9rem; text-align: left; }
+  .q { background: #241f1a; border-left: 3px solid #b98a4a; padding: .8rem 1rem; margin: .6rem 0; }
+</style>
+</head>
+<body>
+<h1>Verba — predlog srpske matrice 11×10 (D4b)</h1>
+<p>Reči se pakuju kao na originalu: ПЕТНАЕСТ sadrži ПЕТ, ДВАДЕСЕТ sadrži ДЕСЕТ, ЈЕДАНАЕСТ sadrži ЈЕДАН, ДВАНАЕСТ sadrži ДВА.
+Narandžasta slova su čist filer (mogu biti bilo koja slova — predlozi dobrodošli).</p>
+
+<div class="boards" id="boards"></div>
+
+<h2>Predložene fraze za svih 12 pozicija (sat 10 kao primer)</h2>
+<table>
+  <tr><th>Vreme</th><th>Fraza</th></tr>
+  <tr><td>10:00</td><td>САДА ЈЕ ДЕСЕТ</td></tr>
+  <tr><td>10:05</td><td>САДА ЈЕ ДЕСЕТ И ПЕТ</td></tr>
+  <tr><td>10:10</td><td>САДА ЈЕ ДЕСЕТ И ДЕСЕТ</td></tr>
+  <tr><td>10:15</td><td>САДА ЈЕ ДЕСЕТ И ПЕТНАЕСТ</td></tr>
+  <tr><td>10:20</td><td>САДА ЈЕ ДЕСЕТ И ДВАДЕСЕТ</td></tr>
+  <tr><td>10:25</td><td>САДА ЈЕ ДЕСЕТ И ДВАДЕСЕТ ПЕТ</td></tr>
+  <tr><td>10:30</td><td>САДА ЈЕ ПОЛА ЈЕДАНАЕСТ</td></tr>
+  <tr><td>10:35</td><td>САДА ЈЕ ДВАДЕСЕТ ПЕТ ДО ЈЕДАНАЕСТ</td></tr>
+  <tr><td>10:40</td><td>САДА ЈЕ ДВАДЕСЕТ ДО ЈЕДАНАЕСТ</td></tr>
+  <tr><td>10:45</td><td>САДА ЈЕ ПЕТНАЕСТ ДО ЈЕДАНАЕСТ</td></tr>
+  <tr><td>10:50</td><td>САДА ЈЕ ДЕСЕТ ДО ЈЕДАНАЕСТ</td></tr>
+  <tr><td>10:55</td><td>САДА ЈЕ ПЕТ ДО ЈЕДАНАЕСТ</td></tr>
+</table>
+
+<h2>Pitanja za tebe (native speaker gate)</h2>
+<div class="q">1. Na pun sat: samo „САДА ЈЕ ДЕСЕТ" — ili hoćeš „САТИ/САТА/САТ"? (Ne staje lepo u mrežu; može uz žrtvovanje filera, npr. САТ na kraju reda 9.)</div>
+<div class="q">2. 10:15 — „И ПЕТНАЕСТ" ili „И ЧЕТВРТ"? Mreža trenutno podržava samo ПЕТНАЕСТ.</div>
+<div class="q">3. 10:30 — „ПОЛА ЈЕДАНАЕСТ" (sledeći sat) — potvrdi da je to tačno kako se kaže.</div>
+<div class="q">4. „САДА ЈЕ" kao uvod — ok? (Ekvivalent nemačkog ES IST; može da se gasi u podešavanjima.)</div>
+<div class="q">5. Ćirilica ok, ili hoćeš i latinicu kao varijantu kasnije?</div>
+
+<script>
+const rows = [
+  'САДАЈЕЛПОЛА',
+  'ДВАДЕСЕТКЈМ',
+  'ПЕТНАЕСТРДО',
+  'ЈЕДАНАЕСТВК',
+  'ДВАНАЕСТТРИ',
+  'ЧЕТИРИДЕСЕТ',
+  'ПЕТШЕСТОСАМ',
+  'СЕДАМДЕВЕТЖ',
+  'ИДВАДЕСЕТЉЊ',
+  'ПЕТНАЕСТЗУБ',
+];
+const fillers = new Set(['0:6','1:8','1:9','1:10','2:8','3:9','3:10','7:10','8:9','8:10','9:8','9:9','9:10']);
+// word coords: [row, start, end]
+const W = {
+  SADA: [0,0,3], JE: [0,4,5], POLA: [0,7,10],
+  DVADESET_PRE: [1,0,7], DESET_PRE: [1,3,7],
+  PETNAEST_PRE: [2,0,7], PET_PRE: [2,0,2], DO: [2,9,10],
+  JEDANAEST: [3,0,8], JEDAN: [3,0,4],
+  DVANAEST: [4,0,7], DVA: [4,0,2], TRI: [4,8,10],
+  CETIRI: [5,0,5], DESET_H: [5,6,10],
+  PET_H: [6,0,2], SEST: [6,3,6], OSAM: [6,7,10],
+  SEDAM: [7,0,4], DEVET: [7,5,9],
+  I: [8,0,0], DVADESET_POST: [8,1,8], DESET_POST: [8,4,8],
+  PETNAEST_POST: [9,0,7], PET_POST: [9,0,2],
+};
+const samples = [
+  { caption: '10:00 — САДА ЈЕ ДЕСЕТ', words: ['SADA','JE','DESET_H'] },
+  { caption: '10:15 — САДА ЈЕ ДЕСЕТ И ПЕТНАЕСТ', words: ['SADA','JE','DESET_H','I','PETNAEST_POST'] },
+  { caption: '10:25 — САДА ЈЕ ДЕСЕТ И ДВАДЕСЕТ ПЕТ', words: ['SADA','JE','DESET_H','I','DVADESET_POST','PET_POST'] },
+  { caption: '10:30 — САДА ЈЕ ПОЛА ЈЕДАНАЕСТ', words: ['SADA','JE','POLA','JEDANAEST'] },
+  { caption: '10:35 — САДА ЈЕ ДВАДЕСЕТ ПЕТ ДО ЈЕДАНАЕСТ', words: ['SADA','JE','DVADESET_PRE','PET_PRE','DO','JEDANAEST'] },
+  { caption: '10:45 — САДА ЈЕ ПЕТНАЕСТ ДО ЈЕДАНАЕСТ', words: ['SADA','JE','PETNAEST_PRE','DO','JEDANAEST'] },
+  { caption: '21:50 — САДА ЈЕ ДЕСЕТ ДО ДЕСЕТ', words: ['SADA','JE','DESET_PRE','DO','DESET_H'] },
+  { caption: '13:05 — САДА ЈЕ ЈЕДАН И ПЕТ', words: ['SADA','JE','JEDAN','I','PET_POST'] },
+];
+const boards = document.getElementById('boards');
+for (const s of samples) {
+  const lit = new Set();
+  for (const w of s.words) {
+    const [r, a, b] = W[w];
+    for (let c = a; c <= b; c++) lit.add(r + ':' + c);
+  }
+  const board = document.createElement('div');
+  board.className = 'board';
+  const grid = document.createElement('div');
+  grid.className = 'grid';
+  rows.forEach((row, r) => [...row].forEach((ch, c) => {
+    const cell = document.createElement('span');
+    cell.textContent = ch;
+    if (lit.has(r + ':' + c)) cell.className = 'on';
+    else if (fillers.has(r + ':' + c)) cell.className = 'filler';
+    grid.appendChild(cell);
+  }));
+  const cap = document.createElement('div');
+  cap.className = 'caption';
+  cap.textContent = s.caption;
+  board.append(grid, cap);
+  boards.appendChild(board);
+}
+</script>
+</body>
+</html>

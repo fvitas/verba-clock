@@ -24,7 +24,7 @@ Official catalog source: Clock Forward EARTH 90 listing + QLOCKTWO W line (see `
 | CZ | Czech | Latin / DINish | `src/clock/languages/cz.ts` | verified | 19 phrase cases + grid integrity; digital-readout style; JE/JSOU via itIsFor; sources: QLOCKGENERATOR + bramp reference |
 | RO | Romanian | Latin / DINish | `src/clock/languages/ro.ts` | verified | 17 phrase cases + grid integrity; sources: QLOCKGENERATOR + bramp reference; FĂRĂ + next hour from :40 |
 | PE | Portuguese | Latin / DINish | `src/clock/languages/pe.ts` | verified | 19 phrase cases + grid integrity; sources: QLOCKGENERATOR + bramp reference + cdmoro indices; MEIA NOITE/MEIO DIA faces; 12:30 quirk É MEIA HORA |
-| TR | Turkish | Latin / DINish | — | pending | |
+| TR | Turkish | Latin / DINish | `src/clock/languages/tr.ts` | verified | 21 phrase cases + grid integrity; accusative hours + GEÇİYOR; sources: QLOCKGENERATOR + bramp reference + cdmoro examples |
 | GR | Greek | Greek / Noto Sans | — | pending | DINish lacks Greek |
 | RU | Russian | Cyrillic / DINish | — | pending | |
 | HE | Hebrew | Hebrew / Noto Sans Hebrew | — | not planned (v1) | descoped per D13; RTL |

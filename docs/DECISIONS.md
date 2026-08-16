@@ -97,3 +97,11 @@ Rules: every settled question gets an entry. Mockups for uncertain decisions liv
 ### D14 — Finish catalog: 16 finishes from the current EARTH lineup (2026-08-16)
 
 **Decision:** Replicate the current EARTH catalog (researched across EARTH 13.5/45/90/180 + Creator's Edition + frontcover pages): Deep Black, Stainless Steel, 5 Pepper-series coatings, Hazelnut, and 8 Creator's Editions (Rust, Vintage Copper, Gold, Silver & Gold, Platinum, Moon Gold, Glintscape, Metamorphite, Desert). Full table in `docs/FINISHES.md`. v1 renders all procedurally (CSS + SVG noise); CC0 photo textures are the upgrade path for stones/metals.
+
+### D15 — All European languages shipped and verified (2026-08-16)
+
+**Decision:** All 21 official European faceplates ship in v1, each verified against multiple open-source QLOCKTWO replica sources (QLOCKGENERATOR, bracci/Qlockthree, ukw100/wordclock24h, bramp/wordclock, cdmoro/wordoclock) and covered by table-driven tests: EN, E2, DE, D2, D3, D4, CH, FR, IT, ES, CA, NL, DK, NO, SE, CZ, RO, PE, TR, RU, GR. The custom Serbian face (D4b) ships alongside them, verified by the user as native speaker. **Zero languages discarded** — the D4 discard path was never needed.
+**Engine changes:** `LanguageDef` gained two optional fields — `itIsFor` (time-dependent it-is words, used by IT, ES, CA, PE, CZ) and `cellOverrides` (in-cell apostrophes for Italian `L'` and Catalan `D'`).
+**Fonts:** DINish Medium covers Latin + Cyrillic; Greek falls back to `@fontsource/noto-sans` greek-500.
+**Unchanged:** CN/JP/AR/HE remain descoped per D13.
+**Status table:** `docs/LANGUAGES.md` — every row is `verified`, `verified (native speaker)`, or `not planned (v1)`.

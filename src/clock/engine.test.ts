@@ -27,6 +27,16 @@ describe('resolveTime', () => {
     expect(lit).toEqual(new Set(['1:0', '1:1']));
   });
 
+  it('prefers itIsFor over static itIs when defined', () => {
+    const withDynamic: LanguageDef = {
+      ...fake,
+      itIs: [DE],
+      itIsFor: (_hours, minutes) => (minutes < 30 ? [DE] : [AB]),
+    };
+    expect(resolveTime(10, 45, withDynamic, true).lit).toEqual(new Set(['0:0', '0:1', '1:2']));
+    expect(resolveTime(10, 45, withDynamic, false).lit).toEqual(new Set(['1:2']));
+  });
+
   it('sets corner dots to minutes modulo five', () => {
     expect(resolveTime(10, 0, fake, true).dots).toBe(0);
     expect(resolveTime(10, 17, fake, true).dots).toBe(2);

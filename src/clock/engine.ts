@@ -13,7 +13,8 @@ export function resolveTime(
   lang: LanguageDef,
   showItIs: boolean,
 ): ClockDisplay {
-  const words = [...(showItIs ? lang.itIs : []), ...lang.phrase(hours, minutes)];
+  const itIs = lang.itIsFor ? lang.itIsFor(hours, minutes) : lang.itIs;
+  const words = [...(showItIs ? itIs : []), ...lang.phrase(hours, minutes)];
   const lit = new Set<string>();
   for (const w of words) {
     for (let col = w.start; col <= w.end; col++) lit.add(cellKey(w.row, col));

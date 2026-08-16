@@ -13,7 +13,7 @@ Official catalog source: Clock Forward EARTH 90 listing + QLOCKTWO W line (see `
 | D3 | German (Swabian) | Latin / DINish | — | pending | dialect |
 | D4 | German (alt) | Latin / DINish | — | pending | |
 | CH | Swiss German | Latin / DINish | — | pending | |
-| FR | French | Latin / DINish | — | pending | |
+| FR | French | Latin / DINish | `src/clock/languages/fr.ts` | verified | 20 phrase cases + grid integrity; sources: QLOCKGENERATOR languages.ts + bracci/Qlockthree Woerter_FR.h |
 | IT | Italian | Latin / DINish | — | pending | |
 | ES | Spanish | Latin / DINish | — | pending | |
 | CA | Catalan | Latin / DINish | — | pending | |

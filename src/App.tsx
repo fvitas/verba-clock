@@ -35,7 +35,7 @@ function ClockScreen() {
   const face = (
     <>
       {mode === 'words' && <CornerDots count={display.dots} letter={finish.letter} />}
-      <ClockFace rows={lang.rows} lit={lit} finish={finish} />
+      <ClockFace rows={lang.rows} lit={lit} finish={finish} cellOverrides={lang.cellOverrides} />
     </>
   );
 

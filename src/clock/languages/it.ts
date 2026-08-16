@@ -76,6 +76,7 @@ export const italian: LanguageDef = {
   ],
   itIs: [SONO, LE],
   itIsFor,
+  cellOverrides: { '1:2': "L'" },
   words: [SONO, LE, ORE, E_COPULA, LUNA, DUE, TRE, OTTO, NOVE, DIECI_HOUR, UNDICI, DODICI, SETTE, QUATTRO, SEI, CINQUE_HOUR, MENO, E_AND, UN, QUARTO, VENTI, VENTICINQUE, CINQUE_MIN, DIECI_MIN, MEZZA],
   phrase,
 };

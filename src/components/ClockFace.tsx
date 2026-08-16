@@ -5,9 +5,10 @@ type ClockFaceProps = {
   rows: string[];
   lit: ReadonlySet<string>;
   finish: Finish;
+  cellOverrides?: Record<string, string>;
 };
 
-export function ClockFace({ rows, lit, finish }: ClockFaceProps) {
+export function ClockFace({ rows, lit, finish, cellOverrides }: ClockFaceProps) {
   const cols = rows[0].length;
   const litClass =
     finish.letter === 'light'
@@ -33,7 +34,7 @@ export function ClockFace({ rows, lit, finish }: ClockFaceProps) {
               style={on ? undefined : { color: stencilColor }}
               data-lit={on}
             >
-              {ch}
+              {cellOverrides?.[cellKey(r, c)] ?? ch}
             </span>
           );
         }),

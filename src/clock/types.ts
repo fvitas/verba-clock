@@ -13,6 +13,8 @@ export type LanguageDef = {
   itIs: WordCoord[];
   // For languages whose "it is" prefix depends on the time (e.g. Italian SONO LE vs È)
   itIsFor?: (hours: number, minutes: number) => WordCoord[];
+  // Display text per "row:col" cell for in-cell apostrophes (e.g. Italian L', Catalan D')
+  cellOverrides?: Record<string, string>;
   words: WordCoord[];
   phrase: (hours: number, minutes: number) => WordCoord[];
 };

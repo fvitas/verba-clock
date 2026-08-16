@@ -20,6 +20,15 @@ describe('ClockFace', () => {
     expect(on.map((el) => el.textContent).join('')).toBe('ITISAQUARTERPASTTEN');
   });
 
+  it('renders cell overrides for in-cell apostrophes', () => {
+    const { container } = render(
+      <ClockFace rows={english.rows} lit={new Set<string>()} finish={deepBlack} cellOverrides={{ '0:0': "I'" }} />,
+    );
+    const cells = [...container.querySelectorAll('[data-lit]')];
+    expect(cells[0].textContent).toBe("I'");
+    expect(cells[1].textContent).toBe('T');
+  });
+
   it('uses dark letters on light finishes', () => {
     const { lit } = resolveTime(10, 17, english, true);
     const { container } = render(<ClockFace rows={english.rows} lit={lit} finish={getFinish('gold')} />);

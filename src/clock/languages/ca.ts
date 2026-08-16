@@ -95,6 +95,7 @@ export const catalan: LanguageDef = {
   ],
   itIs: [SON, LES],
   itIsFor,
+  cellOverrides: { '4:2': "D'" },
   words: [ES, SON, LA, UNA_SIMPLE, UN_COUNT, DOS_COUNT, LES, TRES_COUNT, CINC_HOUR, QUART, QUARTS, MENYS, I, CINC_MIN, DE, D_APOS, UNA_QUART, ONZE_QUART, DUES, TRES_HOUR, SET, QUATRE, DOTZE, VUIT, NOU, ONZE_HOUR, SIS, DEU, MENYS_2, I_2, CINC_2],
   phrase,
 };

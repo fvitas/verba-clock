@@ -5,7 +5,8 @@ import { french } from './fr';
 import { italian } from './it';
 import { spanish } from './es';
 import { dutch } from './nl';
+import { catalan } from './ca';
 
-export const LANGUAGES: LanguageDef[] = [english, german, french, italian, spanish, dutch];
+export const LANGUAGES: LanguageDef[] = [english, german, french, italian, spanish, catalan, dutch];
 
 export const getLanguage = (id: string): LanguageDef => LANGUAGES.find((l) => l.id === id) ?? english;

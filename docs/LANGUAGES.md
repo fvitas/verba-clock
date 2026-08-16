@@ -21,7 +21,7 @@ Official catalog source: Clock Forward EARTH 90 listing + QLOCKTWO W line (see `
 | DK | Danish | Latin / DINish | `src/clock/languages/dk.ts` | verified | 16 phrase cases + grid integrity; sources: QLOCKGENERATOR + bramp/wordclock reference; MINUTTER lit on 5/10/20 deltas |
 | NO | Norwegian | Latin / DINish | `src/clock/languages/no.ts` | verified | 16 phrase cases + grid integrity; sources: QLOCKGENERATOR + bramp reference; lowercase-l quirk normalized to I; next-hour from :20 |
 | SE | Swedish | Latin / DINish | `src/clock/languages/se.ts` | verified | 16 phrase cases + grid integrity; sources: QLOCKGENERATOR + ukw100 tables12h-se.c positions + bramp logic |
-| CZ | Czech | Latin / DINish | — | pending | |
+| CZ | Czech | Latin / DINish | `src/clock/languages/cz.ts` | verified | 19 phrase cases + grid integrity; digital-readout style; JE/JSOU via itIsFor; sources: QLOCKGENERATOR + bramp reference |
 | RO | Romanian | Latin / DINish | — | pending | |
 | PE | Portuguese | Latin / DINish | — | pending | |
 | TR | Turkish | Latin / DINish | — | pending | |

@@ -20,8 +20,8 @@ export function ClockFace({ rows, lit, finish }: ClockFaceProps) {
 
   return (
     <div
-      className="grid w-[min(82vw,82vh)] select-none font-medium tracking-widest"
-      style={{ gridTemplateColumns: `repeat(${cols}, minmax(0, 1fr))`, fontSize: 'min(4.2vw, 4.2vh)' }}
+      className="grid w-[72cqmin] select-none font-medium tracking-widest"
+      style={{ gridTemplateColumns: `repeat(${cols}, minmax(0, 1fr))`, fontSize: '3.7cqmin' }}
     >
       {rows.flatMap((row, r) =>
         [...row].map((ch, c) => {

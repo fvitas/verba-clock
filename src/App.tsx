@@ -47,7 +47,7 @@ function ClockScreen() {
         onClick={toggleMode}
       >
         <div
-          className="relative flex aspect-square h-[min(80vh,80vw)] items-center justify-center [box-shadow:0_25px_50px_rgba(0,0,0,0.6),0_4px_10px_rgba(0,0,0,0.4)]"
+          className="relative flex aspect-square h-[min(80vh,80vw)] items-center justify-center [container-type:size] [box-shadow:0_25px_50px_rgba(0,0,0,0.6),0_4px_10px_rgba(0,0,0,0.4)]"
           style={{ background: finish.surface }}
         >
           {face}
@@ -58,7 +58,7 @@ function ClockScreen() {
 
   return (
     <main
-      className="relative flex h-dvh w-dvw items-center justify-center overflow-hidden font-[DINish]"
+      className="relative flex h-dvh w-dvw items-center justify-center overflow-hidden font-[DINish] [container-type:size]"
       style={{ background: finish.surface, filter: `brightness(${settings.brightness})` }}
       onClick={toggleMode}
     >

@@ -74,3 +74,10 @@ Rules: every settled question gets an entry. Mockups for uncertain decisions liv
 
 **Status:** Vercel account exists; Mac + Xcode available. Apple Developer ($99/yr) and Play Console ($25) to be purchased ~late Aug 2026. Note: new personal Play accounts require a 14-day closed test with 12+ testers before production.
 **Consequence:** Build order = web first (deployable immediately), Capacitor shells ready but store submission waits on accounts.
+
+### D11 — Face typeface: DINish Medium, self-hosted (2026-08-16)
+
+**Question:** Which free typeface best matches QLOCKTWO's face (a modified FF DIN)?
+**Decision:** DINish v4.007 Medium (SIL OFL 1.1), self-hosted woff2 in `public/fonts/` with license file. Closest maintained free descendant of the DIN lineage; covers 243 Latin-based languages + Cyrillic (Serbian matrix). Non-Latin/non-Cyrillic matrices in Plan 3 need per-language fallbacks or become D4 discards.
+**Research:** `docs/research/2026-08-16-qlocktwo-typeface.md`. Mockups: `mockups/typography-choice.html` (Barlow/Jost/Archivo round, superseded), `mockups/typography-dinish-2026-08-16.png`.
+**Options considered:** Barlow, Jost, Archivo (Google Fonts approximations), D-DIN, Alte DIN 1451, DINish.

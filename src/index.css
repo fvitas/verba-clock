@@ -1,1 +1,8 @@
 @import "tailwindcss";
+
+@font-face {
+  font-family: "DINish";
+  font-weight: 500;
+  font-display: swap;
+  src: url("/fonts/DINish-Medium.woff2") format("woff2");
+}

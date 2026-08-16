@@ -19,7 +19,7 @@
 **Files:**
 - Create: `package.json`, `vite.config.ts`, `tsconfig.json`, `index.html`, `.gitignore`, `src/main.tsx`, `src/index.css`, `src/test-setup.ts`, `src/App.tsx` (placeholder)
 
-- [ ] **Step 1: Write `package.json`**
+- [x] **Step 1: Write `package.json`**
 
 ```json
 {
@@ -54,7 +54,7 @@
 }
 ```
 
-- [ ] **Step 2: Write `vite.config.ts`** (vitest config lives here too)
+- [x] **Step 2: Write `vite.config.ts`** (vitest config lives here too)
 
 ```ts
 import { defineConfig } from 'vitest/config';
@@ -71,7 +71,7 @@ export default defineConfig({
 });
 ```
 
-- [ ] **Step 3: Write `tsconfig.json`**
+- [x] **Step 3: Write `tsconfig.json`**
 
 ```json
 {
@@ -92,7 +92,7 @@ export default defineConfig({
 }
 ```
 
-- [ ] **Step 4: Write `index.html`**
+- [x] **Step 4: Write `index.html`**
 
 ```html
 <!doctype html>
@@ -109,26 +109,26 @@ export default defineConfig({
 </html>
 ```
 
-- [ ] **Step 5: Write `.gitignore`**
+- [x] **Step 5: Write `.gitignore`**
 
 ```
 node_modules
 dist
 ```
 
-- [ ] **Step 6: Write `src/index.css`** (Tailwind entry — the only CSS file)
+- [x] **Step 6: Write `src/index.css`** (Tailwind entry — the only CSS file)
 
 ```css
 @import "tailwindcss";
 ```
 
-- [ ] **Step 7: Write `src/test-setup.ts`**
+- [x] **Step 7: Write `src/test-setup.ts`**
 
 ```ts
 import '@testing-library/jest-dom/vitest';
 ```
 
-- [ ] **Step 8: Write `src/main.tsx`**
+- [x] **Step 8: Write `src/main.tsx`**
 
 ```tsx
 import { StrictMode } from 'react';
@@ -144,7 +144,7 @@ createRoot(document.getElementById('root')!).render(
 );
 ```
 
-- [ ] **Step 9: Write placeholder `src/App.tsx`** (replaced in Task 5)
+- [x] **Step 9: Write placeholder `src/App.tsx`** (replaced in Task 5)
 
 ```tsx
 export function App() {
@@ -152,14 +152,14 @@ export function App() {
 }
 ```
 
-- [ ] **Step 10: Install and verify**
+- [x] **Step 10: Install and verify**
 
 Run: `pnpm install && pnpm build`
 Expected: build succeeds, `dist/` created.
 
 Run: `pnpm dev` briefly, load http://localhost:5173, expect black page with "VERBA".
 
-- [ ] **Step 11: Commit**
+- [x] **Step 11: Commit**
 
 ```bash
 git add -A && git commit -m "Scaffold Vite + React + TS + Tailwind project"
@@ -173,7 +173,7 @@ git add -A && git commit -m "Scaffold Vite + React + TS + Tailwind project"
 - Create: `src/clock/types.ts`, `src/clock/engine.ts`
 - Test: `src/clock/engine.test.ts`
 
-- [ ] **Step 1: Write `src/clock/types.ts`** (needed by the test)
+- [x] **Step 1: Write `src/clock/types.ts`** (needed by the test)
 
 ```ts
 export type WordCoord = {
@@ -201,7 +201,7 @@ export const word = (text: string, row: number, start: number): WordCoord => ({
 });
 ```
 
-- [ ] **Step 2: Write the failing test `src/clock/engine.test.ts`**
+- [x] **Step 2: Write the failing test `src/clock/engine.test.ts`**
 
 ```ts
 import { describe, expect, it } from 'vitest';
@@ -247,12 +247,12 @@ describe('cellKey', () => {
 });
 ```
 
-- [ ] **Step 3: Run test to verify it fails**
+- [x] **Step 3: Run test to verify it fails**
 
 Run: `pnpm vitest run src/clock/engine.test.ts`
 Expected: FAIL — cannot resolve `./engine`.
 
-- [ ] **Step 4: Write `src/clock/engine.ts`**
+- [x] **Step 4: Write `src/clock/engine.ts`**
 
 ```ts
 import type { LanguageDef } from './types';
@@ -279,12 +279,12 @@ export function resolveTime(
 }
 ```
 
-- [ ] **Step 5: Run test to verify it passes**
+- [x] **Step 5: Run test to verify it passes**
 
 Run: `pnpm vitest run src/clock/engine.test.ts`
 Expected: PASS (4 tests).
 
-- [ ] **Step 6: Commit**
+- [x] **Step 6: Commit**
 
 ```bash
 git add src/clock && git commit -m "Add clock engine resolving language words to lit cells"
@@ -314,7 +314,7 @@ SEVENTWELVE
 TENSEOCLOCK
 ```
 
-- [ ] **Step 1: Write the failing test `src/clock/languages/en.test.ts`**
+- [x] **Step 1: Write the failing test `src/clock/languages/en.test.ts`**
 
 `spell()` reproduces the sentence in reading order (row, then column) — tests read like the clock face.
 
@@ -366,12 +366,12 @@ describe('english time phrases', () => {
 });
 ```
 
-- [ ] **Step 2: Run test to verify it fails**
+- [x] **Step 2: Run test to verify it fails**
 
 Run: `pnpm vitest run src/clock/languages/en.test.ts`
 Expected: FAIL — cannot resolve `./en`.
 
-- [ ] **Step 3: Write `src/clock/languages/en.ts`**
+- [x] **Step 3: Write `src/clock/languages/en.ts`**
 
 ```ts
 import { word, type LanguageDef, type WordCoord } from '../types';
@@ -444,12 +444,12 @@ export const english: LanguageDef = {
 };
 ```
 
-- [ ] **Step 4: Run test to verify it passes**
+- [x] **Step 4: Run test to verify it passes**
 
 Run: `pnpm vitest run src/clock/languages/en.test.ts`
 Expected: PASS (18 tests).
 
-- [ ] **Step 5: Create `docs/LANGUAGES.md`**
+- [x] **Step 5: Create `docs/LANGUAGES.md`**
 
 ```markdown
 # Language Verification Status
@@ -468,7 +468,7 @@ A language ships only when `verified`. Discarded languages keep their row with t
 | Remaining QLOCKTWO catalog | — | pending | enumerate during Plan 3 |
 ```
 
-- [ ] **Step 6: Commit**
+- [x] **Step 6: Commit**
 
 ```bash
 git add src/clock/languages docs/LANGUAGES.md
@@ -483,7 +483,7 @@ git commit -m "Add verified English language matrix and phrase logic"
 - Create: `src/clock/use-clock-time.ts`
 - Test: `src/clock/use-clock-time.test.ts`
 
-- [ ] **Step 1: Write the failing test `src/clock/use-clock-time.test.ts`**
+- [x] **Step 1: Write the failing test `src/clock/use-clock-time.test.ts`**
 
 ```ts
 import { act, renderHook } from '@testing-library/react';
@@ -514,12 +514,12 @@ describe('useClockTime', () => {
 });
 ```
 
-- [ ] **Step 2: Run test to verify it fails**
+- [x] **Step 2: Run test to verify it fails**
 
 Run: `pnpm vitest run src/clock/use-clock-time.test.ts`
 Expected: FAIL — cannot resolve `./use-clock-time`.
 
-- [ ] **Step 3: Write `src/clock/use-clock-time.ts`**
+- [x] **Step 3: Write `src/clock/use-clock-time.ts`**
 
 1-second tick: the minute display only changes per minute (cheap re-render), and seconds mode (Plan 2) needs per-second updates.
 
@@ -538,12 +538,12 @@ export function useClockTime(): Date {
 }
 ```
 
-- [ ] **Step 4: Run test to verify it passes**
+- [x] **Step 4: Run test to verify it passes**
 
 Run: `pnpm vitest run src/clock/use-clock-time.test.ts`
 Expected: PASS (2 tests).
 
-- [ ] **Step 5: Commit**
+- [x] **Step 5: Commit**
 
 ```bash
 git add src/clock/use-clock-time.ts src/clock/use-clock-time.test.ts
@@ -559,7 +559,7 @@ git commit -m "Add ticking clock time hook"
 - Modify: `src/App.tsx` (replace placeholder)
 - Test: `src/components/ClockFace.test.tsx`
 
-- [ ] **Step 1: Write the failing test `src/components/ClockFace.test.tsx`**
+- [x] **Step 1: Write the failing test `src/components/ClockFace.test.tsx`**
 
 ```tsx
 import { render } from '@testing-library/react';
@@ -583,12 +583,12 @@ describe('ClockFace', () => {
 });
 ```
 
-- [ ] **Step 2: Run test to verify it fails**
+- [x] **Step 2: Run test to verify it fails**
 
 Run: `pnpm vitest run src/components/ClockFace.test.tsx`
 Expected: FAIL — cannot resolve `./ClockFace`.
 
-- [ ] **Step 3: Write `src/components/ClockFace.tsx`**
+- [x] **Step 3: Write `src/components/ClockFace.tsx`**
 
 ```tsx
 import { cellKey } from '../clock/engine';
@@ -626,7 +626,7 @@ export function ClockFace({ rows, lit }: ClockFaceProps) {
 }
 ```
 
-- [ ] **Step 4: Write `src/components/CornerDots.tsx`**
+- [x] **Step 4: Write `src/components/CornerDots.tsx`**
 
 Dots light clockwise from top-left, matching the hardware.
 
@@ -654,7 +654,7 @@ export function CornerDots({ count }: CornerDotsProps) {
 }
 ```
 
-- [ ] **Step 5: Replace `src/App.tsx`**
+- [x] **Step 5: Replace `src/App.tsx`**
 
 ```tsx
 import { resolveTime } from './clock/engine';
@@ -676,16 +676,16 @@ export function App() {
 }
 ```
 
-- [ ] **Step 6: Run the full test suite**
+- [x] **Step 6: Run the full test suite**
 
 Run: `pnpm test`
 Expected: PASS — engine (4), english (18), hook (2), face (2).
 
-- [ ] **Step 7: Verify visually**
+- [x] **Step 7: Verify visually**
 
 Run: `pnpm dev`, open http://localhost:5173. Expected: near-black full-bleed page, faint 11×10 letter stencil, current time lit in white with soft glow, correct corner dots. Compare sentence against a real clock.
 
-- [ ] **Step 8: Commit**
+- [x] **Step 8: Commit**
 
 ```bash
 git add -A && git commit -m "Render full-bleed English word clock with corner minute dots"
@@ -698,7 +698,7 @@ git add -A && git commit -m "Render full-bleed English word clock with corner mi
 **Files:**
 - Create: `mockups/typography-choice.html` (mockups are never deleted — D-rule)
 
-- [ ] **Step 1: Write `mockups/typography-choice.html`**
+- [x] **Step 1: Write `mockups/typography-choice.html`**
 
 Candidates from Google Fonts (all free): Barlow (current), Jost (geometric, Futura-like), Archivo (grotesque). One row of the matrix rendered in each at face size, lit + unlit, for side-by-side comparison against QLOCKTWO reference photos.
 
@@ -746,12 +746,12 @@ Candidates from Google Fonts (all free): Barlow (current), Jost (geometric, Futu
 </html>
 ```
 
-- [ ] **Step 2: Open it for the user and record the decision**
+- [x] **Step 2: Open it for the user and record the decision**
 
 Run: `open mockups/typography-choice.html`
 Then: append the user's choice to `docs/DECISIONS.md` (D11 — face typeface). If the choice isn't Barlow, update the `@fontsource` import in `src/main.tsx` and `font-[...]` class in `src/App.tsx` (one-line swaps; Jost and Archivo are also on fontsource).
 
-- [ ] **Step 3: Commit**
+- [x] **Step 3: Commit**
 
 ```bash
 git add mockups/typography-choice.html docs/DECISIONS.md

@@ -1,0 +1,149 @@
+<!doctype html>
+<html lang="sr">
+<head>
+<meta charset="utf-8" />
+<title>Verba — srpska matrica: alternative (САДА ЈЕ)</title>
+<style>
+  body { background: #171513; color: #d8d4cf; font-family: -apple-system, sans-serif; padding: 2rem; max-width: 1400px; }
+  h1, h2 { font-weight: 500; }
+  .option { margin-bottom: 3.5rem; border-top: 1px solid #3a3733; padding-top: 1.5rem; }
+  .boards { display: flex; flex-wrap: wrap; gap: 2rem; align-items: flex-start; }
+  .board { background: #0a0a0a; padding: 1.4rem 1.8rem; box-shadow: 0 15px 30px rgba(0,0,0,.6); }
+  .caption { text-align: center; margin-top: .7rem; font-size: .85rem; color: #9a958e; }
+  .grid { display: grid; font-family: 'Helvetica Neue', sans-serif; font-weight: 500; letter-spacing: .1em; }
+  .grid span { display: flex; align-items: center; justify-content: center; width: 1.7em; aspect-ratio: 1; color: rgba(255,255,255,.14); font-size: .9rem; }
+  .grid span.on { color: #fff; text-shadow: 0 0 .4em rgba(255,255,255,.55); }
+  .grid span.filler { color: rgba(255,180,120,.25); }
+  ul { font-size: .9rem; line-height: 1.5; }
+  .pro::before { content: "✓ "; color: #7fbf7f; }
+  .con::before { content: "✗ "; color: #bf7f7f; }
+  .tag { display: inline-block; font-size: .75rem; background: #2b2723; padding: .15rem .6rem; border-radius: 2px; margin-left: .6rem; color: #b8b2aa; }
+</style>
+</head>
+<body>
+<h1>Srpska matrica — alternative koje čuvaju „САДА ЈЕ"</h1>
+<p>Tvrdo ograničenje: САДА(4) + razmak + ЈЕ(2) + razmak + ПОЛА(4) = 12 polja — ne staje u red od 11.
+Zato su opcije: promeniti frazu za :30, prihvatiti jedan spoj, ili promeniti dimenzije mreže.
+Narandžasto = filer. Svaka opcija prikazuje 10:30 i 10:45.</p>
+
+<div id="options"></div>
+
+<script>
+const OPTIONS = [
+  {
+    title: 'Opcija A — 11×10, „И ПО" za pola sata',
+    tag: 'autentične QLOCKTWO dimenzije',
+    rows: ['САДАКЈЕЛМОР','ДВАДЕСЕТКРМ','ПЕТНАЕСТРДО','ЈЕДАНАЕСТМК','ДВАНАЕСТТРИ','ЧЕТИРИДЕСЕТ','ПЕТШЕСТОСАМ','СЕДАМДЕВЕТК','ИРДВАДЕСЕТМ','ПЕТНАЕСТКПО'],
+    fillers: ['0:4','0:7','0:8','0:9','0:10','1:8','1:9','1:10','2:8','3:9','3:10','7:10','8:1','8:10','9:8'],
+    words: {
+      SADA:[0,0,3], JE:[0,5,6],
+      DVADESET_PRE:[1,0,7], PETNAEST_PRE:[2,0,7], DO:[2,9,10],
+      JEDANAEST:[3,0,8], DESET_H:[5,6,10],
+      I:[8,0,0], DVADESET_POST:[8,2,9], PO:[9,9,10], PETNAEST_POST:[9,0,7],
+    },
+    samples: [
+      { caption: '10:30 — САДА ЈЕ ДЕСЕТ И ПО', words: ['SADA','JE','DESET_H','I','PO'] },
+      { caption: '10:45 — САДА ЈЕ ПЕТНАЕСТ ДО ЈЕДАНАЕСТ', words: ['SADA','JE','PETNAEST_PRE','DO','JEDANAEST'] },
+    ],
+    pros: ['Pune QLOCKTWO dimenzije (11×10, 110 slova)', 'Sve reči razdvojene, i И je sada odvojeno od ДВАДЕСЕТ', '„Десет и по" — sasvim prirodno u govoru'],
+    cons: ['Nema „ПОЛА ЈЕДАНАЕСТ" stila — :30 ostaje na tekućem satu'],
+  },
+  {
+    title: 'Opcija B — 11×10, ПОЛА ostaje, jedan spoj',
+    tag: 'autentične dimenzije, kompromis',
+    rows: ['САДАЈЕКПОЛА','ДВАДЕСЕТКРМ','ПЕТНАЕСТРДО','ЈЕДАНАЕСТМК','ДВАНАЕСТТРИ','ЧЕТИРИДЕСЕТ','ПЕТШЕСТОСАМ','СЕДАМДЕВЕТК','ИРДВАДЕСЕТМ','ПЕТНАЕСТКЛМ'],
+    fillers: ['0:6','1:8','1:9','1:10','2:8','3:9','3:10','7:10','8:1','8:10','9:8','9:9','9:10'],
+    words: {
+      SADA:[0,0,3], JE:[0,4,5], POLA:[0,7,10],
+      DVADESET_PRE:[1,0,7], PETNAEST_PRE:[2,0,7], DO:[2,9,10],
+      JEDANAEST:[3,0,8], DESET_H:[5,6,10],
+      I:[8,0,0], DVADESET_POST:[8,2,9], PETNAEST_POST:[9,0,7],
+    },
+    samples: [
+      { caption: '10:30 — САДА ЈЕ ПОЛА ЈЕДАНАЕСТ', words: ['SADA','JE','POLA','JEDANAEST'] },
+      { caption: '10:45 — САДА ЈЕ ПЕТНАЕСТ ДО ЈЕДАНАЕСТ', words: ['SADA','JE','PETNAEST_PRE','DO','JEDANAEST'] },
+    ],
+    pros: ['Pune QLOCKTWO dimenzije', '„ПОЛА ЈЕДАНАЕСТ" stil sačuvan', 'ЈЕ i ПОЛА razdvojeni filerom (col 6)'],
+    cons: ['САДА и ЈЕ su spojeni (САДАЈЕ) — spoj je samo premešten sa ЈЕ|ПОЛА na САДА|ЈЕ'],
+  },
+  {
+    title: 'Opcija C — 12×10, jedna kolona više',
+    tag: '120 slova, sve razdvojeno',
+    rows: ['САДАКЈЕЛПОЛА','ДВАДЕСЕТКРМО','ПЕТНАЕСТКМДО','ЈЕДАНАЕСТКРМ','ДВАНАЕСТКТРИ','ЧЕТИРИКДЕСЕТ','ПЕТШЕСТКОСАМ','СЕДАМКДЕВЕТМ','ИКДВАДЕСЕТРМ','ПЕТНАЕСТКРМО'],
+    fillers: ['0:4','0:7','1:8','1:9','1:10','1:11','2:8','2:9','3:9','3:10','3:11','4:8','5:6','6:7','7:5','7:11','8:1','8:10','8:11','9:8','9:9','9:10','9:11'],
+    words: {
+      SADA:[0,0,3], JE:[0,5,6], POLA:[0,8,11],
+      DVADESET_PRE:[1,0,7], PETNAEST_PRE:[2,0,7], DO:[2,10,11],
+      JEDANAEST:[3,0,8], DESET_H:[5,7,11],
+      I:[8,0,0], DVADESET_POST:[8,2,9], PETNAEST_POST:[9,0,7],
+    },
+    samples: [
+      { caption: '10:30 — САДА ЈЕ ПОЛА ЈЕДАНАЕСТ', words: ['SADA','JE','POLA','JEDANAEST'] },
+      { caption: '10:45 — САДА ЈЕ ПЕТНАЕСТ ДО ЈЕДАНАЕСТ', words: ['SADA','JE','PETNAEST_PRE','DO','JEDANAEST'] },
+    ],
+    pros: ['САДА · ЈЕ · ПОЛА — sve razdvojeno', '„ПОЛА ЈЕДАНАЕСТ" stil sačuvan', 'Sve ostale reči takođe dobijaju razmake'],
+    cons: ['12 kolona umesto QLOCKTWO 11 — mreža malo šira/niža od originala', 'Sekunde-mod treba sitno prilagoditi (centriranje cifara)'],
+  },
+  {
+    title: 'Opcija D — 11×11, jedan red više',
+    tag: '121 slovo, sve razdvojeno',
+    rows: ['САДАКЈЕЛРМО','ДВАДЕСЕТКРМ','ПЕТНАЕСТРДО','ПОЛАКТРИМОР','ЈЕДАНАЕСТМК','ДВАНАЕСТКРМ','ЧЕТИРИДЕСЕТ','ПЕТШЕСТОСАМ','СЕДАМДЕВЕТК','ИРДВАДЕСЕТМ','ПЕТНАЕСТКЛМ'],
+    fillers: ['0:4','0:7','0:8','0:9','0:10','1:8','1:9','1:10','2:8','3:4','3:8','3:9','3:10','4:9','4:10','5:8','5:9','5:10','8:10','9:1','9:10','10:8','10:9','10:10'],
+    words: {
+      SADA:[0,0,3], JE:[0,5,6],
+      DVADESET_PRE:[1,0,7], PETNAEST_PRE:[2,0,7], DO:[2,9,10],
+      POLA:[3,0,3], TRI:[3,5,7],
+      JEDANAEST:[4,0,8], DESET_H:[6,6,10],
+      I:[9,0,0], DVADESET_POST:[9,2,9], PETNAEST_POST:[10,0,7],
+    },
+    samples: [
+      { caption: '10:30 — САДА ЈЕ ПОЛА ЈЕДАНАЕСТ', words: ['SADA','JE','POLA','JEDANAEST'] },
+      { caption: '14:30 — САДА ЈЕ ПОЛА ТРИ', words: ['SADA','JE','POLA','TRI'] },
+    ],
+    pros: ['САДА · ЈЕ i ПОЛА potpuno razdvojeni (ПОЛА u svom redu)', '„ПОЛА ЈЕДАНАЕСТ" stil sačuvan', 'Mreža ostaje 11 kolona — kvadratnija (11×11)'],
+    cons: ['11 redova umesto QLOCKTWO 10 — lice malo „gušće" vertikalno', 'Sekunde-mod treba sitno prilagoditi'],
+  },
+];
+
+const root = document.getElementById('options');
+for (const opt of OPTIONS) {
+  const section = document.createElement('div');
+  section.className = 'option';
+  const cols = [...opt.rows[0]].length;
+  let html = `<h2>${opt.title}<span class="tag">${opt.tag}</span></h2><div class="boards">`;
+  section.innerHTML = html + '</div>';
+  const boards = section.querySelector('.boards');
+  for (const s of opt.samples) {
+    const lit = new Set();
+    for (const w of s.words) {
+      const [r, a, b] = opt.words[w];
+      for (let c = a; c <= b; c++) lit.add(r + ':' + c);
+    }
+    const fillers = new Set(opt.fillers);
+    const board = document.createElement('div');
+    board.className = 'board';
+    const grid = document.createElement('div');
+    grid.className = 'grid';
+    grid.style.gridTemplateColumns = `repeat(${cols}, 1.7em)`;
+    opt.rows.forEach((row, r) => [...row].forEach((ch, c) => {
+      const cell = document.createElement('span');
+      cell.textContent = ch;
+      if (lit.has(r + ':' + c)) cell.className = 'on';
+      else if (fillers.has(r + ':' + c)) cell.className = 'filler';
+      grid.appendChild(cell);
+    }));
+    const cap = document.createElement('div');
+    cap.className = 'caption';
+    cap.textContent = s.caption;
+    board.append(grid, cap);
+    boards.appendChild(board);
+  }
+  const list = document.createElement('ul');
+  for (const p of opt.pros) { const li = document.createElement('li'); li.className = 'pro'; li.textContent = p; list.appendChild(li); }
+  for (const c of opt.cons) { const li = document.createElement('li'); li.className = 'con'; li.textContent = c; list.appendChild(li); }
+  section.appendChild(list);
+  root.appendChild(section);
+}
+</script>
+</body>
+</html>

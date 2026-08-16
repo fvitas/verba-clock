@@ -19,7 +19,7 @@ Official catalog source: Clock Forward EARTH 90 listing + QLOCKTWO W line (see `
 | CA | Catalan | Latin / DINish | `src/clock/languages/ca.ts` | verified | 20 phrase cases + grid integrity; bell-quart system; sources: QLOCKGENERATOR + bramp/wordclock reference grid + cdmoro examples |
 | NL | Dutch | Latin / DINish | `src/clock/languages/nl.ts` | verified | 17 phrase cases + grid integrity; sources: QLOCKGENERATOR + bracci/Qlockthree Woerter_NL.h; next-hour pivot from :20 |
 | DK | Danish | Latin / DINish | `src/clock/languages/dk.ts` | verified | 16 phrase cases + grid integrity; sources: QLOCKGENERATOR + bramp/wordclock reference; MINUTTER lit on 5/10/20 deltas |
-| NO | Norwegian | Latin / DINish | — | pending | |
+| NO | Norwegian | Latin / DINish | `src/clock/languages/no.ts` | verified | 16 phrase cases + grid integrity; sources: QLOCKGENERATOR + bramp reference; lowercase-l quirk normalized to I; next-hour from :20 |
 | SE | Swedish | Latin / DINish | — | pending | |
 | CZ | Czech | Latin / DINish | — | pending | |
 | RO | Romanian | Latin / DINish | — | pending | |

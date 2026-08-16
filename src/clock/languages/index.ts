@@ -20,7 +20,8 @@ import { germanD4 } from './d4';
 import { englishE2 } from './e2';
 import { russian } from './ru';
 import { greek } from './gr';
+import { serbian } from './sr';
 
-export const LANGUAGES: LanguageDef[] = [english, englishE2, german, germanD2, swabian, germanD4, swissGerman, french, italian, spanish, catalan, dutch, danish, norwegian, swedish, czech, romanian, portuguese, turkish, russian, greek];
+export const LANGUAGES: LanguageDef[] = [english, englishE2, german, germanD2, swabian, germanD4, swissGerman, french, italian, spanish, catalan, dutch, danish, norwegian, swedish, czech, romanian, portuguese, turkish, russian, greek, serbian];
 
 export const getLanguage = (id: string): LanguageDef => LANGUAGES.find((l) => l.id === id) ?? english;

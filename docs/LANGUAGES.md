@@ -26,7 +26,7 @@ Official catalog source: Clock Forward EARTH 90 listing + QLOCKTWO W line (see `
 | PE | Portuguese | Latin / DINish | `src/clock/languages/pe.ts` | verified | 19 phrase cases + grid integrity; sources: QLOCKGENERATOR + bramp reference + cdmoro indices; MEIA NOITE/MEIO DIA faces; 12:30 quirk É MEIA HORA |
 | TR | Turkish | Latin / DINish | `src/clock/languages/tr.ts` | verified | 21 phrase cases + grid integrity; accusative hours + GEÇİYOR; sources: QLOCKGENERATOR + bramp reference + cdmoro examples |
 | GR | Greek | Greek / Noto Sans | — | pending | DINish lacks Greek |
-| RU | Russian | Cyrillic / DINish | — | pending | |
+| RU | Russian | Cyrillic / DINish | `src/clock/languages/ru.ts` | verified | 24 phrase cases + grid integrity; fragment-composed hours; ЧАС/ЧАСА/ЧАСОВ grammar; sources: QLOCKGENERATOR + bramp reference + cdmoro indices |
 | HE | Hebrew | Hebrew / Noto Sans Hebrew | — | not planned (v1) | descoped per D13; RTL |
 | AR | Arabic | Arabic / Noto Kufi Arabic | — | not planned (v1) | descoped per D13; RTL; from QLOCKTWO W line |
 | CN | Chinese | Han / Noto Sans SC (subset) | — | not planned (v1) | descoped per D13; |

@@ -28,6 +28,13 @@ describe('SettingsPanel', () => {
     expect(loadSettings(localStorage).finishId).toBe('rust');
   });
 
+  it('persists a language selection from the dropdown', () => {
+    renderPanel();
+    fireEvent.click(screen.getByRole('button', { name: /settings/i }));
+    fireEvent.change(screen.getByRole('combobox', { name: 'Language' }), { target: { value: 'sr' } });
+    expect(loadSettings(localStorage).languageId).toBe('sr');
+  });
+
   it('persists the presentation choice', () => {
     renderPanel();
     fireEvent.click(screen.getByRole('button', { name: /settings/i }));

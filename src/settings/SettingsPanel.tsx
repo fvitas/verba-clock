@@ -51,17 +51,18 @@ export function SettingsPanel() {
 
           <section className="mb-6">
             <h3 className="mb-3 text-xs tracking-widest text-neutral-400 uppercase">Language</h3>
-            {LANGUAGES.map((lang) => (
-              <button
-                key={lang.id}
-                className={`mb-1 block w-full rounded px-3 py-2 text-left text-sm ${
-                  settings.languageId === lang.id ? 'bg-white/15' : 'hover:bg-white/5'
-                }`}
-                onClick={() => update({ languageId: lang.id })}
-              >
-                {lang.name} — {lang.sample}
-              </button>
-            ))}
+            <select
+              aria-label="Language"
+              value={settings.languageId}
+              className="w-full rounded border border-white/15 bg-white/5 px-3 py-2 text-sm text-neutral-100 hover:bg-white/10"
+              onChange={(event: React.ChangeEvent<HTMLSelectElement>) => update({ languageId: event.target.value })}
+            >
+              {LANGUAGES.map((lang) => (
+                <option key={lang.id} value={lang.id} className="bg-neutral-900 text-neutral-100">
+                  {lang.name} — {lang.sample}
+                </option>
+              ))}
+            </select>
           </section>
 
           <section className="mb-6">

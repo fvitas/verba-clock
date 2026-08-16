@@ -1,6 +1,6 @@
 # Language Verification Status
 
-A language ships only when `verified`. Per D4 a language may be discarded with a documented reason — EXCEPT Chinese, Japanese, Arabic, Hebrew: user declared these must-haves (2026-08-16), they cannot be discarded.
+A language ships only when `verified`. Per D4 a language may be discarded with a documented reason. Per D13 (2026-08-16): all **European** faces (Latin, Russian, Greek) are must-haves; Chinese, Japanese, Arabic, Hebrew are `not planned` (descoped by user).
 
 Official catalog source: Clock Forward EARTH 90 listing + QLOCKTWO W line (see `docs/research/2026-08-16-qlocktwo-typeface.md`).
 
@@ -27,10 +27,10 @@ Official catalog source: Clock Forward EARTH 90 listing + QLOCKTWO W line (see `
 | TR | Turkish | Latin / DINish | — | pending | |
 | GR | Greek | Greek / Noto Sans | — | pending | DINish lacks Greek |
 | RU | Russian | Cyrillic / DINish | — | pending | |
-| HE | Hebrew | Hebrew / Noto Sans Hebrew | — | pending | **must-have**; RTL |
-| AR | Arabic | Arabic / Noto Kufi Arabic | — | pending | **must-have**; RTL; from QLOCKTWO W line |
-| CN | Chinese | Han / Noto Sans SC (subset) | — | pending | **must-have** |
-| JP | Japanese | Kana+Han / Noto Sans JP (subset) | — | pending | **must-have** |
+| HE | Hebrew | Hebrew / Noto Sans Hebrew | — | not planned (v1) | descoped per D13; RTL |
+| AR | Arabic | Arabic / Noto Kufi Arabic | — | not planned (v1) | descoped per D13; RTL; from QLOCKTWO W line |
+| CN | Chinese | Han / Noto Sans SC (subset) | — | not planned (v1) | descoped per D13; |
+| JP | Japanese | Kana+Han / Noto Sans JP (subset) | — | not planned (v1) | descoped per D13; |
 | SR | Serbian (custom) | Cyrillic / DINish | — | pending | our own matrix (D4b); user verifies |
 
 Non-Latin fonts are subset at build time to each matrix's exact glyphs (few-KB files even for CJK).

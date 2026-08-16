@@ -88,3 +88,12 @@ Rules: every settled question gets an entry. Mockups for uncertain decisions liv
 **Decision:** Must-haves per user — no discards for CN/JP/AR/HE. Per-script OFL companions, weight-matched to DINish Medium: Noto Kufi Arabic (AR — geometric Kufi, the DIN-equivalent for Arabic), Noto Sans Hebrew (HE), Noto Sans SC (CN), Noto Sans JP (JP), Noto Sans (GR). Fonts are subset at build time to each matrix's exact glyphs, so even CJK faces cost a few KB.
 **Amends:** D4 (discard option no longer applies to these four), D11 caveat resolved.
 **Research:** `docs/research/2026-08-16-qlocktwo-typeface.md`; full catalog table in `docs/LANGUAGES.md` (26 faces + custom Serbian).
+
+### D13 — Language scope: European only; CN/JP/AR/HE not implemented (2026-08-16)
+
+**Decision:** Supersedes D12's must-have status. All European faces are must-haves: the 19 Latin faces, Russian (Cyrillic), Greek. Chinese, Japanese, Arabic, Hebrew are **not planned** — user descoped them same day after seeing the full catalog ("other exotic we will not implement"). Rows stay in `docs/LANGUAGES.md` as `not planned` for the record; the D12 font research remains valid if they're ever revived.
+**Consequence:** Fonts needed are only DINish (Latin + Cyrillic) and Noto Sans Greek subset. No RTL rendering needed. Serbian custom face (D4b) unaffected.
+
+### D14 — Finish catalog: 16 finishes from the current EARTH lineup (2026-08-16)
+
+**Decision:** Replicate the current EARTH catalog (researched across EARTH 13.5/45/90/180 + Creator's Edition + frontcover pages): Deep Black, Stainless Steel, 5 Pepper-series coatings, Hazelnut, and 8 Creator's Editions (Rust, Vintage Copper, Gold, Silver & Gold, Platinum, Moon Gold, Glintscape, Metamorphite, Desert). Full table in `docs/FINISHES.md`. v1 renders all procedurally (CSS + SVG noise); CC0 photo textures are the upgrade path for stones/metals.

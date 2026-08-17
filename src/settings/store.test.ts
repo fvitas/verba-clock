@@ -28,4 +28,13 @@ describe('settings store', () => {
     localStorage.setItem('verba-settings', JSON.stringify({ schemaVersion: 1, finishId: 'gold' }));
     expect(loadSettings(localStorage)).toEqual({ ...DEFAULT_SETTINGS, finishId: 'gold' });
   });
+
+  it('defaults keepAwake to true', () => {
+    expect(DEFAULT_SETTINGS.keepAwake).toBe(true);
+  });
+
+  it('fills keepAwake for persisted v1 settings that predate it', () => {
+    localStorage.setItem('verba-settings', JSON.stringify({ schemaVersion: 1, languageId: 'sr' }));
+    expect(loadSettings(localStorage).keepAwake).toBe(true);
+  });
 });

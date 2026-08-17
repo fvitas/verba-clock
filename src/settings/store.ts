@@ -7,6 +7,7 @@ export type Settings = {
   presentation: Presentation;
   showItIs: boolean;
   brightness: number;
+  keepAwake: boolean;
 };
 
 export const DEFAULT_SETTINGS: Settings = {
@@ -16,6 +17,7 @@ export const DEFAULT_SETTINGS: Settings = {
   presentation: 'fullbleed',
   showItIs: true,
   brightness: 1,
+  keepAwake: true,
 };
 
 const KEY = 'verba-settings';

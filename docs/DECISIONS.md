@@ -105,3 +105,13 @@ Rules: every settled question gets an entry. Mockups for uncertain decisions liv
 **Fonts:** DINish Medium covers Latin + Cyrillic; Greek falls back to `@fontsource/noto-sans` greek-500.
 **Unchanged:** CN/JP/AR/HE remain descoped per D13.
 **Status table:** `docs/LANGUAGES.md` — every row is `verified`, `verified (native speaker)`, or `not planned (v1)`.
+
+### D16 — Ship shape: installable PWA on Vercel + Capacitor 8 shells (2026-08-17)
+
+**Decision:** Verba ships as an installable, offline-capable PWA deployed to Vercel, with iOS/Android Capacitor shells wrapping the same `dist/` build. App id `com.verba.clock`.
+**PWA:** `vite-plugin-pwa` (Workbox) — `display: standalone`, `registerType: 'autoUpdate'`, precache covers js/css/html/woff2/icons. Offline rendering verified against `pnpm preview` with the browser forced offline.
+**Vercel:** `vercel.json` sets `Cache-Control: public, max-age=0, must-revalidate` on `/sw.js` (a stale service worker would delay every update by a full cache TTL) and `max-age=31536000, immutable` on `/assets/(.*)`.
+**Capacitor:** version **8** (8.5.0), not 7 as the plan text said — the plan predates the installed release. iOS uses Swift Package Manager (`ios/App/CapApp-SPM`), not CocoaPods, so there is no Podfile to manage.
+**Native-only behavior:** status bar hidden and keep-awake (default ON) applied through `src/native/useNative.ts`, gated on `Capacitor.isNativePlatform()`; the keep-awake toggle only renders in the settings panel on native. Web bundles are unaffected and jsdom tests see the inert path.
+**Stores:** submission deferred until the Apple Developer and Play Console accounts exist (~late Aug 2026), per D10. Icons generated from `public/icon.svg` double as store assets when that time comes.
+**Amends:** D6 (Capacitor wrapper now concrete), D7 (keep-awake toggle landed, native only), D10 (deploy order executed: web first, shells ready and waiting).

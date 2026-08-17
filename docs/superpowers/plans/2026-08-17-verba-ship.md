@@ -22,7 +22,7 @@
 - Generated: `public/pwa-64x64.png`, `public/pwa-192x192.png`, `public/pwa-512x512.png`, `public/maskable-icon-512x512.png`, `public/apple-touch-icon-180x180.png`, `public/favicon.ico`
 - Modify: `index.html`
 
-- [ ] **Step 1: Create the source icon**
+- [x] **Step 1: Create the source icon**
 
 A mini word-clock face: faint letter grid, middle row lights up VERBA. Uses Helvetica (present on macOS build machine and rasterized by the generator).
 
@@ -40,7 +40,7 @@ A mini word-clock face: faint letter grid, middle row lights up VERBA. Uses Helv
 </svg>
 ```
 
-- [ ] **Step 2: Add the assets-generator config**
+- [x] **Step 2: Add the assets-generator config**
 
 ```ts
 // pwa-assets.config.ts
@@ -52,17 +52,17 @@ export default defineConfig({
 });
 ```
 
-- [ ] **Step 3: Generate the icons**
+- [x] **Step 3: Generate the icons**
 
 Run: `pnpm dlx @vite-pwa/assets-generator`
 Expected: PNGs + favicon.ico written into `public/`.
 
-- [ ] **Step 4: Visually verify the rasterized text**
+- [x] **Step 4: Visually verify the rasterized text**
 
 Run: `open public/pwa-512x512.png`
 Expected: dark rounded square, faint letter rows, bright centered VERBA. If text is missing (font not resolved by the rasterizer), replace `<text>` letters with a `<path>`-drawn V glyph and regenerate — do not ship an empty square.
 
-- [ ] **Step 5: Link icons in index.html**
+- [x] **Step 5: Link icons in index.html**
 
 ```html
     <link rel="icon" href="/favicon.ico" sizes="48x48" />
@@ -74,12 +74,12 @@ Expected: dark rounded square, faint letter rows, bright centered VERBA. If text
 
 (replaces the bare `<title>Verba</title>` line)
 
-- [ ] **Step 6: Verify build passes**
+- [x] **Step 6: Verify build passes**
 
 Run: `pnpm build`
 Expected: exit 0, icons copied into `dist/`.
 
-- [ ] **Step 7: Commit**
+- [x] **Step 7: Commit**
 
 ```bash
 git add public/icon.svg pwa-assets.config.ts public/*.png public/favicon.ico index.html
@@ -94,11 +94,11 @@ git commit -m "Add app icon, favicon, and touch icons"
 - Modify: `vite.config.ts`
 - Modify: `package.json` (devDependency)
 
-- [ ] **Step 1: Install the plugin**
+- [x] **Step 1: Install the plugin**
 
 Run: `pnpm add -D vite-plugin-pwa`
 
-- [ ] **Step 2: Register the plugin**
+- [x] **Step 2: Register the plugin**
 
 ```ts
 // vite.config.ts — add import and plugin entry
@@ -134,22 +134,22 @@ export default defineConfig({
 });
 ```
 
-- [ ] **Step 3: Build and inspect output**
+- [x] **Step 3: Build and inspect output**
 
 Run: `pnpm build && ls dist/sw.js dist/manifest.webmanifest`
 Expected: both files exist; build log shows "precache" entry count covering js/css/html/woff2.
 
-- [ ] **Step 4: Verify offline behavior**
+- [x] **Step 4: Verify offline behavior**
 
 Run: `pnpm preview` then in the Playwright browser: load `http://localhost:4173`, wait for SW registration (`navigator.serviceWorker.ready`), then set browser offline and reload.
 Expected: clock still renders offline.
 
-- [ ] **Step 5: Verify tests still pass**
+- [x] **Step 5: Verify tests still pass**
 
 Run: `pnpm test`
 Expected: all pass (plugin is build-time only; jsdom tests untouched).
 
-- [ ] **Step 6: Commit**
+- [x] **Step 6: Commit**
 
 ```bash
 git add vite.config.ts package.json pnpm-lock.yaml
@@ -164,7 +164,7 @@ git commit -m "Add PWA manifest and offline service worker"
 - Create: `vercel.json`
 - Create: `.vercelignore`
 
-- [ ] **Step 1: Create vercel.json**
+- [x] **Step 1: Create vercel.json**
 
 Service worker must never be served stale, else updates lag a full cache TTL:
 
@@ -184,7 +184,7 @@ Service worker must never be served stale, else updates lag a full cache TTL:
 }
 ```
 
-- [ ] **Step 2: Create .vercelignore**
+- [x] **Step 2: Create .vercelignore**
 
 ```
 ios
@@ -193,7 +193,7 @@ mockups
 docs
 ```
 
-- [ ] **Step 3: Verify local production build one more time**
+- [x] **Step 3: Verify local production build one more time**
 
 Run: `pnpm build`
 Expected: exit 0.
@@ -214,7 +214,7 @@ Expected: production URL printed; clock loads there; `https://<url>/manifest.web
 
 Open the production URL in the Playwright browser; check console for SW registration and no 404s on icons.
 
-- [ ] **Step 6: Commit**
+- [x] **Step 6: Commit**
 
 ```bash
 git add vercel.json .vercelignore
@@ -229,7 +229,7 @@ git commit -m "Add Vercel deploy configuration"
 - Modify: `src/settings/store.ts`
 - Test: `src/settings/store.test.ts`
 
-- [ ] **Step 1: Write the failing tests**
+- [x] **Step 1: Write the failing tests**
 
 ```ts
 it('defaults keepAwake to true', () => {
@@ -244,12 +244,12 @@ it('fills keepAwake for persisted v1 settings that predate it', () => {
 
 (reuse the existing fake-storage helper in store.test.ts; match its actual name)
 
-- [ ] **Step 2: Run tests to verify they fail**
+- [x] **Step 2: Run tests to verify they fail**
 
 Run: `pnpm vitest run src/settings/store.test.ts`
 Expected: FAIL — `keepAwake` not in Settings.
 
-- [ ] **Step 3: Extend the schema**
+- [x] **Step 3: Extend the schema**
 
 Still `schemaVersion: 1` — `loadSettings` already merges missing fields from defaults, so no migration needed:
 
@@ -275,12 +275,12 @@ export const DEFAULT_SETTINGS: Settings = {
 };
 ```
 
-- [ ] **Step 4: Run tests to verify they pass**
+- [x] **Step 4: Run tests to verify they pass**
 
 Run: `pnpm vitest run src/settings/store.test.ts`
 Expected: PASS.
 
-- [ ] **Step 5: Commit**
+- [x] **Step 5: Commit**
 
 ```bash
 git add src/settings/store.ts src/settings/store.test.ts
@@ -296,11 +296,11 @@ git commit -m "Add keepAwake setting with default true"
 - Create: `ios/` and `android/` (generated — commit them; they are the native projects)
 - Modify: `package.json` (deps + scripts), `.gitignore`
 
-- [ ] **Step 1: Install Capacitor**
+- [x] **Step 1: Install Capacitor**
 
 Run: `pnpm add @capacitor/core @capacitor/status-bar @capacitor-community/keep-awake && pnpm add -D @capacitor/cli @capacitor/ios @capacitor/android`
 
-- [ ] **Step 2: Create capacitor.config.ts**
+- [x] **Step 2: Create capacitor.config.ts**
 
 ```ts
 import type { CapacitorConfig } from '@capacitor/cli';
@@ -314,16 +314,16 @@ const config: CapacitorConfig = {
 export default config;
 ```
 
-- [ ] **Step 3: Add native platforms**
+- [x] **Step 3: Add native platforms**
 
 Run: `pnpm build && pnpm exec cap add ios && pnpm exec cap add android`
 Expected: `ios/` and `android/` created; `cap add` output ends "success".
 
-- [ ] **Step 4: Add sync script**
+- [x] **Step 4: Add sync script**
 
 In `package.json` scripts: `"sync": "pnpm build && cap sync"`.
 
-- [ ] **Step 5: Ignore native build products**
+- [x] **Step 5: Ignore native build products**
 
 Append to `.gitignore`:
 
@@ -337,12 +337,12 @@ android/build
 android/app/src/main/assets/public
 ```
 
-- [ ] **Step 6: Sync and verify**
+- [x] **Step 6: Sync and verify**
 
 Run: `pnpm sync`
 Expected: "Sync finished" with ios + android both copied.
 
-- [ ] **Step 7: Commit**
+- [x] **Step 7: Commit**
 
 ```bash
 git add capacitor.config.ts package.json pnpm-lock.yaml .gitignore ios android
@@ -359,7 +359,7 @@ git commit -m "Add Capacitor shells for iOS and Android"
 - Modify: `src/settings/SettingsPanel.tsx`
 - Test: `src/native/useNative.test.ts`
 
-- [ ] **Step 1: Write the failing test**
+- [x] **Step 1: Write the failing test**
 
 Mock the Capacitor modules; assert the hook calls `KeepAwake.keepAwake()` when native + enabled, `allowSleep()` when disabled, and does nothing on web:
 
@@ -403,12 +403,12 @@ describe('useNative', () => {
 });
 ```
 
-- [ ] **Step 2: Run test to verify it fails**
+- [x] **Step 2: Run test to verify it fails**
 
 Run: `pnpm vitest run src/native/useNative.test.ts`
 Expected: FAIL — module not found.
 
-- [ ] **Step 3: Implement the hook**
+- [x] **Step 3: Implement the hook**
 
 Side effects belong in useEffect (this is device state, not derived state):
 
@@ -435,12 +435,12 @@ export function useNative(keepAwake: boolean): void {
 }
 ```
 
-- [ ] **Step 4: Run test to verify it passes**
+- [x] **Step 4: Run test to verify it passes**
 
 Run: `pnpm vitest run src/native/useNative.test.ts`
 Expected: PASS.
 
-- [ ] **Step 5: Wire into App**
+- [x] **Step 5: Wire into App**
 
 In `src/App.tsx`, inside the component (settings already come from context):
 
@@ -448,7 +448,7 @@ In `src/App.tsx`, inside the component (settings already come from context):
 useNative(settings.keepAwake);
 ```
 
-- [ ] **Step 6: Add the native-only toggle to SettingsPanel**
+- [x] **Step 6: Add the native-only toggle to SettingsPanel**
 
 Next to the existing `showItIs` Radix Switch, following its exact markup/props pattern:
 
@@ -465,17 +465,17 @@ Next to the existing `showItIs` Radix Switch, following its exact markup/props p
 
 (match the panel's real row/Switch component names — copy the `showItIs` row verbatim and adjust)
 
-- [ ] **Step 7: Run the full suite**
+- [x] **Step 7: Run the full suite**
 
 Run: `pnpm test && pnpm build`
 Expected: all tests pass (jsdom is non-native, toggle hidden, hook inert); build exit 0.
 
-- [ ] **Step 8: Sync native shells**
+- [x] **Step 8: Sync native shells**
 
 Run: `pnpm sync`
 Expected: plugins listed for ios + android include status-bar and keep-awake.
 
-- [ ] **Step 9: Commit**
+- [x] **Step 9: Commit**
 
 ```bash
 git add src/native src/App.tsx src/settings/SettingsPanel.tsx ios android
@@ -505,11 +505,11 @@ Run on simulator. Expected: full-screen clock, no status bar, screen never sleep
 
 Same expectations on an emulator.
 
-- [ ] **Step 3: Record D16 in docs/DECISIONS.md**
+- [x] **Step 3: Record D16 in docs/DECISIONS.md**
 
 Append, matching the existing D-entry format: D16 — shipped as installable PWA on Vercel + Capacitor 7 shells (`com.verba.clock`); standalone display, autoUpdate SW, keep-awake default ON (native only), status bar hidden; store submission deferred until Apple/Play accounts exist (~late Aug 2026); icons in `public/` double as store assets.
 
-- [ ] **Step 4: Commit**
+- [x] **Step 4: Commit**
 
 ```bash
 git add docs/DECISIONS.md

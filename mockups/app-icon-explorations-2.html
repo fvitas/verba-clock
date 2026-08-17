@@ -1,0 +1,167 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<title>Verba — icon explorations round 2: A + K variants</title>
+<style>
+  body { background: #1c1a18; color: #d8d4cf; font-family: -apple-system, sans-serif; padding: 2rem; max-width: 1400px; }
+  h1 { font-weight: 500; }
+  h2.group { font-weight: 500; margin-top: 3rem; border-bottom: 1px solid #3a3733; padding-bottom: .4rem; color: #b98a4a; }
+  h2.group .star { color: #e8c56a; }
+  .board { display: grid; grid-template-columns: repeat(auto-fill, minmax(400px, 1fr)); gap: 2rem; }
+  .option { background: #14120f; border-radius: 12px; padding: 1.2rem 1.4rem; }
+  .option h3 { font-weight: 500; margin: 0 0 .8rem; font-size: 1rem; }
+  .sizes { display: flex; gap: 1.2rem; align-items: flex-end; }
+  .size { text-align: center; }
+  .size .label { font-size: .7rem; color: #9a958e; margin-top: .4rem; }
+  .size svg { display: block; border-radius: 18%; box-shadow: 0 8px 20px rgba(0,0,0,.5); }
+  .note { font-size: .82rem; color: #9a958e; line-height: 1.45; margin-top: .8rem; }
+</style>
+</head>
+<body>
+<h1>Round 2 — variants of the two favorites (A, K) + new directions</h1>
+<p>A = grid + lit VERBA, K = NOW. Sub-logos: family number + variant letter — 1a…1f, 2a…2f; fresh ideas 3a…3c.
+Sizes 220 / 64 / 32 (32 = favicon reality).</p>
+<div id="root"></div>
+
+<script>
+const EN = ['ITLISASAMPM','ACQUARTERDC','TWENTYFIVEX','HALFSTENFTO','PASVERBAINE','ONESIXTHREE','FOURFIVETWO','EIGHTELEVEN','SEVENTWELVE','TENSEOCLOCK'];
+const EN_ORIG = ['ITLISASAMPM','ACQUARTERDC','TWENTYFIVEX','HALFSTENFTO','PASTERUNINE','ONESIXTHREE','FOURFIVETWO','EIGHTELEVEN','SEVENTWELVE','TENSEOCLOCK'];
+const NOWROWS = EN_ORIG.map((r, i) => i === 4 ? 'PASTNOWNINE' : r);
+const POLY = ['ITLISASAMPM','ESKISTAFÜNF','ILNESTDEUXA','HETKISNEGEN','PASVERBAINE','САДАКЈЕПОЛА','ДВАДЕСЕТКРМ','ΔΩΔΕΚΑΕΝΝΙΑ','VEINTICINCO','TENSEOCLOCK'];
+const VERT = ['ITLISASAMPM','ACQUARTERDC','TWENTVFIVEX','HALFSEENFTO','PASTERUNINE','ONESIBTHREE','FOURFAVETWO','EIGHTELEVEN','SEVENTWELVE','TENSEOCLOCK'];
+const FONT = 'font-family="Helvetica, Arial, sans-serif" font-weight="500" text-anchor="middle"';
+
+function cellsG(rows, isLit, { faint = 0.13, faintFill = '#fff', litFill = '#fff', pad = 56 } = {}) {
+  const nR = rows.length, nC = [...rows[0]].length;
+  const span = 512 - 2 * pad, cw = span / nC, rh = span / nR;
+  const fs = Math.min(cw, rh) * 0.72;
+  let dim = '', lit = '';
+  rows.forEach((row, r) => [...row].forEach((ch, c) => {
+    const x = (pad + (c + 0.5) * cw).toFixed(1);
+    const y = (pad + (r + 0.5) * rh + fs * 0.35).toFixed(1);
+    const t = `<text x="${x}" y="${y}" font-size="${fs.toFixed(0)}">${ch}</text>`;
+    if (isLit && isLit(r, c)) lit += t; else dim += t;
+  }));
+  return {
+    dim: `<g ${FONT} fill="${faintFill}" fill-opacity="${faint}">${dim}</g>`,
+    lit: lit ? `<g ${FONT} fill="${litFill}">${lit}</g>` : '',
+  };
+}
+
+const glow = (u, inner, dev = 7) =>
+  `<filter id="${u}b" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="${dev}"/></filter>
+   <g filter="url(#${u}b)" opacity="0.85">${inner}</g>${inner}`;
+
+const dots = (on, fill = '#fff') => {
+  const p = 40, q = 512 - 40;
+  return [[p,p],[q,p],[q,q],[p,q]].map(([x,y], i) =>
+    `<circle cx="${x}" cy="${y}" r="11" fill="${fill}" fill-opacity="${i < on ? 1 : 0.13}"/>`).join('');
+};
+
+const DARK = '<rect width="512" height="512" fill="#0a0a0a"/>';
+const verbaLit = (r, c) => r === 4 && c >= 3 && c <= 7;
+const nowLit = (r, c) => r === 4 && c >= 4 && c <= 6;
+
+const OPTIONS = [
+  { group: '★ 1 — grid + lit VERBA (favorite A), variants 1a–1f', id: '1a', title: '1a — baseline (as committed)',
+    note: 'Reference point. Flat white VERBA, 13% grid.',
+    svg(u) { const g = cellsG(EN, verbaLit); return DARK + g.dim + g.lit; } },
+
+  { group: '★ 1 — grid + lit VERBA (favorite A), variants 1a–1f', id: '1b', title: '1b — + LED glow',
+    note: 'Same icon, VERBA glows like the real LEDs. Reads warmer/alive; helps the 32px "lit band" look intentional.',
+    svg(u) { const g = cellsG(EN, verbaLit); return DARK + g.dim + glow(u, g.lit, 6); } },
+
+  { group: '★ 1 — grid + lit VERBA (favorite A), variants 1a–1f', id: '1c', title: '1c — cropped zoom (7×6 window)',
+    note: 'Zoom into the matrix around VERBA — cells 2× bigger, VERBA actually legible at 32px. Feels like standing close to the wall clock.',
+    svg(u) { const g = cellsG(EN.slice(2, 8).map((r) => r.slice(2, 9)), (r, c) => r === 2 && c >= 1 && c <= 5, { pad: 48 });
+      return DARK + g.dim + glow(u, g.lit, 5); } },
+
+  { group: '★ 1 — grid + lit VERBA (favorite A), variants 1a–1f', id: '1d', title: '1d — darker grid (8%), glow — A meets K',
+    note: 'Grid barely-there, VERBA floats in the dark. Halfway between A and K.',
+    svg(u) { const g = cellsG(EN, verbaLit, { faint: 0.08 }); return DARK + g.dim + glow(u, g.lit, 7); } },
+
+  { group: '★ 1 — grid + lit VERBA (favorite A), variants 1a–1f', id: '1e', title: '1e — tighter frame, bigger letters',
+    note: 'Same full grid, less padding — every letter ~20% bigger. More texture at 64/32.',
+    svg(u) { const g = cellsG(EN, verbaLit, { pad: 34 }); return DARK + g.dim + glow(u, g.lit, 5); } },
+
+  { group: '★ 1 — grid + lit VERBA (favorite A), variants 1a–1f', id: '1f', title: '1f — polyglot rows behind VERBA',
+    note: 'A with the multi-script grid (DE/FR/NL/SR/GR/ES rows) — the 22-language story inside the favorite.',
+    svg(u) { const g = cellsG(POLY, verbaLit); return DARK + g.dim + glow(u, g.lit, 5); } },
+
+  { group: '★ 2 — NOW (favorite K), variants 2a–2f', id: '2a', title: '2a — baseline (NOW small, 6% grid)',
+    note: 'Reference point. Quiet, philosophical.',
+    svg(u) { const g = cellsG(NOWROWS, nowLit, { faint: 0.06 }); return DARK + g.dim + glow(u, g.lit, 8); } },
+
+  { group: '★ 2 — NOW (favorite K), variants 2a–2f', id: '2b', title: '2b — giant NOW',
+    note: 'The statement, loud. Legible even at 16px. Grid whispers behind at 5%.',
+    svg(u) { const g = cellsG(EN_ORIG, null, { faint: 0.05 }); return DARK + g.dim +
+      glow(u, `<text x="256" y="310" ${FONT} font-size="150" letter-spacing="6" fill="#fff">NOW</text>`, 9); } },
+
+  { group: '★ 2 — NOW (favorite K), variants 2a–2f', id: '2c', title: '2c — NOW + corner minute dots',
+    note: 'K1 plus the four lit dots — anchors the empty corners and claims the QLOCKTWO signature.',
+    svg(u) { const g = cellsG(NOWROWS, nowLit, { faint: 0.06 }); return DARK + g.dim + glow(u, g.lit, 8) + dots(4); } },
+
+  { group: '★ 2 — NOW (favorite K), variants 2a–2f', id: '2d', title: '2d — NOW in amber',
+    note: 'Warm LED version — candle in the dark. Distinct color story vs every competitor.',
+    svg(u) { const g = cellsG(NOWROWS, nowLit, { faint: 0.06, litFill: '#ffb54d' }); return DARK + g.dim + glow(u, g.lit, 9); } },
+
+  { group: '★ 2 — NOW (favorite K), variants 2a–2f', id: '2e', title: '2e — IT IS NOW',
+    note: 'Row 0 already contains IT IS (authentic face) — light it together with NOW: the clock’s eternal truth as the icon.',
+    svg(u) { const g = cellsG(NOWROWS, (r, c) => (r === 0 && (c === 0 || c === 1 || c === 3 || c === 4)) || (r === 4 && c >= 4 && c <= 6), { faint: 0.08 });
+      return DARK + g.dim + glow(u, g.lit, 7); } },
+
+  { group: '★ 2 — NOW (favorite K), variants 2a–2f', id: '2f', title: '2f — pure black, only light',
+    note: 'No grid at all — three letters glowing in a void. Maximum elegance, minimum information.',
+    svg(u) { return DARK + glow(u, `<text x="256" y="298" ${FONT} font-size="118" letter-spacing="10" fill="#fff">NOW</text>`, 10); } },
+
+  { group: '3 — new directions (3a–3c)', id: '3a', title: '3a — VERBA vertical',
+    note: 'VERBA written down the center column, crossword-style, lit through the authentic grid. Unusual axis = memorable.',
+    svg(u) { const g = cellsG(VERT, (r, c) => c === 5 && r >= 2 && r <= 6); return DARK + g.dim + glow(u, g.lit, 5); } },
+
+  { group: '3 — new directions (3a–3c)', id: '3b', title: '3b — VERBA × САДА crossword',
+    note: 'Latin VERBA horizontal crossing Cyrillic САДА vertical, sharing the final А — two alphabets, one letter of light. The polyglot story, minimal.',
+    svg(u) {
+      const sparse = cellsG(EN, null, { faint: 0.05 });
+      const word = (txt, coords, fill = '#fff') => `<g ${FONT} fill="${fill}">` +
+        [...txt].map((ch, i) => `<text x="${(56 + (coords[i][1] + 0.5) * (400/11)).toFixed(1)}" y="${(56 + (coords[i][0] + 0.5) * 40 + 10.5).toFixed(1)}" font-size="30">${ch}</text>`).join('') + '</g>';
+      const verba = word('VERBA', [[4,3],[4,4],[4,5],[4,6],[4,7]]);
+      const sada = word('САД', [[1,7],[2,7],[3,7]]);
+      return DARK + sparse.dim + glow(u, verba + sada, 5); } },
+
+  { group: '3 — new directions (3a–3c)', id: '3c', title: '3c — the real face: IT IS FIVE PAST TEN',
+    note: 'The icon is literally the app at 10:05 — IT IS lit in row 0, FIVE PAST TEN scattered as on the real face. Honest and alive; abstract texture at 32px.',
+    svg(u) { const lit = new Set(['0:0','0:1','0:3','0:4','2:6','2:7','2:8','2:9','4:0','4:1','4:2','4:3','9:0','9:1','9:2']);
+      const g = cellsG(EN_ORIG, (r, c) => lit.has(r + ':' + c)); return DARK + g.dim + glow(u, g.lit, 5); } },
+];
+
+const root = document.getElementById('root');
+let currentGroup = '';
+let board = null;
+for (const o of OPTIONS) {
+  if (o.group !== currentGroup) {
+    currentGroup = o.group;
+    const h = document.createElement('h2');
+    h.className = 'group';
+    h.innerHTML = currentGroup.startsWith('★') ? `<span class="star">★</span>${currentGroup.slice(1)}` : currentGroup;
+    root.appendChild(h);
+    board = document.createElement('div');
+    board.className = 'board';
+    root.appendChild(board);
+  }
+  const inner = o.svg('u' + o.id);
+  const svg = (px) => `<svg width="${px}" height="${px}" viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg">${inner}</svg>`;
+  const div = document.createElement('div');
+  div.className = 'option';
+  div.innerHTML = `<h3>${o.title}</h3>
+    <div class="sizes">
+      <div class="size">${svg(220)}<div class="label">220</div></div>
+      <div class="size">${svg(64)}<div class="label">64</div></div>
+      <div class="size">${svg(32)}<div class="label">32</div></div>
+    </div>
+    <p class="note">${o.note}</p>`;
+  board.appendChild(div);
+}
+</script>
+</body>
+</html>

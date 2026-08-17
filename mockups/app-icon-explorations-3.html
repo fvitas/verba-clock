@@ -1,0 +1,180 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<title>Verba — round 3: going nuts on 1c and 2b</title>
+<style>
+  body { background: #1c1a18; color: #d8d4cf; font-family: -apple-system, sans-serif; padding: 2rem; max-width: 1400px; }
+  h1 { font-weight: 500; }
+  h2.group { font-weight: 500; margin-top: 3rem; border-bottom: 1px solid #3a3733; padding-bottom: .4rem; color: #b98a4a; }
+  .board { display: grid; grid-template-columns: repeat(auto-fill, minmax(400px, 1fr)); gap: 2rem; }
+  .option { background: #14120f; border-radius: 12px; padding: 1.2rem 1.4rem; }
+  .option h3 { font-weight: 500; margin: 0 0 .8rem; font-size: 1rem; }
+  .sizes { display: flex; gap: 1.2rem; align-items: flex-end; }
+  .size { text-align: center; }
+  .size .label { font-size: .7rem; color: #9a958e; margin-top: .4rem; }
+  .size svg { display: block; border-radius: 18%; box-shadow: 0 8px 20px rgba(0,0,0,.5); }
+  .note { font-size: .82rem; color: #9a958e; line-height: 1.45; margin-top: .8rem; }
+</style>
+</head>
+<body>
+<h1>Round 3 — 1c (cropped zoom) and 2b (giant NOW), gone nuts</h1>
+<p>Chosen bases: <strong>1c</strong> = zoomed matrix window with VERBA lit, <strong>2b</strong> = giant NOW.
+Mutations 1c1…1c6, 2b1…2b6, hybrids 4a/4b. Sizes 220 / 64 / 32.</p>
+<div id="root"></div>
+
+<script>
+const EN = ['ITLISASAMPM','ACQUARTERDC','TWENTYFIVEX','HALFSTENFTO','PASVERBAINE','ONESIXTHREE','FOURFIVETWO','EIGHTELEVEN','SEVENTWELVE','TENSEOCLOCK'];
+const NOWROWS = EN.map((r, i) => i === 4 ? 'PASTNOWNINE' : r);
+const FONT = 'font-family="Helvetica, Arial, sans-serif" font-weight="500" text-anchor="middle"';
+
+function cellsG(rows, isLit, { faint = 0.13, faintFill = '#fff', litFill = '#fff', pad = 56, litOpacity = null } = {}) {
+  const nR = rows.length, nC = [...rows[0]].length;
+  const span = 512 - 2 * pad, cw = span / nC, rh = span / nR;
+  const fs = Math.min(cw, rh) * 0.72;
+  let dim = '', lit = '';
+  let litIndex = 0;
+  rows.forEach((row, r) => [...row].forEach((ch, c) => {
+    const x = (pad + (c + 0.5) * cw).toFixed(1);
+    const y = (pad + (r + 0.5) * rh + fs * 0.35).toFixed(1);
+    if (isLit && isLit(r, c)) {
+      const op = litOpacity ? ` fill-opacity="${litOpacity[litIndex % litOpacity.length]}"` : '';
+      lit += `<text x="${x}" y="${y}" font-size="${fs.toFixed(0)}"${op}>${ch}</text>`;
+      litIndex++;
+    } else {
+      dim += `<text x="${x}" y="${y}" font-size="${fs.toFixed(0)}">${ch}</text>`;
+    }
+  }));
+  return {
+    dim: `<g ${FONT} fill="${faintFill}" fill-opacity="${faint}">${dim}</g>`,
+    lit: lit ? `<g ${FONT} fill="${litFill}">${lit}</g>` : '',
+  };
+}
+
+const glow = (u, inner, dev = 7) =>
+  `<filter id="${u}b" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="${dev}"/></filter>
+   <g filter="url(#${u}b)" opacity="0.85">${inner}</g>${inner}`;
+
+const glowAmber = (u, inner, dev = 10) =>
+  `<filter id="${u}a" x="-60%" y="-60%" width="220%" height="220%"><feGaussianBlur stdDeviation="${dev}"/></filter>
+   <g filter="url(#${u}a)" opacity="0.9" style="color:#ff9d2e"><g fill="#ff9d2e">${inner.replaceAll('fill="#fff"', 'fill="#ff9d2e"')}</g></g>${inner}`;
+
+const DARK = '<rect width="512" height="512" fill="#0a0a0a"/>';
+
+// 1c base window: rows 2-7, cols 2-8 of EN; VERBA at window row 2, cols 1-5
+const W1C = EN.slice(2, 8).map((r) => r.slice(2, 9));
+const w1cLit = (r, c) => r === 2 && c >= 1 && c <= 5;
+
+const OPTIONS = [
+  { group: '1c gone nuts — zoomed matrix + VERBA', id: '1c1', title: '1c1 — extreme zoom: VERBA edge to edge',
+    note: '5×3 window — VERBA IS the middle row, full width. Nothing bigger is possible while still being “a grid”.',
+    svg(u) { const g = cellsG([EN[3].slice(3, 8), 'VERBA', EN[5].slice(3, 8)], (r) => r === 1, { pad: 44 });
+      return DARK + g.dim + glow(u, g.lit, 7); } },
+
+  { group: '1c gone nuts — zoomed matrix + VERBA', id: '1c2', title: '1c2 — perspective tilt',
+    note: 'The zoom, skewed like you’re looking at the wall clock from the side. Adds depth no flat competitor has.',
+    svg(u) { const g = cellsG(W1C, w1cLit, { pad: 62 });
+      return DARK + `<g transform="translate(256 256) skewY(-7) scale(1.06 1) translate(-256 -256)">${g.dim}${glow(u, g.lit, 5)}</g>`; } },
+
+  { group: '1c gone nuts — zoomed matrix + VERBA', id: '1c3', title: '1c3 — depth of field',
+    note: 'Unlit letters optically blurred, VERBA razor sharp — camera-lens focus on the word. Photographic feel.',
+    svg(u) { const g = cellsG(W1C, w1cLit, { pad: 48, faint: 0.22 });
+      return DARK + `<filter id="${u}d"><feGaussianBlur stdDeviation="4"/></filter><g filter="url(#${u}d)">${g.dim}</g>` + glow(u, g.lit, 5); } },
+
+  { group: '1c gone nuts — zoomed matrix + VERBA', id: '1c4', title: '1c4 — night amber zoom',
+    note: '1c in warm amber with heavy halo — the clock at 3am. Strong color identity.',
+    svg(u) { const g = cellsG(W1C, w1cLit, { pad: 48, faint: 0.09, litFill: '#ffb54d' });
+      return DARK + g.dim + glow(u, g.lit, 9); } },
+
+  { group: '1c gone nuts — zoomed matrix + VERBA', id: '1c5', title: '1c5 — caught mid-transition',
+    note: 'The 600ms cross-fade as a still: V fully lit, ERBA at rising opacities — the word is arriving. Motion in a static icon.',
+    svg(u) { const g = cellsG(W1C, w1cLit, { pad: 48, litOpacity: [1, 0.45, 0.6, 0.78, 0.92] });
+      return DARK + g.dim + glow(u, g.lit, 6); } },
+
+  { group: '1c gone nuts — zoomed matrix + VERBA', id: '1c6', title: '1c6 — close-up with corner dot',
+    note: 'The zoom includes one giant corner minute-dot entering the frame top-right — unmistakably QLOCKTWO up close.',
+    svg(u) { const g = cellsG(W1C, w1cLit, { pad: 56 });
+      return DARK + g.dim + glow(u, g.lit, 5) + glow(u + 'q', '<circle cx="452" cy="60" r="22" fill="#fff"/>', 6); } },
+
+  { group: '2b gone nuts — giant NOW', id: '2b1', title: '2b1 — the O is made of letters',
+    note: 'N and W are solid glyphs; the O is a ring of tiny lit matrix letters — the word clock hiding inside the word.',
+    svg(u) {
+      const ring = Array.from({length: 12}, (_, i) => {
+        const a = i * Math.PI / 6, x = (256 + 58 * Math.sin(a)).toFixed(1), y = (272 - 58 * Math.cos(a) + 9).toFixed(1);
+        return `<text x="${x}" y="${y}" font-size="26">${'VERBACLOCKIT'[i]}</text>`;
+      }).join('');
+      return DARK + glow(u, `<g ${FONT} fill="#fff"><text x="108" y="325" font-size="150">N</text><text x="404" y="325" font-size="150">W</text>${ring}</g>`, 8); } },
+
+  { group: '2b gone nuts — giant NOW', id: '2b2', title: '2b2 — N / O / W stacked',
+    note: 'Three letters, three rows, filling the whole square. Monumental; reads top-down like the clock reads words.',
+    svg(u) { return DARK + glow(u, `<g ${FONT} fill="#fff" font-size="150">
+      <text x="256" y="165">N</text><text x="256" y="315">O</text><text x="256" y="465">W</text></g>`, 8); } },
+
+  { group: '2b gone nuts — giant NOW', id: '2b3', title: '2b3 — white core, amber halo',
+    note: 'Two-layer glow: hot white letters inside a warm amber aura — closest to how real LEDs photograph.',
+    svg(u) { const t = `<g ${FONT} fill="#fff"><text x="256" y="310" font-size="150" letter-spacing="6">NOW</text></g>`;
+      return DARK + glowAmber(u, t, 14) ; } },
+
+  { group: '2b gone nuts — giant NOW', id: '2b4', title: '2b4 — NOW in seconds-mode pixels',
+    note: 'NOW drawn the way our seconds mode draws digits — from lit letter cells of the full matrix. Only Verba can claim this.',
+    svg(u) {
+      const N = ['X.X','XX.X'.slice(0,3),'XXX','X.X','X.X'], O = ['XXX','X.X','X.X','X.X','XXX'], W = ['X.X','X.X','X.X','XXX','X.X'];
+      const lit = new Set();
+      [[N,0],[O,4],[W,8]].forEach(([bm, off]) => bm.forEach((row, r) => [...row].forEach((ch, c) => { if (ch === 'X') lit.add((r + 2) + ':' + (c + off)); })));
+      const g = cellsG(EN, (r, c) => lit.has(r + ':' + c), { faint: 0.1 });
+      return DARK + g.dim + glow(u, g.lit, 5); } },
+
+  { group: '2b gone nuts — giant NOW', id: '2b5', title: '2b5 — NOW echo',
+    note: 'NOW NOW NOW — past and future faint, the present glowing. The concept of the app in one image.',
+    svg(u) { return DARK + `<g ${FONT} font-size="118" letter-spacing="8" fill="#fff">
+      <text x="256" y="160" fill-opacity="0.1">NOW</text>
+      ${glow(u, '<text x="256" y="298" ' + FONT + ' font-size="118" letter-spacing="8" fill="#fff">NOW</text>', 9)}
+      <text x="256" y="436" fill-opacity="0.1">NOW</text></g>`; } },
+
+  { group: '2b gone nuts — giant NOW', id: '2b6', title: '2b6 — IT IS + giant NOW',
+    note: 'Small lit IT IS in the top corner (authentic face words), giant NOW below — sentence and statement at once.',
+    svg(u) { return DARK + glow(u, `<g ${FONT} fill="#fff">
+      <text x="102" y="120" font-size="44" letter-spacing="12">IT IS</text>
+      <text x="256" y="330" font-size="150" letter-spacing="6">NOW</text></g>`, 8); } },
+
+  { group: 'Hybrids of 1c × 2b', id: '4a', title: '4a — zoomed grid, NOW lit',
+    note: '1c’s zoom window, but the lit word is NOW (from the PASTNOWNINE row). The philosophical favorite inside the visual favorite.',
+    svg(u) { const g = cellsG(NOWROWS.slice(2, 8).map((r) => r.slice(2, 9)), (r, c) => r === 2 && c >= 2 && c <= 4, { pad: 48 });
+      return DARK + g.dim + glow(u, g.lit, 6); } },
+
+  { group: 'Hybrids of 1c × 2b', id: '4b', title: '4b — giant NOW over the zoomed grid',
+    note: '2b’s scale + 1c’s big-cell texture behind it at 7%. Loud statement, product texture.',
+    svg(u) { const g = cellsG(W1C, null, { pad: 48, faint: 0.07 });
+      return DARK + g.dim + glow(u, `<text x="256" y="310" ${FONT} font-size="150" letter-spacing="6" fill="#fff">NOW</text>`, 9); } },
+];
+
+const root = document.getElementById('root');
+let currentGroup = '';
+let board = null;
+for (const o of OPTIONS) {
+  if (o.group !== currentGroup) {
+    currentGroup = o.group;
+    const h = document.createElement('h2');
+    h.className = 'group';
+    h.textContent = currentGroup;
+    root.appendChild(h);
+    board = document.createElement('div');
+    board.className = 'board';
+    root.appendChild(board);
+  }
+  const inner = o.svg('u' + o.id);
+  const svg = (px) => `<svg width="${px}" height="${px}" viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg">${inner}</svg>`;
+  const div = document.createElement('div');
+  div.className = 'option';
+  div.innerHTML = `<h3>${o.title}</h3>
+    <div class="sizes">
+      <div class="size">${svg(220)}<div class="label">220</div></div>
+      <div class="size">${svg(64)}<div class="label">64</div></div>
+      <div class="size">${svg(32)}<div class="label">32</div></div>
+    </div>
+    <p class="note">${o.note}</p>`;
+  board.appendChild(div);
+}
+</script>
+</body>
+</html>

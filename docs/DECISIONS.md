@@ -122,3 +122,10 @@ Rules: every settled question gets an entry. Mockups for uncertain decisions liv
 **Process:** The Task 1 icon was designed without user sign-off (invented letter rows) — caught by the user. Alternatives were mocked up in `mockups/app-icon-alternatives.html` (A: invented grid + VERBA, B: big V over grid, C: V + corner dots, D: A + dots), each at 512/180/64/32 px. The user rejected all four in favor of real clock characters with lit VERBA.
 **Trade-off accepted:** VERBA is not legible at 32px favicon size — the mark reads as a lit band in a dark square there, full text from ~64px up.
 **Source:** `public/icon.svg` (generated grid, Helvetica for rasterizer compatibility); all PNGs/favicon regenerated via `pnpm exec pwa-assets-generator`.
+
+### D18 — Final app icon: ART OF / HOURS / WORDS / LIGHT / CLOCK (2026-08-17)
+
+**Decision:** The app icon is a 5×5 word-clock face on a dark (`#0a0a0a`) rounded square: rows `ARTOF / HOURS / WORDS / LIGHT / CLOCK`. Lit (100%): **ART**, **WORD**, **CLOCK** — a 3/4/5 staircase off the left edge. Dim (32%): OF, HOURS, the S of WORDS, LIGHT. No glow (user: glow hurts readability). Every letter, lit or dim, belongs to a real word — the face reads "art of hours, words, light, clock".
+**Supersedes D17** (grid+VERBA icon, shipped without user sign-off and near-identical to competitor "Word Clock Pro: Widget" per `docs/research/2026-08-17-word-clock-app-icons.md`).
+**Process:** store research (11 competitor icons inspected via iTunes API) + four mockup exploration rounds with per-variant yes/no (`mockups/app-icon-alternatives.html`, `app-icon-explorations{,-2,-3,-4}.html`, `app-icon-final-candidates.html` — 3L-2 marked ✓ CHOSEN).
+**Source:** `public/icon.svg`; PNGs/favicon regenerated with `pnpm exec pwa-assets-generator` (maskable/apple padding `#0a0a0a`).

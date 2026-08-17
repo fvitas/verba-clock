@@ -1,0 +1,179 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<title>Verba — app icon explorations (13 concepts)</title>
+<style>
+  body { background: #1c1a18; color: #d8d4cf; font-family: -apple-system, sans-serif; padding: 2rem; max-width: 1400px; }
+  h1 { font-weight: 500; }
+  h2.group { font-weight: 500; margin-top: 3rem; border-bottom: 1px solid #3a3733; padding-bottom: .4rem; color: #b98a4a; }
+  .board { display: grid; grid-template-columns: repeat(auto-fill, minmax(400px, 1fr)); gap: 2rem; }
+  .option { background: #14120f; border-radius: 12px; padding: 1.2rem 1.4rem; }
+  .option h3 { font-weight: 500; margin: 0 0 .8rem; font-size: 1rem; }
+  .sizes { display: flex; gap: 1.2rem; align-items: flex-end; }
+  .size { text-align: center; }
+  .size .label { font-size: .7rem; color: #9a958e; margin-top: .4rem; }
+  .size svg { display: block; border-radius: 18%; box-shadow: 0 8px 20px rgba(0,0,0,.5); }
+  .note { font-size: .82rem; color: #9a958e; line-height: 1.45; margin-top: .8rem; }
+  .warn { color: #cf8f8f; }
+</style>
+</head>
+<body>
+<h1>Verba — app icon explorations</h1>
+<p>13 concepts across three moods, each at 220 / 64 / 32 px (32 = favicon reality check).
+Informed by the store research (<code>docs/research/2026-08-17-word-clock-app-icons.md</code>): grids, phrases and wordmarks are taken;
+corner dots, glow, finishes, seconds-digits, multi-script and negative space are unclaimed.</p>
+<div id="root"></div>
+
+<script>
+const EN = ['ITLISASAMPM','ACQUARTERDC','TWENTYFIVEX','HALFSTENFTO','PASVERBAINE','ONESIXTHREE','FOURFIVETWO','EIGHTELEVEN','SEVENTWELVE','TENSEOCLOCK'];
+const NOWROWS = EN.map((r, i) => i === 4 ? 'PASTNOWNINE' : r);
+const POLY = ['ITLISASAMPM','ESKISTAFÜNF','ILNESTDEUXA','HETKISNEGEN','PASVERBAINE','САДАКЈЕПОЛА','ДВАДЕСЕТКРМ','ΔΩΔΕΚΑΕΝΝΙΑ','VEINTICINCO','TENSEOCLOCK'];
+const PAD = 56, SPAN = 512 - 2 * PAD, CW = SPAN / 11, RH = SPAN / 10;
+const FONT = 'font-family="Helvetica, Arial, sans-serif" font-weight="500" text-anchor="middle"';
+
+const cx = (c) => (PAD + (c + 0.5) * CW).toFixed(1);
+const cy = (r) => (PAD + (r + 0.5) * RH + 10.5).toFixed(1);
+
+function cells(rows, isLit, { faint = 0.13, faintFill = '#fff', litFill = '#fff', size = 30 } = {}) {
+  let dim = '', lit = '';
+  rows.forEach((row, r) => [...row].forEach((ch, c) => {
+    const t = `<text x="${cx(c)}" y="${cy(r)}" font-size="${size}">${ch}</text>`;
+    if (isLit && isLit(r, c)) lit += t; else dim += t;
+  }));
+  return {
+    dim: `<g ${FONT} fill="${faintFill}" fill-opacity="${faint}">${dim}</g>`,
+    lit: lit ? `<g ${FONT} fill="${litFill}">${lit}</g>` : '',
+  };
+}
+
+const glow = (u, inner, dev = 7) =>
+  `<filter id="${u}b" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="${dev}"/></filter>
+   <g filter="url(#${u}b)" opacity="0.85">${inner}</g>${inner}`;
+
+const dots = (on, fill = '#fff') => {
+  const p = 40, q = 512 - 40;
+  return [[p,p],[q,p],[q,q],[p,q]].map(([x,y], i) =>
+    `<circle cx="${x}" cy="${y}" r="11" fill="${fill}" fill-opacity="${i < on ? 1 : 0.13}"/>`).join('');
+};
+
+const DARK = '<rect width="512" height="512" fill="#0a0a0a"/>';
+const verbaLit = (r, c) => r === 4 && c >= 3 && c <= 7;
+
+const D5 = ['11111','10000','11110','00001','00001','10001','01110'];
+const digitLit = (r, c) => r >= 1 && r <= 7 && c >= 3 && c <= 7 && D5[r - 1][c - 3] === '1';
+
+const vLight = (r, c) => {
+  const l = 1 + Math.round(r * 4 / 9), rr = 9 - Math.round(r * 4 / 9);
+  return c === l || c === rr;
+};
+
+const OPTIONS = [
+  { group: 'Elegant', id: 'A', title: 'A — Grid + VERBA lit (current, committed)',
+    note: '<span class="warn">⚠ Collides with “Word Clock Pro: Widget” — same dark grid + lit words concept.</span> Authentic and quiet, but not ours alone.',
+    svg(u) { const g = cells(EN, verbaLit); return DARK + g.dim + g.lit; } },
+
+  { group: 'Elegant', id: 'B', title: 'B — Grid + VERBA + corner minute dots',
+    note: 'Fixes the collision with the one signature nobody uses: the four corner dots. Still calm, unmistakably a word clock.',
+    svg(u) { const g = cells(EN, verbaLit); return DARK + g.dim + glow(u, g.lit, 5) + dots(4); } },
+
+  { group: 'Elegant', id: 'C', title: 'C — Brushed steel finish',
+    note: 'Our Stainless Steel finish as the icon. Premium object, not an app. No competitor has a material icon.',
+    svg(u) {
+      const g = cells(EN, verbaLit, { faintFill: '#0e0e0e', faint: 0.35 });
+      return `<defs><linearGradient id="${u}s" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0" stop-color="#cfcfcf"/><stop offset=".45" stop-color="#9c9c9c"/>
+        <stop offset=".55" stop-color="#b8b8b8"/><stop offset="1" stop-color="#8a8a8a"/></linearGradient></defs>
+        <rect width="512" height="512" fill="url(#${u}s)"/>
+        ${Array.from({length: 64}, (_, i) => `<rect y="${i * 8}" width="512" height="1" fill="#fff" opacity="${i % 3 ? 0.05 : 0.1}"/>`).join('')}
+        ${g.dim}${glow(u, g.lit, 6)}`; } },
+
+  { group: 'Elegant', id: 'D', title: 'D — White marble finish',
+    note: 'Light icon in a sea of dark squares — instantly visible in search results. Dark lit letters (our light-finish letterStyle).',
+    svg(u) {
+      const g = cells(EN, verbaLit, { faintFill: '#1a1a1a', faint: 0.18, litFill: '#111' });
+      return `<rect width="512" height="512" fill="#ece9e4"/>
+        <path d="M-20 90 C140 130 240 40 380 110 S520 180 540 150" stroke="#c9c4bc" stroke-width="7" fill="none" opacity=".6"/>
+        <path d="M-20 330 C120 300 300 400 540 340" stroke="#d4cfc7" stroke-width="10" fill="none" opacity=".5"/>
+        <path d="M60 512 C160 380 90 300 180 200" stroke="#ccc7bf" stroke-width="5" fill="none" opacity=".5"/>
+        ${g.dim}${g.lit}`; } },
+
+  { group: 'Eye-catchy', id: 'E', title: 'E — Giant glowing V over the grid',
+    note: 'One glyph, legible at 16px, LED glow sells “light”. Grid stays as texture. Least word-clock-specific.',
+    svg(u) { const g = cells(EN, null); return DARK + g.dim +
+      glow(u, `<text x="256" y="372" ${FONT} font-size="340" fill="#fff">V</text>`, 10); } },
+
+  { group: 'Eye-catchy', id: 'F', title: 'F — Phrase in light: FIVE PAST TEN',
+    note: 'The product’s promise as the icon. “Timeless” does a phrase flat — ours glows like the LED face. Very readable at all sizes.',
+    svg(u) { return DARK + glow(u, `<g ${FONT} font-size="92" fill="#fff">
+      <text x="256" y="170">FIVE</text><text x="256" y="290">PAST</text><text x="256" y="410">TEN</text></g>`, 8); } },
+
+  { group: 'Eye-catchy', id: 'G', title: 'G — Seconds mode: pixel “5” from letter cells',
+    note: 'Our seconds mode is authentic QLOCKTWO hardware behavior and NOBODY has it. A digit drawn from lit letters — geeky, unique, legible.',
+    svg(u) { const g = cells(EN, digitLit); return DARK + g.dim + glow(u, g.lit, 5); } },
+
+  { group: 'Eye-catchy', id: 'H', title: 'H — Amber LED VERBA',
+    note: 'Same as B but warm amber light — color pop against every white-lit competitor. Feels like a physical LED wall clock at night.',
+    svg(u) { const g = cells(EN, verbaLit, { litFill: '#ffb54d', faint: 0.1 }); return DARK + g.dim + glow(u, g.lit, 7) + dots(4, '#ffb54d'); } },
+
+  { group: 'Crazy', id: 'I', title: 'I — V drawn in lit letters across the matrix',
+    note: 'The monogram IS the clock: lit cells forming a giant V through the full grid. Reads as texture at 32px, as a V from 64px up.',
+    svg(u) { const g = cells(EN, vLight); return DARK + g.dim + glow(u, g.lit, 5); } },
+
+  { group: 'Crazy', id: 'J', title: 'J — Negative space: V of darkness',
+    note: 'Inverted logic — the wall of letters is visible, the V is a void cut out of it. Most “design award”, least obviously a clock.',
+    svg(u) { const g = cells(EN, null, { faint: 0.35 }); return DARK + g.dim +
+      `<path d="M96 56 L256 456 L416 56 L330 56 L256 268 L182 56 Z" fill="#0a0a0a"/>`; } },
+
+  { group: 'Crazy', id: 'K', title: 'K — NOW',
+    note: 'Ultra-minimal statement: a clock that only ever says now. Grid at 6% is barely-there texture. Bold, philosophical, risky.',
+    svg(u) { const g = cells(NOWROWS, (r, c) => r === 4 && c >= 4 && c <= 6, { faint: 0.06 });
+      return DARK + g.dim + glow(u, g.lit, 8); } },
+
+  { group: 'Crazy', id: 'L', title: 'L — Polyglot grid (EN/DE/FR/NL/SR/GR/ES rows)',
+    note: 'Sells the 22-language superpower — Cyrillic and Greek visibly in the icon. VERBA still lit in the middle.',
+    svg(u) { const g = cells(POLY, verbaLit); return DARK + g.dim + glow(u, g.lit, 5); } },
+
+  { group: 'Crazy', id: 'M', title: 'M — Grid dissolving into light bars',
+    note: '<span class="warn">⚠ Homage to QLOCKTWO’s own brand app icon (Flashsetter) — elegant but trademark-adjacent on top of D2. Shown for completeness.</span>',
+    svg(u) {
+      const g = cells(EN.map((r) => r.slice(4)), null, { faint: 0.2 });
+      const shifted = g.dim.replaceAll('<text x="', '<text dx="0" x="').replace(/x="(\d+\.?\d*)"/g, (m, x) => `x="${(+x + 4 * CW).toFixed(1)}"`);
+      return `<defs><linearGradient id="${u}w" x1="0" y1="0" x2="1" y2="1">
+        <stop offset="0" stop-color="#2b2320"/><stop offset="1" stop-color="#4a3a28"/></linearGradient></defs>
+        <rect width="512" height="512" fill="url(#${u}w)"/>
+        ${Array.from({length: 4}, (_, i) => `<rect x="${PAD + i * CW + CW * 0.35}" y="${PAD}" width="5" height="${SPAN}" fill="#fff" opacity="${0.75 - i * 0.12}"/>`).join('')}
+        ${shifted}
+        ${glow(u, `<text x="${cx(7 + 4)}" y="${cy(4)}" ${FONT} font-size="30" fill="#fff">A</text>`, 4)}`; } },
+];
+
+const root = document.getElementById('root');
+let currentGroup = '';
+let board = null;
+for (const o of OPTIONS) {
+  if (o.group !== currentGroup) {
+    currentGroup = o.group;
+    const h = document.createElement('h2');
+    h.className = 'group';
+    h.textContent = currentGroup;
+    root.appendChild(h);
+    board = document.createElement('div');
+    board.className = 'board';
+    root.appendChild(board);
+  }
+  const inner = o.svg('u' + o.id);
+  const svg = (px) => `<svg width="${px}" height="${px}" viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg">${inner}</svg>`;
+  const div = document.createElement('div');
+  div.className = 'option';
+  div.innerHTML = `<h3>${o.title}</h3>
+    <div class="sizes">
+      <div class="size">${svg(220)}<div class="label">220</div></div>
+      <div class="size">${svg(64)}<div class="label">64</div></div>
+      <div class="size">${svg(32)}<div class="label">32</div></div>
+    </div>
+    <p class="note">${o.note}</p>`;
+  board.appendChild(div);
+}
+</script>
+</body>
+</html>

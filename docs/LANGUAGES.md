@@ -31,6 +31,6 @@ Official catalog source: Clock Forward EARTH 90 listing + QLOCKTWO W line (see `
 | AR | Arabic | Arabic / Noto Kufi Arabic | — | not planned (v1) | descoped per D13; RTL; from QLOCKTWO W line |
 | CN | Chinese | Han / Noto Sans SC (subset) | — | not planned (v1) | descoped per D13; |
 | JP | Japanese | Kana+Han / Noto Sans JP (subset) | — | not planned (v1) | descoped per D13; |
-| SR | Serbian (custom) | Cyrillic / DINish | `src/clock/languages/sr.ts` | verified (native speaker) | 18 phrase cases + grid integrity; our own matrix (D4b), user-approved 2026-08-16 (ПЕТНАЕСТ, no САТИ, ПОЛА = next hour, neutral fillers); row 0 final: САДА·ЈЕ separated by filler, ЈЕ\|ПОЛА adjacent (user-accepted trade-off 2026-08-17) |
+| SR | Serbian (custom) | Cyrillic / DINish | `src/clock/languages/sr.ts` | verified (native speaker) | 18 phrase cases + grid integrity; our own matrix (D4b), user-approved 2026-08-16 (ПЕТНАЕСТ, no САТИ, ПОЛА = next hour, neutral fillers); row 0 final: САДА·ЈЕ separated by filler, ЈЕ\|ПОЛА adjacent (user-accepted trade-off 2026-08-17); row 8 reworked to `ИРДВАДЕСЕТМ` so И is separated from ДВАДЕСЕТ by a filler (2026-08-17) — after this the only co-lighting join on the face is ЈЕ\|ПОЛА at :30 (accepted trade-off) |
 
 Non-Latin fonts are subset at build time to each matrix's exact glyphs (few-KB files even for CJK).

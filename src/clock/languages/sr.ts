@@ -23,8 +23,8 @@ const OSAM = word('ОСАМ', 6, 7);
 const SEDAM = word('СЕДАМ', 7, 0);
 const DEVET = word('ДЕВЕТ', 7, 5);
 const I = word('И', 8, 0);
-const DVADESET_POST = word('ДВАДЕСЕТ', 8, 1);
-const DESET_POST = word('ДЕСЕТ', 8, 4);
+const DVADESET_POST = word('ДВАДЕСЕТ', 8, 2);
+const DESET_POST = word('ДЕСЕТ', 8, 5);
 const PETNAEST_POST = word('ПЕТНАЕСТ', 9, 0);
 const PET_POST = word('ПЕТ', 9, 0);
 
@@ -67,7 +67,7 @@ export const serbian: LanguageDef = {
     'ЧЕТИРИДЕСЕТ',
     'ПЕТШЕСТОСАМ',
     'СЕДАМДЕВЕТК',
-    'ИДВАДЕСЕТКМ',
+    'ИРДВАДЕСЕТМ',
     'ПЕТНАЕСТРКЛ',
   ],
   itIs: [SADA, JE],

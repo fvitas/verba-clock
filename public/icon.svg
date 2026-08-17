@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <rect width="512" height="512" rx="96" fill="#0a0a0a"/>
+  <g font-family="Helvetica, Arial, sans-serif" font-size="64" font-weight="500" text-anchor="middle" letter-spacing="8">
+    <text x="256" y="122" fill="#ffffff" fill-opacity="0.13">KLOSAMTREN</text>
+    <text x="256" y="210" fill="#ffffff" fill-opacity="0.13">AMODESATRI</text>
+    <text x="256" y="298" fill="#ffffff">VERBA</text>
+    <text x="256" y="386" fill="#ffffff" fill-opacity="0.13">CETIRPESTO</text>
+    <text x="256" y="474" fill="#ffffff" fill-opacity="0.13">RDEVETOSAM</text>
+  </g>
+</svg>

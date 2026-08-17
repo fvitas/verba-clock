@@ -4,6 +4,7 @@ import * as Slider from '@radix-ui/react-slider';
 import * as Switch from '@radix-ui/react-switch';
 import { LANGUAGES } from '../clock/languages';
 import { FINISHES } from '../finishes/catalog';
+import { isNative } from '../native/useNative';
 import { useSettings } from './SettingsContext';
 import type { Presentation } from './store';
 
@@ -92,6 +93,19 @@ export function SettingsPanel() {
               <Switch.Thumb className="block size-5 translate-x-0.5 rounded-full bg-white transition-transform data-[state=checked]:translate-x-[18px]" />
             </Switch.Root>
           </section>
+
+          {isNative() && (
+            <section className="mb-6 flex items-center justify-between">
+              <h3 className="text-xs tracking-widest text-neutral-400 uppercase">Keep screen awake</h3>
+              <Switch.Root
+                checked={settings.keepAwake}
+                onCheckedChange={(checked: boolean) => update({ keepAwake: checked })}
+                className="h-6 w-10 rounded-full bg-white/15 data-[state=checked]:bg-white/60"
+              >
+                <Switch.Thumb className="block size-5 translate-x-0.5 rounded-full bg-white transition-transform data-[state=checked]:translate-x-[18px]" />
+              </Switch.Root>
+            </section>
+          )}
 
           <section className="mb-6">
             <h3 className="mb-3 text-xs tracking-widest text-neutral-400 uppercase">Brightness</h3>

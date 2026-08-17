@@ -28,18 +28,18 @@ Narandžasta slova su čist filer (mogu biti bilo koja slova — predlozi dobrod
 <h2>Predložene fraze za svih 12 pozicija (sat 10 kao primer)</h2>
 <table>
   <tr><th>Vreme</th><th>Fraza</th></tr>
-  <tr><td>10:00</td><td>САД ЈЕ ДЕСЕТ</td></tr>
-  <tr><td>10:05</td><td>САД ЈЕ ДЕСЕТ И ПЕТ</td></tr>
-  <tr><td>10:10</td><td>САД ЈЕ ДЕСЕТ И ДЕСЕТ</td></tr>
-  <tr><td>10:15</td><td>САД ЈЕ ДЕСЕТ И ПЕТНАЕСТ</td></tr>
-  <tr><td>10:20</td><td>САД ЈЕ ДЕСЕТ И ДВАДЕСЕТ</td></tr>
-  <tr><td>10:25</td><td>САД ЈЕ ДЕСЕТ И ДВАДЕСЕТ ПЕТ</td></tr>
-  <tr><td>10:30</td><td>САД ЈЕ ПОЛА ЈЕДАНАЕСТ</td></tr>
-  <tr><td>10:35</td><td>САД ЈЕ ДВАДЕСЕТ ПЕТ ДО ЈЕДАНАЕСТ</td></tr>
-  <tr><td>10:40</td><td>САД ЈЕ ДВАДЕСЕТ ДО ЈЕДАНАЕСТ</td></tr>
-  <tr><td>10:45</td><td>САД ЈЕ ПЕТНАЕСТ ДО ЈЕДАНАЕСТ</td></tr>
-  <tr><td>10:50</td><td>САД ЈЕ ДЕСЕТ ДО ЈЕДАНАЕСТ</td></tr>
-  <tr><td>10:55</td><td>САД ЈЕ ПЕТ ДО ЈЕДАНАЕСТ</td></tr>
+  <tr><td>10:00</td><td>САДА ЈЕ ДЕСЕТ</td></tr>
+  <tr><td>10:05</td><td>САДА ЈЕ ДЕСЕТ И ПЕТ</td></tr>
+  <tr><td>10:10</td><td>САДА ЈЕ ДЕСЕТ И ДЕСЕТ</td></tr>
+  <tr><td>10:15</td><td>САДА ЈЕ ДЕСЕТ И ПЕТНАЕСТ</td></tr>
+  <tr><td>10:20</td><td>САДА ЈЕ ДЕСЕТ И ДВАДЕСЕТ</td></tr>
+  <tr><td>10:25</td><td>САДА ЈЕ ДЕСЕТ И ДВАДЕСЕТ ПЕТ</td></tr>
+  <tr><td>10:30</td><td>САДА ЈЕ ПОЛА ЈЕДАНАЕСТ</td></tr>
+  <tr><td>10:35</td><td>САДА ЈЕ ДВАДЕСЕТ ПЕТ ДО ЈЕДАНАЕСТ</td></tr>
+  <tr><td>10:40</td><td>САДА ЈЕ ДВАДЕСЕТ ДО ЈЕДАНАЕСТ</td></tr>
+  <tr><td>10:45</td><td>САДА ЈЕ ПЕТНАЕСТ ДО ЈЕДАНАЕСТ</td></tr>
+  <tr><td>10:50</td><td>САДА ЈЕ ДЕСЕТ ДО ЈЕДАНАЕСТ</td></tr>
+  <tr><td>10:55</td><td>САДА ЈЕ ПЕТ ДО ЈЕДАНАЕСТ</td></tr>
 </table>
 
 <h2>Pitanja za tebe (native speaker gate)</h2>
@@ -51,7 +51,7 @@ Narandžasta slova su čist filer (mogu biti bilo koja slova — predlozi dobrod
 
 <script>
 const rows = [
-  'САДМЈЕЛПОЛА',
+  'САДАКЈЕПОЛА',
   'ДВАДЕСЕТКРМ',
   'ПЕТНАЕСТРДО',
   'ЈЕДАНАЕСТМК',
@@ -62,10 +62,10 @@ const rows = [
   'ИДВАДЕСЕТКМ',
   'ПЕТНАЕСТРКЛ',
 ];
-const fillers = new Set(['0:3','0:6','1:8','1:9','1:10','2:8','3:9','3:10','7:10','8:9','8:10','9:8','9:9','9:10']);
+const fillers = new Set(['0:4','1:8','1:9','1:10','2:8','3:9','3:10','7:10','8:9','8:10','9:8','9:9','9:10']);
 // word coords: [row, start, end]
 const W = {
-  SADA: [0,0,2], JE: [0,4,5], POLA: [0,7,10],
+  SADA: [0,0,3], JE: [0,5,6], POLA: [0,7,10],
   DVADESET_PRE: [1,0,7], DESET_PRE: [1,3,7],
   PETNAEST_PRE: [2,0,7], PET_PRE: [2,0,2], DO: [2,9,10],
   JEDANAEST: [3,0,8], JEDAN: [3,0,4],
@@ -77,14 +77,14 @@ const W = {
   PETNAEST_POST: [9,0,7], PET_POST: [9,0,2],
 };
 const samples = [
-  { caption: '10:00 — САД ЈЕ ДЕСЕТ', words: ['SADA','JE','DESET_H'] },
-  { caption: '10:15 — САД ЈЕ ДЕСЕТ И ПЕТНАЕСТ', words: ['SADA','JE','DESET_H','I','PETNAEST_POST'] },
-  { caption: '10:25 — САД ЈЕ ДЕСЕТ И ДВАДЕСЕТ ПЕТ', words: ['SADA','JE','DESET_H','I','DVADESET_POST','PET_POST'] },
-  { caption: '10:30 — САД ЈЕ ПОЛА ЈЕДАНАЕСТ', words: ['SADA','JE','POLA','JEDANAEST'] },
-  { caption: '10:35 — САД ЈЕ ДВАДЕСЕТ ПЕТ ДО ЈЕДАНАЕСТ', words: ['SADA','JE','DVADESET_PRE','PET_PRE','DO','JEDANAEST'] },
-  { caption: '10:45 — САД ЈЕ ПЕТНАЕСТ ДО ЈЕДАНАЕСТ', words: ['SADA','JE','PETNAEST_PRE','DO','JEDANAEST'] },
-  { caption: '21:50 — САД ЈЕ ДЕСЕТ ДО ДЕСЕТ', words: ['SADA','JE','DESET_PRE','DO','DESET_H'] },
-  { caption: '13:05 — САД ЈЕ ЈЕДАН И ПЕТ', words: ['SADA','JE','JEDAN','I','PET_POST'] },
+  { caption: '10:00 — САДА ЈЕ ДЕСЕТ', words: ['SADA','JE','DESET_H'] },
+  { caption: '10:15 — САДА ЈЕ ДЕСЕТ И ПЕТНАЕСТ', words: ['SADA','JE','DESET_H','I','PETNAEST_POST'] },
+  { caption: '10:25 — САДА ЈЕ ДЕСЕТ И ДВАДЕСЕТ ПЕТ', words: ['SADA','JE','DESET_H','I','DVADESET_POST','PET_POST'] },
+  { caption: '10:30 — САДА ЈЕ ПОЛА ЈЕДАНАЕСТ', words: ['SADA','JE','POLA','JEDANAEST'] },
+  { caption: '10:35 — САДА ЈЕ ДВАДЕСЕТ ПЕТ ДО ЈЕДАНАЕСТ', words: ['SADA','JE','DVADESET_PRE','PET_PRE','DO','JEDANAEST'] },
+  { caption: '10:45 — САДА ЈЕ ПЕТНАЕСТ ДО ЈЕДАНАЕСТ', words: ['SADA','JE','PETNAEST_PRE','DO','JEDANAEST'] },
+  { caption: '21:50 — САДА ЈЕ ДЕСЕТ ДО ДЕСЕТ', words: ['SADA','JE','DESET_PRE','DO','DESET_H'] },
+  { caption: '13:05 — САДА ЈЕ ЈЕДАН И ПЕТ', words: ['SADA','JE','JEDAN','I','PET_POST'] },
 ];
 const boards = document.getElementById('boards');
 for (const s of samples) {

@@ -115,3 +115,10 @@ Rules: every settled question gets an entry. Mockups for uncertain decisions liv
 **Native-only behavior:** status bar hidden and keep-awake (default ON) applied through `src/native/useNative.ts`, gated on `Capacitor.isNativePlatform()`; the keep-awake toggle only renders in the settings panel on native. Web bundles are unaffected and jsdom tests see the inert path.
 **Stores:** submission deferred until the Apple Developer and Play Console accounts exist (~late Aug 2026), per D10. Icons generated from `public/icon.svg` double as store assets when that time comes.
 **Amends:** D6 (Capacitor wrapper now concrete), D7 (keep-awake toggle landed, native only), D10 (deploy order executed: web first, shells ready and waiting).
+
+### D17 — App icon: authentic English matrix with VERBA lit (2026-08-17)
+
+**Decision:** The app icon replicates the real clock face — the authentic English 11×10 matrix rendered faint (13% opacity, per-cell grid like the app), with **VERBA** lit white in the middle row (row 4 becomes `PASVERBAINE`, cells 3–7 lit). Dark `#0a0a0a` rounded square, no corner dots.
+**Process:** The Task 1 icon was designed without user sign-off (invented letter rows) — caught by the user. Alternatives were mocked up in `mockups/app-icon-alternatives.html` (A: invented grid + VERBA, B: big V over grid, C: V + corner dots, D: A + dots), each at 512/180/64/32 px. The user rejected all four in favor of real clock characters with lit VERBA.
+**Trade-off accepted:** VERBA is not legible at 32px favicon size — the mark reads as a lit band in a dark square there, full text from ~64px up.
+**Source:** `public/icon.svg` (generated grid, Helvetica for rasterizer compatibility); all PNGs/favicon regenerated via `pnpm exec pwa-assets-generator`.

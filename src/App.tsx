@@ -7,6 +7,7 @@ import { ClockFace } from './components/ClockFace';
 import { CornerDots } from './components/CornerDots';
 import { getFinish } from './finishes/catalog';
 import { useNative } from './native/useNative';
+import { useWakeLock } from './native/useWakeLock';
 import { SettingsProvider, useSettings } from './settings/SettingsContext';
 import { SettingsPanel } from './settings/SettingsPanel';
 
@@ -28,6 +29,7 @@ function ClockScreen({ settingsOpen }: { settingsOpen: boolean }) {
   const time = useClockTime();
   const [mode, setMode] = useState<Mode>('words');
   useNative(settings.keepAwake);
+  useWakeLock(settings.keepAwake);
 
   const lang = getLanguage(settings.languageId);
   const finish = getFinish(settings.finishId);

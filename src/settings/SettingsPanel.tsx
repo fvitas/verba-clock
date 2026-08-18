@@ -5,6 +5,7 @@ import { Settings } from 'lucide-react';
 import { getLanguage } from '../clock/languages';
 import { FINISHES, getFinish } from '../finishes/catalog';
 import { isNative } from '../native/useNative';
+import { supportsWakeLock } from '../native/useWakeLock';
 import { LanguageList } from './LanguageList';
 import { useSettings } from './SettingsContext';
 import type { Presentation } from './store';
@@ -120,7 +121,7 @@ export function SettingsPanel({ open, onOpenChange }: SettingsPanelProps) {
                     />
                   </Cell>
                 </Group>
-                {isNative() && (
+                {(isNative() || supportsWakeLock()) && (
                   <Group label="Device">
                     <Cell label="Keep screen awake">
                       <Toggle

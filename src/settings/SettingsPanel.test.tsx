@@ -85,9 +85,16 @@ describe('SettingsPanel', () => {
     expect(screen.getByRole('slider', { name: 'Brightness' })).toBeInTheDocument();
   });
 
-  it('hides keep-awake on web', () => {
+  it('hides keep-awake on web without the Wake Lock API', () => {
     renderPanel();
     expect(screen.queryByRole('switch', { name: 'Keep screen awake' })).not.toBeInTheDocument();
+  });
+
+  it('shows keep-awake on web when the Wake Lock API is available', () => {
+    Object.defineProperty(navigator, 'wakeLock', { value: { request: vi.fn() }, configurable: true });
+    renderPanel();
+    expect(screen.getByRole('switch', { name: 'Keep screen awake' })).toBeInTheDocument();
+    Reflect.deleteProperty(navigator, 'wakeLock');
   });
 
   it('shows keep-awake on native', () => {

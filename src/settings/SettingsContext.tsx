@@ -1,4 +1,5 @@
-import { createContext, useContext, useState, type ReactNode } from 'react';
+import { createContext, useContext, useEffect, useState, type ReactNode } from 'react';
+import { syncSettingsToWidgets } from '../native/widgetSync';
 import { loadSettings, saveSettings, type Settings } from './store';
 
 type SettingsContextValue = {
@@ -10,6 +11,10 @@ const SettingsContext = createContext<SettingsContextValue | null>(null);
 
 export function SettingsProvider({ children }: { children: ReactNode }) {
   const [settings, setSettings] = useState(() => loadSettings(localStorage));
+
+  useEffect(() => {
+    syncSettingsToWidgets(settings);
+  }, [settings]);
 
   const update = (patch: Partial<Settings>) => {
     setSettings((prev) => {

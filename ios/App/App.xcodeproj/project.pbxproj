@@ -7,7 +7,12 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		15AA82C8C0F303640D8F515B /* FaceData.json in Resources */ = {isa = PBXBuildFile; fileRef = 590DC0B811F4209CC3093FAB /* FaceData.json */; };
+		16AA91460576F2D6AA2FC2B6 /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FD0BAF78197C4BAC373D977 /* MainViewController.swift */; };
+		1DE4D18C144DBBBB1E1F0669 /* VerbaWidgets.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 0BC66AE947805A0E63DE67A3 /* VerbaWidgets.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		2262190800FB16980E1EE2CD /* DINish-LICENSE.txt in Resources */ = {isa = PBXBuildFile; fileRef = CD5DEF0B6C830D7A939258C3 /* DINish-LICENSE.txt */; };
 		2FAD9763203C412B000D30F8 /* config.xml in Resources */ = {isa = PBXBuildFile; fileRef = 2FAD9762203C412B000D30F8 /* config.xml */; };
+		495A701C0AE55742A1106FB4 /* SharedSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AB2E17C180F35D71FAEBBE0 /* SharedSettings.swift */; };
 		4D22ABE92AF431CB00220026 /* CapApp-SPM in Frameworks */ = {isa = PBXBuildFile; productRef = 4D22ABE82AF431CB00220026 /* CapApp-SPM */; };
 		50379B232058CBB4000EE86E /* capacitor.config.json in Resources */ = {isa = PBXBuildFile; fileRef = 50379B222058CBB4000EE86E /* capacitor.config.json */; };
 		504EC3081FED79650016851F /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 504EC3071FED79650016851F /* AppDelegate.swift */; };
@@ -15,11 +20,52 @@
 		504EC30F1FED79650016851F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 504EC30E1FED79650016851F /* Assets.xcassets */; };
 		504EC3121FED79650016851F /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 504EC3101FED79650016851F /* LaunchScreen.storyboard */; };
 		50B271D11FEDC1A000F3C39B /* public in Resources */ = {isa = PBXBuildFile; fileRef = 50B271D01FEDC1A000F3C39B /* public */; };
+		5CBB88F6BD47FC53CA913E09 /* VerbaWidgets.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE545FC75B6CCDA1D1B33704 /* VerbaWidgets.swift */; };
 		9582B6832FE993A70072D4E8 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9582B6822FE993A50072D4E8 /* SceneDelegate.swift */; };
+		9ADCA9F8A81048B6AA9EFB65 /* FaceViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = D62729F58942E9A2FC1D6F5B /* FaceViews.swift */; };
+		9C875DC339AEB30E1A94C48D /* WidgetBridgePlugin.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DC35E9966959F50E4192248 /* WidgetBridgePlugin.swift */; };
+		A4D7314D4B10F65B52B4FB70 /* DINish-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 3FA666A9A209A12F09048C18 /* DINish-Medium.ttf */; };
+		B3DF21D4153606C893787676 /* ConfigIntent.swift in Sources */ = {isa = PBXBuildFile; fileRef = E8928F0D8D2796EB5517E2F8 /* ConfigIntent.swift */; };
+		CB79790181D62AC10E4F43ED /* Timeline.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF3AA8CB04E35670B9BFC5CF /* Timeline.swift */; };
+		D09E5CC0820B54FCB8F6D53C /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 01A019876BF77ED232E22339 /* Foundation.framework */; };
+		EE373CD7D70C406B3FD97B2A /* FaceData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5DEFDB8C9826E9875D963F00 /* FaceData.swift */; };
+		F277962F3F5B32B5B4199A92 /* Finishes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E63AA79CE81DB9E4F16A8C8 /* Finishes.swift */; };
 /* End PBXBuildFile section */
 
+/* Begin PBXContainerItemProxy section */
+		1FCE88B351CD95D4095991D4 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 504EC2FC1FED79650016851F /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = B4B7AEEFAEAB760C87D66FC6;
+			remoteInfo = VerbaWidgets;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		6780BE1C6E24683628E0BFBA /* Embed Foundation Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+				1DE4D18C144DBBBB1E1F0669 /* VerbaWidgets.appex in Embed Foundation Extensions */,
+			);
+			name = "Embed Foundation Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
 /* Begin PBXFileReference section */
+		01A019876BF77ED232E22339 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS26.0.sdk/System/Library/Frameworks/Foundation.framework; sourceTree = DEVELOPER_DIR; };
+		027302B8FC53D8BD5280E212 /* Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		0BC66AE947805A0E63DE67A3 /* VerbaWidgets.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = VerbaWidgets.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+		1E63AA79CE81DB9E4F16A8C8 /* Finishes.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = Finishes.swift; sourceTree = "<group>"; };
 		2FAD9762203C412B000D30F8 /* config.xml */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = config.xml; sourceTree = "<group>"; };
+		3DC35E9966959F50E4192248 /* WidgetBridgePlugin.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = WidgetBridgePlugin.swift; sourceTree = "<group>"; };
+		3FA666A9A209A12F09048C18 /* DINish-Medium.ttf */ = {isa = PBXFileReference; includeInIndex = 1; path = "DINish-Medium.ttf"; sourceTree = "<group>"; };
+		47C649F4046D8DC4BB06CDCF /* VerbaWidgets.entitlements */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.entitlements; path = VerbaWidgets.entitlements; sourceTree = "<group>"; };
+		4FD0BAF78197C4BAC373D977 /* MainViewController.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
 		50379B222058CBB4000EE86E /* capacitor.config.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = capacitor.config.json; sourceTree = "<group>"; };
 		504EC3041FED79650016851F /* App.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = App.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		504EC3071FED79650016851F /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -28,8 +74,17 @@
 		504EC3111FED79650016851F /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		504EC3131FED79650016851F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		50B271D01FEDC1A000F3C39B /* public */ = {isa = PBXFileReference; lastKnownFileType = folder; path = public; sourceTree = "<group>"; };
+		590DC0B811F4209CC3093FAB /* FaceData.json */ = {isa = PBXFileReference; includeInIndex = 1; path = FaceData.json; sourceTree = "<group>"; };
+		5DEFDB8C9826E9875D963F00 /* FaceData.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = FaceData.swift; sourceTree = "<group>"; };
+		6AB2E17C180F35D71FAEBBE0 /* SharedSettings.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = SharedSettings.swift; sourceTree = "<group>"; };
 		9582B6822FE993A50072D4E8 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
 		958DCC722DB07C7200EA8C5F /* debug.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; name = debug.xcconfig; path = ../debug.xcconfig; sourceTree = SOURCE_ROOT; };
+		AE545FC75B6CCDA1D1B33704 /* VerbaWidgets.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = VerbaWidgets.swift; sourceTree = "<group>"; };
+		B715302A7BA698BC8E53925B /* App.entitlements */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.entitlements; path = App.entitlements; sourceTree = "<group>"; };
+		BF3AA8CB04E35670B9BFC5CF /* Timeline.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = Timeline.swift; sourceTree = "<group>"; };
+		CD5DEF0B6C830D7A939258C3 /* DINish-LICENSE.txt */ = {isa = PBXFileReference; includeInIndex = 1; path = "DINish-LICENSE.txt"; sourceTree = "<group>"; };
+		D62729F58942E9A2FC1D6F5B /* FaceViews.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = FaceViews.swift; sourceTree = "<group>"; };
+		E8928F0D8D2796EB5517E2F8 /* ConfigIntent.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = ConfigIntent.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -41,15 +96,53 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		F7A637808B96D2AFE53CD62A /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D09E5CC0820B54FCB8F6D53C /* Foundation.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		200D975702BCAB2F50C567A6 /* VerbaWidgets */ = {
+			isa = PBXGroup;
+			children = (
+				AE545FC75B6CCDA1D1B33704 /* VerbaWidgets.swift */,
+				BF3AA8CB04E35670B9BFC5CF /* Timeline.swift */,
+				D62729F58942E9A2FC1D6F5B /* FaceViews.swift */,
+				5DEFDB8C9826E9875D963F00 /* FaceData.swift */,
+				1E63AA79CE81DB9E4F16A8C8 /* Finishes.swift */,
+				E8928F0D8D2796EB5517E2F8 /* ConfigIntent.swift */,
+				6AB2E17C180F35D71FAEBBE0 /* SharedSettings.swift */,
+				590DC0B811F4209CC3093FAB /* FaceData.json */,
+				3FA666A9A209A12F09048C18 /* DINish-Medium.ttf */,
+				CD5DEF0B6C830D7A939258C3 /* DINish-LICENSE.txt */,
+				027302B8FC53D8BD5280E212 /* Info.plist */,
+				47C649F4046D8DC4BB06CDCF /* VerbaWidgets.entitlements */,
+			);
+			name = VerbaWidgets;
+			path = VerbaWidgets;
+			sourceTree = "<group>";
+		};
+		44EF9930B0976C0EDF3D9363 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				A95A11AA1DF30A2B767F9C2F /* iOS */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		504EC2FB1FED79650016851F = {
 			isa = PBXGroup;
 			children = (
 				958DCC722DB07C7200EA8C5F /* debug.xcconfig */,
 				504EC3061FED79650016851F /* App */,
 				504EC3051FED79650016851F /* Products */,
+				44EF9930B0976C0EDF3D9363 /* Frameworks */,
+				200D975702BCAB2F50C567A6 /* VerbaWidgets */,
 			);
 			sourceTree = "<group>";
 		};
@@ -57,6 +150,7 @@
 			isa = PBXGroup;
 			children = (
 				504EC3041FED79650016851F /* App.app */,
+				0BC66AE947805A0E63DE67A3 /* VerbaWidgets.appex */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -73,8 +167,19 @@
 				504EC3131FED79650016851F /* Info.plist */,
 				2FAD9762203C412B000D30F8 /* config.xml */,
 				50B271D01FEDC1A000F3C39B /* public */,
+				3DC35E9966959F50E4192248 /* WidgetBridgePlugin.swift */,
+				4FD0BAF78197C4BAC373D977 /* MainViewController.swift */,
+				B715302A7BA698BC8E53925B /* App.entitlements */,
 			);
 			path = App;
+			sourceTree = "<group>";
+		};
+		A95A11AA1DF30A2B767F9C2F /* iOS */ = {
+			isa = PBXGroup;
+			children = (
+				01A019876BF77ED232E22339 /* Foundation.framework */,
+			);
+			name = iOS;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -87,10 +192,12 @@
 				504EC3001FED79650016851F /* Sources */,
 				504EC3011FED79650016851F /* Frameworks */,
 				504EC3021FED79650016851F /* Resources */,
+				6780BE1C6E24683628E0BFBA /* Embed Foundation Extensions */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				5687DA5AECA2433355FB4C95 /* PBXTargetDependency */,
 			);
 			name = App;
 			packageProductDependencies = (
@@ -99,6 +206,23 @@
 			productName = App;
 			productReference = 504EC3041FED79650016851F /* App.app */;
 			productType = "com.apple.product-type.application";
+		};
+		B4B7AEEFAEAB760C87D66FC6 /* VerbaWidgets */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 0CA0E12759A09EC4F80034A2 /* Build configuration list for PBXNativeTarget "VerbaWidgets" */;
+			buildPhases = (
+				872AFA641040CE4662EBB36E /* Sources */,
+				F7A637808B96D2AFE53CD62A /* Frameworks */,
+				BD22EA9547341D5281FCD5E8 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = VerbaWidgets;
+			productName = VerbaWidgets;
+			productReference = 0BC66AE947805A0E63DE67A3 /* VerbaWidgets.appex */;
+			productType = "com.apple.product-type.app-extension";
 		};
 /* End PBXNativeTarget section */
 
@@ -133,6 +257,7 @@
 			projectRoot = "";
 			targets = (
 				504EC3031FED79650016851F /* App */,
+				B4B7AEEFAEAB760C87D66FC6 /* VerbaWidgets */,
 			);
 		};
 /* End PBXProject section */
@@ -151,6 +276,16 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		BD22EA9547341D5281FCD5E8 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				15AA82C8C0F303640D8F515B /* FaceData.json in Resources */,
+				A4D7314D4B10F65B52B4FB70 /* DINish-Medium.ttf in Resources */,
+				2262190800FB16980E1EE2CD /* DINish-LICENSE.txt in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
@@ -160,10 +295,35 @@
 			files = (
 				504EC3081FED79650016851F /* AppDelegate.swift in Sources */,
 				9582B6832FE993A70072D4E8 /* SceneDelegate.swift in Sources */,
+				9C875DC339AEB30E1A94C48D /* WidgetBridgePlugin.swift in Sources */,
+				16AA91460576F2D6AA2FC2B6 /* MainViewController.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		872AFA641040CE4662EBB36E /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				5CBB88F6BD47FC53CA913E09 /* VerbaWidgets.swift in Sources */,
+				CB79790181D62AC10E4F43ED /* Timeline.swift in Sources */,
+				9ADCA9F8A81048B6AA9EFB65 /* FaceViews.swift in Sources */,
+				EE373CD7D70C406B3FD97B2A /* FaceData.swift in Sources */,
+				F277962F3F5B32B5B4199A92 /* Finishes.swift in Sources */,
+				B3DF21D4153606C893787676 /* ConfigIntent.swift in Sources */,
+				495A701C0AE55742A1106FB4 /* SharedSettings.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		5687DA5AECA2433355FB4C95 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = VerbaWidgets;
+			target = B4B7AEEFAEAB760C87D66FC6 /* VerbaWidgets */;
+			targetProxy = 1FCE88B351CD95D4095991D4 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
 		504EC30B1FED79650016851F /* Main.storyboard */ = {
@@ -234,7 +394,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
@@ -285,7 +445,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
 				SWIFT_COMPILATION_MODE = wholemodule;
@@ -299,11 +459,12 @@
 			baseConfigurationReference = 958DCC722DB07C7200EA8C5F /* debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = App/App.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 7Z5VPU7R3V;
 				INFOPLIST_FILE = App/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -322,11 +483,12 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = App/App.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 7Z5VPU7R3V;
 				INFOPLIST_FILE = App/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -340,9 +502,67 @@
 			};
 			name = Release;
 		};
+		C484C88E8907627D1B732CC1 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = "";
+				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = "";
+				CLANG_ENABLE_OBJC_WEAK = NO;
+				CODE_SIGN_ENTITLEMENTS = VerbaWidgets/VerbaWidgets.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 7Z5VPU7R3V;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = VerbaWidgets/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = "Verba Clock";
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.verba.clock.widgets;
+				PRODUCT_NAME = VerbaWidgets;
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		D9C99B0A5401D8B00BDBB26F /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = "";
+				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = "";
+				CLANG_ENABLE_OBJC_WEAK = NO;
+				CODE_SIGN_ENTITLEMENTS = VerbaWidgets/VerbaWidgets.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 7Z5VPU7R3V;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = VerbaWidgets/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = "Verba Clock";
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.verba.clock.widgets;
+				PRODUCT_NAME = VerbaWidgets;
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		0CA0E12759A09EC4F80034A2 /* Build configuration list for PBXNativeTarget "VerbaWidgets" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				C484C88E8907627D1B732CC1 /* Release */,
+				D9C99B0A5401D8B00BDBB26F /* Debug */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		504EC2FF1FED79650016851F /* Build configuration list for PBXProject "App" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (

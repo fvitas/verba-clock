@@ -5,7 +5,10 @@ import { SettingsProvider } from './SettingsContext';
 import { loadSettings } from './store';
 
 const isNativePlatform = vi.fn();
-vi.mock('@capacitor/core', () => ({ Capacitor: { isNativePlatform: () => isNativePlatform() } }));
+vi.mock('@capacitor/core', () => ({
+  Capacitor: { isNativePlatform: () => isNativePlatform(), getPlatform: () => 'web' },
+  registerPlugin: () => ({ syncSettings: () => Promise.resolve() }),
+}));
 
 function renderPanel(open = true, onOpenChange: (open: boolean) => void = () => {}, docked = false) {
   return render(

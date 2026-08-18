@@ -1,8 +1,9 @@
 import * as React from 'react';
 import * as Dialog from '@radix-ui/react-dialog';
 import * as Slider from '@radix-ui/react-slider';
+import { Settings } from 'lucide-react';
 import { getLanguage } from '../clock/languages';
-import { FINISHES } from '../finishes/catalog';
+import { FINISHES, getFinish } from '../finishes/catalog';
 import { isNative } from '../native/useNative';
 import { LanguageList } from './LanguageList';
 import { useSettings } from './SettingsContext';
@@ -28,6 +29,10 @@ type View = 'main' | 'language';
 export function SettingsPanel({ open, onOpenChange }: SettingsPanelProps) {
   const { settings, update } = useSettings();
   const [view, setView] = React.useState<View>('main');
+  const cogColor =
+    getFinish(settings.finishId).letter === 'light'
+      ? 'text-white/50 hover:text-white'
+      : 'text-black/50 hover:text-black';
 
   const openChange = (next: boolean) => {
     if (!next) setView('main');
@@ -39,10 +44,10 @@ export function SettingsPanel({ open, onOpenChange }: SettingsPanelProps) {
       <Dialog.Trigger asChild>
         <button
           aria-label="Settings"
-          className="fixed bottom-5 left-1/2 z-10 -translate-x-1/2 rounded-full p-2 text-xl opacity-30 transition-opacity hover:opacity-100"
+          className={`fixed bottom-5 left-1/2 z-10 -translate-x-1/2 rounded-full p-2 transition-colors ${cogColor}`}
           onClick={(event: React.MouseEvent<HTMLButtonElement>) => event.stopPropagation()}
         >
-          ⚙
+          <Settings className="size-5" />
         </button>
       </Dialog.Trigger>
       <Dialog.Portal>

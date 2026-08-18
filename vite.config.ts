@@ -11,8 +11,8 @@ export default defineConfig({
       registerType: 'autoUpdate',
       includeAssets: ['icon.svg', 'fonts/**/*'],
       manifest: {
-        name: 'Verba: Word Clock',
-        short_name: 'Verba',
+        name: 'Verba Clock - Art Word Clock',
+        short_name: 'Verba Clock',
         description: 'A word clock. The time, written out in light.',
         theme_color: '#0a0a0a',
         background_color: '#0a0a0a',

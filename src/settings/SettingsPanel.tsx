@@ -39,7 +39,7 @@ export function SettingsPanel({ open, onOpenChange }: SettingsPanelProps) {
       <Dialog.Trigger asChild>
         <button
           aria-label="Settings"
-          className="fixed right-5 bottom-5 z-10 rounded-full p-2 text-xl opacity-30 transition-opacity hover:opacity-100"
+          className="fixed bottom-5 left-1/2 z-10 -translate-x-1/2 rounded-full p-2 text-xl opacity-30 transition-opacity hover:opacity-100"
           onClick={(event: React.MouseEvent<HTMLButtonElement>) => event.stopPropagation()}
         >
           ⚙

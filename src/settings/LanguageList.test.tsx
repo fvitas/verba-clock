@@ -23,11 +23,12 @@ describe('LanguageList', () => {
     expect(onBack).toHaveBeenCalled();
   });
 
-  it('selecting a language also navigates back', () => {
+  it('selecting a language stays on the list', () => {
     const onSelect = vi.fn();
     const onBack = vi.fn();
     render(<LanguageList selectedId="en" onSelect={onSelect} onBack={onBack} />);
     fireEvent.click(screen.getByRole('button', { name: /^Deutsch\b(?! [(O])/ }));
-    expect(onBack).toHaveBeenCalled();
+    expect(onSelect).toHaveBeenCalledWith('de');
+    expect(onBack).not.toHaveBeenCalled();
   });
 });

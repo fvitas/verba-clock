@@ -8,6 +8,7 @@ export type Settings = {
   showItIs: boolean;
   brightness: number;
   keepAwake: boolean;
+  dockMode: boolean;
 };
 
 export const DEFAULT_SETTINGS: Settings = {
@@ -18,6 +19,7 @@ export const DEFAULT_SETTINGS: Settings = {
   showItIs: true,
   brightness: 1,
   keepAwake: true,
+  dockMode: true,
 };
 
 const KEY = 'verba-settings';

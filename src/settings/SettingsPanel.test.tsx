@@ -7,10 +7,10 @@ import { loadSettings } from './store';
 const isNativePlatform = vi.fn();
 vi.mock('@capacitor/core', () => ({ Capacitor: { isNativePlatform: () => isNativePlatform() } }));
 
-function renderPanel(open = true, onOpenChange: (open: boolean) => void = () => {}) {
+function renderPanel(open = true, onOpenChange: (open: boolean) => void = () => {}, docked = false) {
   return render(
     <SettingsProvider>
-      <SettingsPanel open={open} onOpenChange={onOpenChange} />
+      <SettingsPanel open={open} docked={docked} onOpenChange={onOpenChange} />
     </SettingsProvider>,
   );
 }
@@ -102,5 +102,22 @@ describe('SettingsPanel', () => {
     renderPanel();
     fireEvent.click(screen.getByRole('switch', { name: 'Keep screen awake' }));
     expect(loadSettings(localStorage).keepAwake).toBe(false);
+  });
+
+  it('persists the dock mode toggle on native', () => {
+    isNativePlatform.mockReturnValue(true);
+    renderPanel();
+    fireEvent.click(screen.getByRole('switch', { name: 'Dock when charging' }));
+    expect(loadSettings(localStorage).dockMode).toBe(false);
+  });
+
+  it('hides dock mode on web without the Battery API', () => {
+    renderPanel();
+    expect(screen.queryByRole('switch', { name: 'Dock when charging' })).not.toBeInTheDocument();
+  });
+
+  it('hides the gear trigger while docked', () => {
+    renderPanel(false, () => {}, true);
+    expect(screen.queryByRole('button', { name: /settings/i })).not.toBeInTheDocument();
   });
 });

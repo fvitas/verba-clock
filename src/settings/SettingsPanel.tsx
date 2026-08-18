@@ -4,6 +4,7 @@ import * as Slider from '@radix-ui/react-slider';
 import { Settings } from 'lucide-react';
 import { getLanguage } from '../clock/languages';
 import { FINISHES, getFinish } from '../finishes/catalog';
+import { supportsDock } from '../native/useDockMode';
 import { isNative } from '../native/useNative';
 import { supportsWakeLock } from '../native/useWakeLock';
 import { LanguageList } from './LanguageList';
@@ -22,12 +23,13 @@ const PRESENTATIONS: { value: Presentation; label: string }[] = [
 
 type SettingsPanelProps = {
   open: boolean;
+  docked: boolean;
   onOpenChange: (open: boolean) => void;
 };
 
 type View = 'main' | 'language';
 
-export function SettingsPanel({ open, onOpenChange }: SettingsPanelProps) {
+export function SettingsPanel({ open, docked, onOpenChange }: SettingsPanelProps) {
   const { settings, update } = useSettings();
   const [view, setView] = React.useState<View>('main');
   const cogColor =
@@ -42,15 +44,17 @@ export function SettingsPanel({ open, onOpenChange }: SettingsPanelProps) {
 
   return (
     <Dialog.Root open={open} onOpenChange={openChange}>
-      <Dialog.Trigger asChild>
-        <button
-          aria-label="Settings"
-          className={`fixed bottom-5 left-1/2 z-10 -translate-x-1/2 rounded-full p-2 transition-colors ${cogColor}`}
-          onClick={(event: React.MouseEvent<HTMLButtonElement>) => event.stopPropagation()}
-        >
-          <Settings className="size-5" />
-        </button>
-      </Dialog.Trigger>
+      {!docked && (
+        <Dialog.Trigger asChild>
+          <button
+            aria-label="Settings"
+            className={`fixed bottom-5 left-1/2 z-10 -translate-x-1/2 rounded-full p-2 transition-colors ${cogColor}`}
+            onClick={(event: React.MouseEvent<HTMLButtonElement>) => event.stopPropagation()}
+          >
+            <Settings className="size-5" />
+          </button>
+        </Dialog.Trigger>
+      )}
       <Dialog.Portal>
         <Dialog.Overlay className="fixed inset-0 bg-black/35 md:bg-transparent" />
         <Dialog.Content
@@ -121,15 +125,26 @@ export function SettingsPanel({ open, onOpenChange }: SettingsPanelProps) {
                     />
                   </Cell>
                 </Group>
-                {(isNative() || supportsWakeLock()) && (
+                {(isNative() || supportsWakeLock() || supportsDock()) && (
                   <Group label="Device">
-                    <Cell label="Keep screen awake">
-                      <Toggle
-                        checked={settings.keepAwake}
-                        aria-label="Keep screen awake"
-                        onCheckedChange={(checked) => update({ keepAwake: checked })}
-                      />
-                    </Cell>
+                    {(isNative() || supportsWakeLock()) && (
+                      <Cell label="Keep screen awake">
+                        <Toggle
+                          checked={settings.keepAwake}
+                          aria-label="Keep screen awake"
+                          onCheckedChange={(checked) => update({ keepAwake: checked })}
+                        />
+                      </Cell>
+                    )}
+                    {supportsDock() && (
+                      <Cell label="Dock when charging">
+                        <Toggle
+                          checked={settings.dockMode}
+                          aria-label="Dock when charging"
+                          onCheckedChange={(checked) => update({ dockMode: checked })}
+                        />
+                      </Cell>
+                    )}
                   </Group>
                 )}
               </div>

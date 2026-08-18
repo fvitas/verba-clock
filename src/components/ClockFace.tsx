@@ -1,3 +1,4 @@
+import type * as React from 'react';
 import { cellKey } from '../clock/engine';
 import type { Finish } from '../finishes/catalog';
 
@@ -6,9 +7,10 @@ type ClockFaceProps = {
   lit: ReadonlySet<string>;
   finish: Finish;
   cellOverrides?: Record<string, string>;
+  onClick?: (event: React.MouseEvent<HTMLDivElement>) => void;
 };
 
-export function ClockFace({ rows, lit, finish, cellOverrides }: ClockFaceProps) {
+export function ClockFace({ rows, lit, finish, cellOverrides, onClick }: ClockFaceProps) {
   const cols = rows[0].length;
   const litClass =
     finish.letter === 'light'
@@ -23,6 +25,7 @@ export function ClockFace({ rows, lit, finish, cellOverrides }: ClockFaceProps) 
     <div
       className="grid w-[80cqmin] select-none font-medium tracking-widest"
       style={{ gridTemplateColumns: `repeat(${cols}, minmax(0, 1fr))`, fontSize: '4.1cqmin' }}
+      onClick={onClick}
     >
       {rows.flatMap((row, r) =>
         [...row].map((ch, c) => {

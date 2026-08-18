@@ -183,7 +183,6 @@ export function SettingsPanel({ open, docked, onOpenChange }: SettingsPanelProps
     <button
       aria-label="Settings"
       className={`fixed bottom-5 z-10 -translate-x-1/2 rounded-full p-2 transition-[color,left] duration-300 ${open ? 'left-1/2 md:left-[calc(50%-182px)]' : 'left-1/2'} ${cogColor}`}
-      onClick={(event: React.MouseEvent<HTMLButtonElement>) => event.stopPropagation()}
     >
       <Settings className="size-5" />
     </button>

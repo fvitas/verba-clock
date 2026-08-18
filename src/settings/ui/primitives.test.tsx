@@ -34,6 +34,22 @@ describe('Segmented', () => {
     fireEvent.click(screen.getByRole('radio', { name: 'Wall' }));
     expect(onChange).toHaveBeenCalledWith('wall');
   });
+
+  it('with two options, clicking the active side toggles to the other', () => {
+    const onChange = vi.fn();
+    render(
+      <Segmented
+        options={[
+          { value: 'fullbleed', label: 'Full-bleed' },
+          { value: 'wall', label: 'Wall' },
+        ]}
+        value="fullbleed"
+        onChange={onChange}
+      />,
+    );
+    fireEvent.click(screen.getByRole('radio', { name: 'Full-bleed' }));
+    expect(onChange).toHaveBeenCalledWith('wall');
+  });
 });
 
 describe('Group and Cell', () => {

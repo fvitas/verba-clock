@@ -21,7 +21,12 @@ export function Segmented<T extends string>({ options, value, onChange }: Segmen
           }`}
           onClick={(event: React.MouseEvent<HTMLButtonElement>) => {
             event.stopPropagation();
-            onChange(option.value);
+            // With two options the control acts as a toggle: clicking the active side flips too
+            const next =
+              option.value === value && options.length === 2
+                ? (options.find((o) => o.value !== value)?.value ?? option.value)
+                : option.value;
+            onChange(next);
           }}
         >
           {option.label}

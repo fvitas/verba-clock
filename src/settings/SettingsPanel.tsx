@@ -124,6 +124,13 @@ export function SettingsPanel({ open, docked, onOpenChange }: SettingsPanelProps
                       onCheckedChange={(checked) => update({ showItIs: checked })}
                     />
                   </Cell>
+                  <Cell label="Corner dots">
+                    <Toggle
+                      checked={settings.showDots}
+                      aria-label="Corner dots"
+                      onCheckedChange={(checked) => update({ showDots: checked })}
+                    />
+                  </Cell>
                 </Group>
                 {(isNative() || supportsWakeLock() || supportsDock()) && (
                   <Group label="Device">

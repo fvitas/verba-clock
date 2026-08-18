@@ -56,7 +56,7 @@ function ClockScreen({ settingsOpen, docked }: { settingsOpen: boolean; docked: 
 
   const face = (
     <>
-      {mode === 'words' && <CornerDots count={display.dots} letter={finish.letter} />}
+      {mode === 'words' && settings.showDots && <CornerDots count={display.dots} letter={finish.letter} />}
       <ClockFace rows={lang.rows} lit={lit} finish={finish} cellOverrides={lang.cellOverrides} />
     </>
   );

@@ -6,6 +6,7 @@ export type Settings = {
   finishId: string;
   presentation: Presentation;
   showItIs: boolean;
+  showDots: boolean;
   brightness: number;
   keepAwake: boolean;
   dockMode: boolean;
@@ -17,9 +18,10 @@ export const DEFAULT_SETTINGS: Settings = {
   finishId: 'deep-black',
   presentation: 'fullbleed',
   showItIs: true,
+  showDots: true,
   brightness: 1,
   keepAwake: true,
-  dockMode: true,
+  dockMode: false,
 };
 
 const KEY = 'verba-settings';

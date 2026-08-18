@@ -80,6 +80,12 @@ describe('SettingsPanel', () => {
     expect(loadSettings(localStorage).showItIs).toBe(false);
   });
 
+  it('toggles the corner dots switch', () => {
+    renderPanel();
+    fireEvent.click(screen.getByRole('switch', { name: 'Corner dots' }));
+    expect(loadSettings(localStorage).showDots).toBe(false);
+  });
+
   it('renders a brightness slider', () => {
     renderPanel();
     expect(screen.getByRole('slider', { name: 'Brightness' })).toBeInTheDocument();
@@ -108,7 +114,7 @@ describe('SettingsPanel', () => {
     isNativePlatform.mockReturnValue(true);
     renderPanel();
     fireEvent.click(screen.getByRole('switch', { name: 'Dock when charging' }));
-    expect(loadSettings(localStorage).dockMode).toBe(false);
+    expect(loadSettings(localStorage).dockMode).toBe(true);
   });
 
   it('hides dock mode on web without the Battery API', () => {

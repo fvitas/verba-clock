@@ -5,6 +5,7 @@ import { resolveSeconds } from './clock/seconds';
 import { useClockTime } from './clock/use-clock-time';
 import { ClockFace } from './components/ClockFace';
 import { CornerDots } from './components/CornerDots';
+import { MinuteDots } from './components/MinuteDots';
 import { getFinish } from './finishes/catalog';
 import { useDockMode } from './native/useDockMode';
 import { useNative } from './native/useNative';
@@ -51,17 +52,24 @@ function ClockScreen({ settingsOpen, docked }: { settingsOpen: boolean; docked: 
 
   const toggleMode = () => setMode((prev) => (prev === 'words' ? 'seconds' : 'words'));
 
-  // 340px sheet + 12px margin + 12px gap; keeps the face centred in the space left of the sheet
-  const sheetInset = settingsOpen ? 'md:pr-[364px]' : '';
+  // Desktop: 340px sheet + 12px margin + 12px gap keeps the face centred beside the sheet.
+  // Mobile: less than the sheet's 70dvh cap — the face peeks larger above it rather than
+  // shrinking to fully clear it.
+  const sheetInset = settingsOpen ? 'md:pr-[364px] max-md:pb-[60dvh]' : '';
+
+  const onWall = settings.presentation === 'wall' && !docked;
 
   const face = (
     <>
-      {mode === 'words' && settings.showDots && <CornerDots count={display.dots} letter={finish.letter} />}
+      {settings.dots === 'corners' && <CornerDots letter={finish.letter} />}
+      {settings.dots === 'minutes' && (
+        <MinuteDots count={display.dots} finish={finish} visible={mode === 'words'} nearEdge={onWall} />
+      )}
       <ClockFace rows={lang.rows} lit={lit} finish={finish} cellOverrides={lang.cellOverrides} />
     </>
   );
 
-  if (settings.presentation === 'wall' && !docked) {
+  if (onWall) {
     return (
       <main
         className={`flex h-dvh w-dvw items-center justify-center overflow-hidden bg-[radial-gradient(120%_100%_at_50%_20%,#38342f,#211f1c)] font-[DINish,'Noto_Sans'] transition-[padding,filter] duration-300 [container-type:size] ${sheetInset}`}

@@ -9,7 +9,7 @@ import { isNative } from '../native/useNative';
 import { supportsWakeLock } from '../native/useWakeLock';
 import { LanguageList } from './LanguageList';
 import { useSettings } from './SettingsContext';
-import type { Presentation } from './store';
+import type { DotsMode, Presentation } from './store';
 import { Cell } from './ui/Cell';
 import { Group } from './ui/Group';
 import { Segmented } from './ui/Segmented';
@@ -19,6 +19,12 @@ import { Toggle } from './ui/Toggle';
 const PRESENTATIONS: { value: Presentation; label: string }[] = [
   { value: 'fullbleed', label: 'Full-bleed' },
   { value: 'wall', label: 'Wall' },
+];
+
+const DOTS_MODES: { value: DotsMode; label: string }[] = [
+  { value: 'corners', label: 'Corners' },
+  { value: 'minutes', label: 'Minutes' },
+  { value: 'off', label: 'Off' },
 ];
 
 type SettingsPanelProps = {
@@ -48,7 +54,7 @@ export function SettingsPanel({ open, docked, onOpenChange }: SettingsPanelProps
         <Dialog.Trigger asChild>
           <button
             aria-label="Settings"
-            className={`fixed bottom-5 left-1/2 z-10 -translate-x-1/2 rounded-full p-2 transition-colors ${cogColor}`}
+            className={`fixed bottom-5 z-10 -translate-x-1/2 rounded-full p-2 transition-[color,left] duration-300 ${open ? 'left-1/2 md:left-[calc(50%-182px)]' : 'left-1/2'} ${cogColor}`}
             onClick={(event: React.MouseEvent<HTMLButtonElement>) => event.stopPropagation()}
           >
             <Settings className="size-5" />
@@ -124,11 +130,11 @@ export function SettingsPanel({ open, docked, onOpenChange }: SettingsPanelProps
                       onCheckedChange={(checked) => update({ showItIs: checked })}
                     />
                   </Cell>
-                  <Cell label="Corner dots">
-                    <Toggle
-                      checked={settings.showDots}
-                      aria-label="Corner dots"
-                      onCheckedChange={(checked) => update({ showDots: checked })}
+                  <Cell label="Dots">
+                    <Segmented
+                      options={DOTS_MODES}
+                      value={settings.dots}
+                      onChange={(value) => update({ dots: value })}
                     />
                   </Cell>
                 </Group>

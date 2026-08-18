@@ -80,10 +80,12 @@ describe('SettingsPanel', () => {
     expect(loadSettings(localStorage).showItIs).toBe(false);
   });
 
-  it('toggles the corner dots switch', () => {
+  it('persists the dots mode choice', () => {
     renderPanel();
-    fireEvent.click(screen.getByRole('switch', { name: 'Corner dots' }));
-    expect(loadSettings(localStorage).showDots).toBe(false);
+    fireEvent.click(screen.getByRole('radio', { name: 'Minutes' }));
+    expect(loadSettings(localStorage).dots).toBe('minutes');
+    fireEvent.click(screen.getByRole('radio', { name: 'Off' }));
+    expect(loadSettings(localStorage).dots).toBe('off');
   });
 
   it('renders a brightness slider', () => {

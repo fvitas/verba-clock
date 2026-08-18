@@ -1,26 +1,20 @@
 type CornerDotsProps = {
-  count: number;
   letter: 'light' | 'dark';
 };
 
-// Dots light clockwise from top-left, matching the hardware
 const CORNERS = ['top-4 left-4', 'top-4 right-4', 'bottom-4 right-4', 'bottom-4 left-4'];
 
-export function CornerDots({ count, letter }: CornerDotsProps) {
-  const onClass =
+// Static decoration matching the hardware's corner fixtures — not a minute indicator
+export function CornerDots({ letter }: CornerDotsProps) {
+  const dotClass =
     letter === 'light'
-      ? 'bg-white [box-shadow:0_0_10px_rgba(255,255,255,0.55)]'
-      : 'bg-[#181614] [box-shadow:0_0_8px_rgba(0,0,0,0.35)]';
-  const offClass = letter === 'light' ? 'bg-white/15' : 'bg-black/20';
+      ? 'bg-white/60 [box-shadow:inset_0_1px_1px_rgba(255,255,255,0.5),0_1px_2px_rgba(0,0,0,0.4)]'
+      : 'bg-[#181614] [box-shadow:inset_0_1px_1px_rgba(255,255,255,0.25),0_1px_2px_rgba(0,0,0,0.35)]';
 
   return (
     <>
-      {CORNERS.map((corner, index) => (
-        <span
-          key={corner}
-          className={`absolute size-2 rounded-full transition-colors duration-[600ms] ${corner} ${index < count ? onClass : offClass}`}
-          data-lit={index < count}
-        />
+      {CORNERS.map((corner) => (
+        <span key={corner} className={`absolute size-2 rounded-full ${corner} ${dotClass}`} />
       ))}
     </>
   );

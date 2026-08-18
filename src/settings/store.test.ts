@@ -37,4 +37,24 @@ describe('settings store', () => {
     localStorage.setItem('verba-settings', JSON.stringify({ schemaVersion: 1, languageId: 'sr' }));
     expect(loadSettings(localStorage).keepAwake).toBe(true);
   });
+
+  it('migrates legacy showDots: false to dots off', () => {
+    localStorage.setItem('verba-settings', JSON.stringify({ schemaVersion: 1, showDots: false }));
+    expect(loadSettings(localStorage).dots).toBe('off');
+  });
+
+  it('migrates legacy showDots: true to corner dots', () => {
+    localStorage.setItem('verba-settings', JSON.stringify({ schemaVersion: 1, showDots: true }));
+    const settings = loadSettings(localStorage);
+    expect(settings.dots).toBe('corners');
+    expect('showDots' in settings).toBe(false);
+  });
+
+  it('keeps an explicit dots mode over the legacy flag', () => {
+    localStorage.setItem(
+      'verba-settings',
+      JSON.stringify({ schemaVersion: 1, dots: 'minutes', showDots: false }),
+    );
+    expect(loadSettings(localStorage).dots).toBe('minutes');
+  });
 });

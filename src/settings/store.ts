@@ -1,12 +1,14 @@
 export type Presentation = 'fullbleed' | 'wall';
 
+export type DotsMode = 'corners' | 'minutes' | 'off';
+
 export type Settings = {
   schemaVersion: 1;
   languageId: string;
   finishId: string;
   presentation: Presentation;
   showItIs: boolean;
-  showDots: boolean;
+  dots: DotsMode;
   brightness: number;
   keepAwake: boolean;
   dockMode: boolean;
@@ -18,7 +20,7 @@ export const DEFAULT_SETTINGS: Settings = {
   finishId: 'deep-black',
   presentation: 'fullbleed',
   showItIs: true,
-  showDots: true,
+  dots: 'corners',
   brightness: 1,
   keepAwake: true,
   dockMode: false,
@@ -30,9 +32,12 @@ export function loadSettings(storage: Storage): Settings {
   try {
     const raw = storage.getItem(KEY);
     if (!raw) return DEFAULT_SETTINGS;
-    const parsed = JSON.parse(raw) as Partial<Settings>;
+    const { showDots, ...parsed } = JSON.parse(raw) as Partial<Settings> & { showDots?: boolean };
     if (parsed.schemaVersion !== 1) return DEFAULT_SETTINGS;
-    return { ...DEFAULT_SETTINGS, ...parsed };
+    const settings = { ...DEFAULT_SETTINGS, ...parsed };
+    // Legacy boolean predates the dots mode; true meant the corner dots
+    if (parsed.dots === undefined && showDots === false) settings.dots = 'off';
+    return settings;
   } catch {
     return DEFAULT_SETTINGS;
   }

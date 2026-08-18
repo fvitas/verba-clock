@@ -15,6 +15,11 @@ struct Finish {
     var stencilColor: Color {
         (letter == .light ? Color.white : Color.black).opacity(stencilOpacity)
     }
+
+    // StandBy/lock screen strip the container background; letters must read on black
+    var onBlack: Finish {
+        Finish(id: id, name: name, letter: .light, stencilOpacity: stencilOpacity, surface: surface)
+    }
 }
 
 extension Color {

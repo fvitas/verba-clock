@@ -8,3 +8,15 @@ class ResizeObserverStub {
 }
 
 globalThis.ResizeObserver ??= ResizeObserverStub as unknown as typeof ResizeObserver;
+
+// jsdom lacks matchMedia; SettingsPanel branches on the md breakpoint (stub = mobile)
+globalThis.matchMedia ??= ((query: string) => ({
+  matches: false,
+  media: query,
+  onchange: null,
+  addEventListener: () => {},
+  removeEventListener: () => {},
+  addListener: () => {},
+  removeListener: () => {},
+  dispatchEvent: () => false,
+})) as unknown as typeof window.matchMedia;

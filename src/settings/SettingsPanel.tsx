@@ -1,23 +1,41 @@
 import * as React from 'react';
 import * as Dialog from '@radix-ui/react-dialog';
 import * as Slider from '@radix-ui/react-slider';
-import * as Switch from '@radix-ui/react-switch';
-import { LANGUAGES } from '../clock/languages';
+import { getLanguage } from '../clock/languages';
 import { FINISHES } from '../finishes/catalog';
 import { isNative } from '../native/useNative';
+import { LanguageList } from './LanguageList';
 import { useSettings } from './SettingsContext';
 import type { Presentation } from './store';
+import { Cell } from './ui/Cell';
+import { Group } from './ui/Group';
+import { Segmented } from './ui/Segmented';
+import { SwatchRow } from './ui/SwatchRow';
+import { Toggle } from './ui/Toggle';
 
 const PRESENTATIONS: { value: Presentation; label: string }[] = [
   { value: 'fullbleed', label: 'Full-bleed' },
   { value: 'wall', label: 'Wall' },
 ];
 
-export function SettingsPanel() {
+type SettingsPanelProps = {
+  open: boolean;
+  onOpenChange: (open: boolean) => void;
+};
+
+type View = 'main' | 'language';
+
+export function SettingsPanel({ open, onOpenChange }: SettingsPanelProps) {
   const { settings, update } = useSettings();
+  const [view, setView] = React.useState<View>('main');
+
+  const openChange = (next: boolean) => {
+    if (!next) setView('main');
+    onOpenChange(next);
+  };
 
   return (
-    <Dialog.Root>
+    <Dialog.Root open={open} onOpenChange={openChange}>
       <Dialog.Trigger asChild>
         <button
           aria-label="Settings"
@@ -28,105 +46,89 @@ export function SettingsPanel() {
         </button>
       </Dialog.Trigger>
       <Dialog.Portal>
-        <Dialog.Overlay className="fixed inset-0 bg-black/40" />
-        <Dialog.Content className="fixed top-0 right-0 z-20 h-dvh w-80 overflow-y-auto bg-neutral-900/95 p-6 text-neutral-100 backdrop-blur">
-          <Dialog.Title className="mb-6 text-sm font-semibold tracking-[0.3em] uppercase">Verba</Dialog.Title>
-
-          <section className="mb-6">
-            <h3 className="mb-3 text-xs tracking-widest text-neutral-400 uppercase">Finish</h3>
-            <div className="grid grid-cols-4 gap-3">
-              {FINISHES.map((finish) => (
-                <button
-                  key={finish.id}
-                  aria-label={finish.name}
-                  title={finish.name}
-                  className={`aspect-square rounded-full border ${
-                    settings.finishId === finish.id ? 'border-white ring-2 ring-white/60' : 'border-white/20'
-                  }`}
-                  style={{ background: finish.surface }}
-                  onClick={() => update({ finishId: finish.id })}
+        <Dialog.Overlay className="fixed inset-0 bg-black/35 md:bg-transparent" />
+        <Dialog.Content
+          aria-describedby={undefined}
+          className="fixed inset-x-0 bottom-0 z-20 flex max-h-[70dvh] flex-col overflow-hidden rounded-t-2xl bg-neutral-900/55 pb-6 text-neutral-100 backdrop-blur-2xl [animation:sheet-up_.3s_ease-out] md:inset-x-auto md:top-3 md:right-3 md:bottom-3 md:max-h-none md:w-[340px] md:rounded-2xl md:[animation:sheet-in-right_.3s_ease-out]"
+        >
+          <div className="mx-auto mt-2 h-1.5 w-9 rounded-full bg-white/25 md:hidden" />
+          {view === 'language' ? (
+            <>
+              <Dialog.Title className="sr-only">Language</Dialog.Title>
+              <div className="flex min-h-0 flex-1 flex-col pt-3">
+                <LanguageList
+                  selectedId={settings.languageId}
+                  onSelect={(id) => update({ languageId: id })}
+                  onBack={() => setView('main')}
                 />
-              ))}
-            </div>
-          </section>
-
-          <section className="mb-6">
-            <h3 className="mb-3 text-xs tracking-widest text-neutral-400 uppercase">Language</h3>
-            <select
-              aria-label="Language"
-              value={settings.languageId}
-              className="w-full rounded border border-white/15 bg-white/5 px-3 py-2 text-sm text-neutral-100 hover:bg-white/10"
-              onChange={(event: React.ChangeEvent<HTMLSelectElement>) => update({ languageId: event.target.value })}
-            >
-              {LANGUAGES.map((lang) => (
-                <option key={lang.id} value={lang.id} className="bg-neutral-900 text-neutral-100">
-                  {lang.name} — {lang.sample}
-                </option>
-              ))}
-            </select>
-          </section>
-
-          <section className="mb-6">
-            <h3 className="mb-3 text-xs tracking-widest text-neutral-400 uppercase">Presentation</h3>
-            <div className="flex gap-2">
-              {PRESENTATIONS.map((p) => (
-                <button
-                  key={p.value}
-                  className={`flex-1 rounded px-3 py-2 text-sm ${
-                    settings.presentation === p.value ? 'bg-white/15' : 'bg-white/5 hover:bg-white/10'
-                  }`}
-                  onClick={() => update({ presentation: p.value })}
-                >
-                  {p.label}
-                </button>
-              ))}
-            </div>
-          </section>
-
-          <section className="mb-6 flex items-center justify-between">
-            <h3 className="text-xs tracking-widest text-neutral-400 uppercase">"It is" words</h3>
-            <Switch.Root
-              checked={settings.showItIs}
-              onCheckedChange={(checked) => update({ showItIs: checked })}
-              className="h-6 w-10 rounded-full bg-white/15 data-[state=checked]:bg-white/60"
-            >
-              <Switch.Thumb className="block size-5 translate-x-0.5 rounded-full bg-white transition-transform data-[state=checked]:translate-x-[18px]" />
-            </Switch.Root>
-          </section>
-
-          {isNative() && (
-            <section className="mb-6 flex items-center justify-between">
-              <h3 className="text-xs tracking-widest text-neutral-400 uppercase">Keep screen awake</h3>
-              <Switch.Root
-                checked={settings.keepAwake}
-                onCheckedChange={(checked: boolean) => update({ keepAwake: checked })}
-                className="h-6 w-10 rounded-full bg-white/15 data-[state=checked]:bg-white/60"
-              >
-                <Switch.Thumb className="block size-5 translate-x-0.5 rounded-full bg-white transition-transform data-[state=checked]:translate-x-[18px]" />
-              </Switch.Root>
-            </section>
+              </div>
+            </>
+          ) : (
+            <>
+              <Dialog.Title className="pt-2 pb-1 text-center text-[15px] font-semibold md:px-4 md:pt-4 md:text-left">
+                Settings
+              </Dialog.Title>
+              <div className="min-h-0 flex-1 overflow-y-auto px-3.5 pt-2">
+                <Group label="Appearance">
+                  <Cell label="Finish">
+                    <SwatchRow
+                      swatches={FINISHES}
+                      selectedId={settings.finishId}
+                      onSelect={(id) => update({ finishId: id })}
+                    />
+                  </Cell>
+                  <Cell label="Brightness">
+                    <Slider.Root
+                      value={[settings.brightness]}
+                      min={0.2}
+                      max={1}
+                      step={0.05}
+                      className="relative flex h-5 w-36 items-center"
+                      onValueChange={([value]) => update({ brightness: value })}
+                    >
+                      <Slider.Track className="relative h-1 grow rounded-full bg-white/20">
+                        <Slider.Range className="absolute h-full rounded-full bg-white" />
+                      </Slider.Track>
+                      <Slider.Thumb
+                        aria-label="Brightness"
+                        className="block size-[22px] rounded-full bg-white shadow-md"
+                      />
+                    </Slider.Root>
+                  </Cell>
+                </Group>
+                <Group label="Clock">
+                  <Cell label="Language" onClick={() => setView('language')}>
+                    <span className="text-sm text-white/45">{getLanguage(settings.languageId).name}</span>
+                  </Cell>
+                  <Cell label="Presentation">
+                    <Segmented
+                      options={PRESENTATIONS}
+                      value={settings.presentation}
+                      onChange={(value) => update({ presentation: value })}
+                    />
+                  </Cell>
+                  <Cell label="“It is” words">
+                    <Toggle
+                      checked={settings.showItIs}
+                      aria-label="It is words"
+                      onCheckedChange={(checked) => update({ showItIs: checked })}
+                    />
+                  </Cell>
+                </Group>
+                {isNative() && (
+                  <Group label="Device">
+                    <Cell label="Keep screen awake">
+                      <Toggle
+                        checked={settings.keepAwake}
+                        aria-label="Keep screen awake"
+                        onCheckedChange={(checked) => update({ keepAwake: checked })}
+                      />
+                    </Cell>
+                  </Group>
+                )}
+              </div>
+            </>
           )}
-
-          <section className="mb-6">
-            <h3 className="mb-3 text-xs tracking-widest text-neutral-400 uppercase">Brightness</h3>
-            <Slider.Root
-              value={[settings.brightness]}
-              min={0.2}
-              max={1}
-              step={0.05}
-              onValueChange={([value]) => update({ brightness: value })}
-              className="relative flex h-5 items-center"
-            >
-              <Slider.Track className="relative h-1 grow rounded-full bg-white/15">
-                <Slider.Range className="absolute h-full rounded-full bg-white/60" />
-              </Slider.Track>
-              <Slider.Thumb aria-label="Brightness" className="block size-4 rounded-full bg-white" />
-            </Slider.Root>
-          </section>
-
-          <Dialog.Close asChild>
-            <button className="mt-2 w-full rounded bg-white/10 px-3 py-2 text-sm hover:bg-white/20">Close</button>
-          </Dialog.Close>
         </Dialog.Content>
       </Dialog.Portal>
     </Dialog.Root>

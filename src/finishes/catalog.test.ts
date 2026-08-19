@@ -2,8 +2,14 @@ import { describe, expect, it } from 'vitest';
 import { FINISHES, getFinish } from './catalog';
 
 describe('finish catalog', () => {
-  it('contains the 16 EARTH finishes from docs/FINISHES.md', () => {
+  it('contains 16 finishes: 15 EARTH replicas plus the original Waves', () => {
     expect(FINISHES).toHaveLength(16);
+    expect(FINISHES.some((f) => f.id === 'waves')).toBe(true);
+    expect(FINISHES.some((f) => f.id === 'glintscape')).toBe(false);
+  });
+
+  it('hazelnut is a light bronze-tan with dark letters', () => {
+    expect(getFinish('hazelnut').letter).toBe('dark');
   });
 
   it('has unique ids', () => {

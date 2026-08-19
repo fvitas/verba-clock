@@ -41,11 +41,11 @@ enum WidgetFinish: String, AppEnum {
     case hazelnut
     case rust
     case vintageCopper = "vintage-copper"
+    case waves
     case gold
     case silverGold = "silver-gold"
     case platinum
     case moonGold = "moon-gold"
-    case glintscape
     case metamorphite
     case desert
 
@@ -54,9 +54,9 @@ enum WidgetFinish: String, AppEnum {
         .sameAsApp: "Same as app",
         .deepBlack: "Deep Black", .stainlessSteel: "Stainless Steel", .blackPepper: "Black Pepper",
         .greyPepper: "Grey Pepper", .whitePepper: "White Pepper", .redPepper: "Red Pepper",
-        .hazelnut: "Hazelnut", .rust: "Rust", .vintageCopper: "Vintage Copper", .gold: "Gold",
-        .silverGold: "Silver & Gold", .platinum: "Platinum", .moonGold: "Moon Gold",
-        .glintscape: "Glintscape", .metamorphite: "Metamorphite", .desert: "Desert",
+        .hazelnut: "Hazelnut", .rust: "Rust", .vintageCopper: "Vintage Copper", .waves: "Waves",
+        .gold: "Gold", .silverGold: "Silver & Gold", .platinum: "Platinum", .moonGold: "Moon Gold",
+        .metamorphite: "Metamorphite", .desert: "Desert",
     ]
 
     func resolvedId(app: SharedSettings) -> String {

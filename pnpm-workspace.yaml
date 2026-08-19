@@ -1,0 +1,11 @@
+# Supply-chain hardening
+# New releases must be 3 days old before pnpm will resolve them
+minimumReleaseAge: 4320
+# pnpm add pins exact versions (no ^ ranges)
+saveExact: true
+# Fail install on any dep build script that isn't explicitly allowed/ignored
+strictDepBuilds: true
+# Both ship prebuilt platform binaries as optional deps; their scripts are unneeded
+allowBuilds:
+  esbuild: false
+  sharp: false

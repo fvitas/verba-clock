@@ -15,7 +15,7 @@ export function ClockFace({ rows, lit, finish, cellOverrides, onClick }: ClockFa
   const litClass =
     finish.letter === 'light'
       ? 'text-white [text-shadow:0_0_0.4em_rgba(255,255,255,0.55)]'
-      : 'text-[#181614] [text-shadow:0_0_0.3em_rgba(0,0,0,0.3)]';
+      : 'text-[#181614] [text-shadow:0_0_0.07em_rgba(0,0,0,0.5),0_0_0.2em_rgba(0,0,0,0.3)]';
   const stencilColor =
     finish.letter === 'light'
       ? `rgba(255,255,255,${finish.stencilOpacity})`

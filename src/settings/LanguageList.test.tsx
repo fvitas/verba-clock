@@ -2,7 +2,7 @@ import { render, screen, fireEvent } from '@testing-library/react';
 import { describe, expect, it, vi } from 'vitest';
 import { LanguageList } from './LanguageList';
 
-// Registry has variants ("English (E2)", "Deutsch (D2)"), so name matchers are anchored.
+// Registry has variants ("English (E2)", "German (D2)"), so name matchers are anchored.
 describe('LanguageList', () => {
   it('lists languages with samples, marks selected, selects and goes back', () => {
     const onSelect = vi.fn();
@@ -14,9 +14,9 @@ describe('LanguageList', () => {
     expect(english.querySelector('[data-selected]')).not.toBeNull();
 
     expect(screen.getByRole('button', { name: /^English \(E2\)/ })).toHaveTextContent('IT IS');
-    expect(screen.getByRole('button', { name: /^Schwiizerdütsch/ })).toHaveTextContent('ES ISCH');
+    expect(screen.getByRole('button', { name: /^Swiss German/ })).toHaveTextContent('ES ISCH');
 
-    fireEvent.click(screen.getByRole('button', { name: /^Deutsch\b(?! [(O])/ }));
+    fireEvent.click(screen.getByRole('button', { name: /^German\b(?! \(| East)/ }));
     expect(onSelect).toHaveBeenCalledWith('de');
 
     fireEvent.click(screen.getByRole('button', { name: 'Back' }));
@@ -27,7 +27,7 @@ describe('LanguageList', () => {
     const onSelect = vi.fn();
     const onBack = vi.fn();
     render(<LanguageList selectedId="en" onSelect={onSelect} onBack={onBack} />);
-    fireEvent.click(screen.getByRole('button', { name: /^Deutsch\b(?! [(O])/ }));
+    fireEvent.click(screen.getByRole('button', { name: /^German\b(?! \(| East)/ }));
     expect(onSelect).toHaveBeenCalledWith('de');
     expect(onBack).not.toHaveBeenCalled();
   });

@@ -184,7 +184,7 @@ export function SettingsPanel({ open, docked, onOpenChange }: SettingsPanelProps
       aria-label="Settings"
       className={`fixed bottom-3.5 z-10 -translate-x-1/2 rounded-full p-3.5 transition-[color,left] duration-300 ${open ? 'left-1/2 md:left-[calc(50%-182px)]' : 'left-1/2'} ${cogColor}`}
     >
-      <Settings className="size-5" />
+      <Settings className="size-6" />
     </button>
   );
 

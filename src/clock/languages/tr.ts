@@ -88,7 +88,7 @@ function phrase(hours: number, minutes: number): WordCoord[] {
 
 export const turkish: LanguageDef = {
   id: 'tr',
-  name: 'Türkçe',
+  name: 'Turkish',
   sample: 'SAAT',
   rows: [
     'SAATRONUÜÇÜ',

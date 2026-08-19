@@ -54,7 +54,7 @@ function phrase(hours: number, minutes: number): WordCoord[] {
 
 export const germanD4: LanguageDef = {
   id: 'd4',
-  name: 'Deutsch Ost (D4)',
+  name: 'German East (D4)',
   sample: 'ES IST',
   rows: german.rows,
   itIs: german.itIs,

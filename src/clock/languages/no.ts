@@ -52,7 +52,7 @@ function phrase(hours: number, minutes: number): WordCoord[] {
 
 export const norwegian: LanguageDef = {
   id: 'no',
-  name: 'Norsk',
+  name: 'Norwegian',
   sample: 'KLOKKEN ER',
   rows: [
     'KLOKKENVERM',

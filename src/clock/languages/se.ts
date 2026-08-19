@@ -54,7 +54,7 @@ function phrase(hours: number, minutes: number): WordCoord[] {
 
 export const swedish: LanguageDef = {
   id: 'se',
-  name: 'Svenska',
+  name: 'Swedish',
   sample: 'KLOCKAN ÄR',
   rows: [
     'KLOCKANTÄRK',

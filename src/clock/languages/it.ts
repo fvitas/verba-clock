@@ -60,7 +60,7 @@ function phrase(hours: number, minutes: number): WordCoord[] {
 
 export const italian: LanguageDef = {
   id: 'it',
-  name: 'Italiano',
+  name: 'Italian',
   sample: 'SONO LE',
   rows: [
     'SONORLEBORE',
@@ -70,9 +70,9 @@ export const italian: LanguageDef = {
     'DODICISETTE',
     'QUATTROCSEI',
     'CINQUEAMENO',
-    'EKUNLQUARTO',
+    'ECUNOQUARTO',
     'VENTICINQUE',
-    'DIECILMEZZA',
+    'DIECIPMEZZA',
   ],
   itIs: [SONO, LE],
   itIsFor,

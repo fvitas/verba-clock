@@ -52,15 +52,15 @@ describe('SettingsPanel', () => {
     expect(cell).toHaveTextContent('English');
 
     fireEvent.click(cell);
-    fireEvent.click(screen.getByRole('button', { name: /^Српски/ }));
+    fireEvent.click(screen.getByRole('button', { name: /^Serbian/ }));
 
     expect(loadSettings(localStorage).languageId).toBe('sr');
     // Picking a language keeps the subview open with the checkmark moved
-    const serbian = screen.getByRole('button', { name: /^Српски/ });
+    const serbian = screen.getByRole('button', { name: /^Serbian/ });
     expect(serbian.querySelector('[data-selected]')).not.toBeNull();
 
     fireEvent.click(screen.getByRole('button', { name: 'Back' }));
-    expect(screen.getByRole('button', { name: /^Language/ })).toHaveTextContent('Српски');
+    expect(screen.getByRole('button', { name: /^Language/ })).toHaveTextContent('Serbian');
   });
 
   it('goes back from the language subview without changing the language', () => {

@@ -23,8 +23,8 @@ export function ClockFace({ rows, lit, finish, cellOverrides, onClick }: ClockFa
 
   return (
     <div
-      className="grid w-[80cqmin] select-none font-medium tracking-widest"
-      style={{ gridTemplateColumns: `repeat(${cols}, minmax(0, 1fr))`, fontSize: '4.1cqmin' }}
+      className="grid w-[82cqmin] select-none font-medium tracking-widest"
+      style={{ gridTemplateColumns: `repeat(${cols}, minmax(0, 1fr))`, fontSize: '4.2cqmin' }}
       onClick={onClick}
     >
       {rows.flatMap((row, r) =>

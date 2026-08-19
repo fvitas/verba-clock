@@ -21,13 +21,13 @@ export function MinuteDots({ count, finish, visible, nearEdge }: MinuteDotsProps
 
   return (
     <div
-      className={`absolute ${nearEdge ? 'top-[calc(50cqh+43.5cqmin)]' : 'top-[calc(50cqh+40cqmin)]'} left-[50cqw] flex -translate-x-1/2 gap-[3.5cqmin] transition-opacity duration-[600ms] ${visible ? 'opacity-100' : 'opacity-0'}`}
+      className={`absolute ${nearEdge ? 'top-[calc(50cqh+44.5cqmin)]' : 'top-[calc(50cqh+41cqmin)]'} left-[50cqw] flex -translate-x-1/2 gap-[3.5cqmin] transition-opacity duration-[600ms] ${visible ? 'opacity-100' : 'opacity-0'}`}
       data-testid="minute-dots"
     >
       {[0, 1, 2, 3].map((index) => (
         <span
           key={index}
-          className={`size-[2cqmin] rounded-full transition-colors duration-[600ms] ${index < count ? litClass : ''}`}
+          className={`size-[1.4cqmin] rounded-full transition-colors duration-[600ms] ${index < count ? litClass : ''}`}
           style={index < count ? undefined : { backgroundColor: stencilColor }}
           data-lit={index < count}
         />

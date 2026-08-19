@@ -13,16 +13,17 @@ enum WidgetStyle: String, AppEnum {
 
 enum WidgetLanguage: String, AppEnum {
     case sameAsApp
-    case en, e2, de, d2, d3, d4, ch, fr, it, es, ca, nl, dk, no, se, cz, ro, pe, tr, ru, gr, sr
+    case en, e2, de, d2, d3, d4, ch, fr, it, es, ca, nl, dk, no, se, cz, ro, pe, tr, ru, gr, sr, cn, bg, hu, pl
 
     static let typeDisplayRepresentation = TypeDisplayRepresentation(name: "Language")
     static let caseDisplayRepresentations: [WidgetLanguage: DisplayRepresentation] = [
         .sameAsApp: "Same as app",
-        .en: "English", .e2: "English (variant)", .de: "Deutsch", .d2: "Deutsch (variant 2)",
-        .d3: "Schwäbisch", .d4: "Deutsch (variant 4)", .ch: "Schwiizerdütsch",
-        .fr: "Français", .it: "Italiano", .es: "Español", .ca: "Català", .nl: "Nederlands",
-        .dk: "Dansk", .no: "Norsk", .se: "Svenska", .cz: "Čeština", .ro: "Română",
-        .pe: "Português", .tr: "Türkçe", .ru: "Русский", .gr: "Ελληνικά", .sr: "Српски",
+        .en: "English", .e2: "English (E2)", .de: "German", .d2: "German (D2)",
+        .d3: "Swabian (D3)", .d4: "German East (D4)", .ch: "Swiss German",
+        .fr: "French", .it: "Italian", .es: "Spanish", .ca: "Catalan", .nl: "Dutch",
+        .dk: "Danish", .no: "Norwegian", .se: "Swedish", .cz: "Czech", .ro: "Romanian",
+        .pe: "Portuguese", .tr: "Turkish", .ru: "Russian", .gr: "Greek", .sr: "Serbian",
+        .cn: "Chinese", .bg: "Bulgarian", .hu: "Hungarian", .pl: "Polish",
     ]
 
     func resolvedId(app: SharedSettings) -> String {

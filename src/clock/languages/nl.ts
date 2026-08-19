@@ -53,7 +53,7 @@ function phrase(hours: number, minutes: number): WordCoord[] {
 
 export const dutch: LanguageDef = {
   id: 'nl',
-  name: 'Nederlands',
+  name: 'Dutch',
   sample: 'HET IS',
   rows: [
     'HETKISAVIJF',

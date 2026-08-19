@@ -65,7 +65,7 @@ function phrase(hours: number, minutes: number): WordCoord[] {
 
 export const romanian: LanguageDef = {
   id: 'ro',
-  name: 'Română',
+  name: 'Romanian',
   sample: 'ESTE ORA',
   rows: [
     'ESTEZORAPMO',

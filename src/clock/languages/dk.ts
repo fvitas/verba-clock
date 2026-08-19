@@ -51,7 +51,7 @@ function phrase(hours: number, minutes: number): WordCoord[] {
 
 export const danish: LanguageDef = {
   id: 'dk',
-  name: 'Dansk',
+  name: 'Danish',
   sample: 'KLOKKEN ER',
   rows: [
     'KLOKKENVERO',

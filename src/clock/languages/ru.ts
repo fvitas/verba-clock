@@ -71,7 +71,7 @@ function phrase(hours: number, minutes: number): WordCoord[] {
 
 export const russian: LanguageDef = {
   id: 'ru',
-  name: 'Русский',
+  name: 'Russian',
   sample: 'ЧАСОВ',
   rows: [
     'ОДИНПЯТЬДВА',

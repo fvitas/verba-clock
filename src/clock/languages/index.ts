@@ -21,7 +21,11 @@ import { englishE2 } from './e2';
 import { russian } from './ru';
 import { greek } from './gr';
 import { serbian } from './sr';
+import { chinese } from './cn';
+import { bulgarian } from './bg';
+import { hungarian } from './hu';
+import { polish } from './pl';
 
-export const LANGUAGES: LanguageDef[] = [english, englishE2, german, germanD2, swabian, germanD4, swissGerman, french, italian, spanish, catalan, dutch, danish, norwegian, swedish, czech, romanian, portuguese, turkish, russian, greek, serbian];
+export const LANGUAGES: LanguageDef[] = [english, englishE2, german, germanD2, swabian, germanD4, swissGerman, french, italian, spanish, catalan, dutch, danish, norwegian, swedish, czech, romanian, portuguese, turkish, russian, greek, serbian, chinese, bulgarian, hungarian, polish];
 
 export const getLanguage = (id: string): LanguageDef => LANGUAGES.find((l) => l.id === id) ?? english;

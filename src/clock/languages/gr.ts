@@ -52,7 +52,7 @@ function phrase(hours: number, minutes: number): WordCoord[] {
 
 export const greek: LanguageDef = {
   id: 'gr',
-  name: 'Ελληνικά',
+  name: 'Greek',
   sample: 'Η ΩΡΑ ΕΙΝΑΙ',
   rows: [
     'ΗΧΩΡΑΤΕΙΝΑΙ',

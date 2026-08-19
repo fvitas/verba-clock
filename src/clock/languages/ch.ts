@@ -51,7 +51,7 @@ function phrase(hours: number, minutes: number): WordCoord[] {
 
 export const swissGerman: LanguageDef = {
   id: 'ch',
-  name: 'Schwiizerdütsch',
+  name: 'Swiss German',
   sample: 'ES ISCH',
   rows: [
     'ESKISCHAFÜF',

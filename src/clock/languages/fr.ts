@@ -27,6 +27,8 @@ const QUART = word('QUART', 7, 3);
 const VINGT = word('VINGT', 8, 0);
 const VINGT_CINQ = word('VINGT-CINQ', 8, 0);
 const CINQ_MIN = word('CINQ', 8, 6);
+// Real QLOCKTWO lights the bottom-row ET next to DEMIE, not the row-8 one (see mockups/reference-languages/fr-french.png)
+const ET_DEMIE = word('ET', 9, 0);
 const DEMIE = word('DEMIE', 9, 3);
 
 const HOURS = [MINUIT, UNE, DEUX, TROIS, QUATRE, CINQ_HOUR, SIX, SEPT, HUIT, NEUF, DIX_HOUR, ONZE];
@@ -46,7 +48,7 @@ const MINUTE_WORDS: Record<number, WordCoord[]> = {
   15: [ET, QUART],
   20: [VINGT],
   25: [VINGT_CINQ],
-  30: [ET, DEMIE],
+  30: [ET_DEMIE, DEMIE],
   35: [MOINS, VINGT_CINQ],
   40: [MOINS, VINGT],
   45: [MOINS, LE, QUART],
@@ -62,7 +64,7 @@ function phrase(hours: number, minutes: number): WordCoord[] {
 
 export const french: LanguageDef = {
   id: 'fr',
-  name: 'Français',
+  name: 'French',
   sample: 'IL EST',
   rows: [
     'ILNESTODEUX',
@@ -77,6 +79,6 @@ export const french: LanguageDef = {
     'ETSDEMIEPAM',
   ],
   itIs: [IL, EST],
-  words: [IL, EST, DEUX, QUATRE, TROIS, NEUF, UNE, SEPT, HUIT, SIX, CINQ_HOUR, MIDI, DIX_HOUR, MINUIT, ONZE, HEURE, HEURES, MOINS, LE, DIX_MIN, ET, QUART, VINGT, VINGT_CINQ, CINQ_MIN, DEMIE],
+  words: [IL, EST, DEUX, QUATRE, TROIS, NEUF, UNE, SEPT, HUIT, SIX, CINQ_HOUR, MIDI, DIX_HOUR, MINUIT, ONZE, HEURE, HEURES, MOINS, LE, DIX_MIN, ET, QUART, VINGT, VINGT_CINQ, CINQ_MIN, ET_DEMIE, DEMIE],
   phrase,
 };

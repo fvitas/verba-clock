@@ -51,7 +51,7 @@ function phrase(hours: number, minutes: number): WordCoord[] {
 
 export const swabian: LanguageDef = {
   id: 'd3',
-  name: 'Schwäbisch (D3)',
+  name: 'Swabian (D3)',
   sample: 'ES ISCH',
   rows: [
     'ESKISCHFUNK',

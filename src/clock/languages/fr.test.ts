@@ -21,6 +21,13 @@ describe('french grid integrity', () => {
   });
 });
 
+describe('french lit cells', () => {
+  it('ET DEMIE lights the bottom-row ET, not the ET QUART one (per QLOCKTWO reference photo)', () => {
+    const et = french.phrase(7, 30).find((w) => w.text === 'ET');
+    expect(et?.row).toBe(9);
+  });
+});
+
 describe('french time phrases', () => {
   it.each([
     [10, 0, 'IL EST DIX HEURES'],

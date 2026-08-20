@@ -30,6 +30,7 @@
 		D09E5CC0820B54FCB8F6D53C /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 01A019876BF77ED232E22339 /* Foundation.framework */; };
 		EE373CD7D70C406B3FD97B2A /* FaceData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5DEFDB8C9826E9875D963F00 /* FaceData.swift */; };
 		F277962F3F5B32B5B4199A92 /* Finishes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E63AA79CE81DB9E4F16A8C8 /* Finishes.swift */; };
+		A1B2C3D40000000000000102 /* Textures.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1B2C3D40000000000000101 /* Textures.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -61,6 +62,7 @@
 		027302B8FC53D8BD5280E212 /* Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		0BC66AE947805A0E63DE67A3 /* VerbaWidgets.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = VerbaWidgets.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		1E63AA79CE81DB9E4F16A8C8 /* Finishes.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = Finishes.swift; sourceTree = "<group>"; };
+		A1B2C3D40000000000000101 /* Textures.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = Textures.swift; sourceTree = "<group>"; };
 		2FAD9762203C412B000D30F8 /* config.xml */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = config.xml; sourceTree = "<group>"; };
 		3DC35E9966959F50E4192248 /* WidgetBridgePlugin.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = WidgetBridgePlugin.swift; sourceTree = "<group>"; };
 		3FA666A9A209A12F09048C18 /* DINish-Medium.ttf */ = {isa = PBXFileReference; includeInIndex = 1; path = "DINish-Medium.ttf"; sourceTree = "<group>"; };
@@ -115,6 +117,7 @@
 				D62729F58942E9A2FC1D6F5B /* FaceViews.swift */,
 				5DEFDB8C9826E9875D963F00 /* FaceData.swift */,
 				1E63AA79CE81DB9E4F16A8C8 /* Finishes.swift */,
+				A1B2C3D40000000000000101 /* Textures.swift */,
 				E8928F0D8D2796EB5517E2F8 /* ConfigIntent.swift */,
 				6AB2E17C180F35D71FAEBBE0 /* SharedSettings.swift */,
 				590DC0B811F4209CC3093FAB /* FaceData.json */,
@@ -309,6 +312,7 @@
 				9ADCA9F8A81048B6AA9EFB65 /* FaceViews.swift in Sources */,
 				EE373CD7D70C406B3FD97B2A /* FaceData.swift in Sources */,
 				F277962F3F5B32B5B4199A92 /* Finishes.swift in Sources */,
+				A1B2C3D40000000000000102 /* Textures.swift in Sources */,
 				B3DF21D4153606C893787676 /* ConfigIntent.swift in Sources */,
 				495A701C0AE55742A1106FB4 /* SharedSettings.swift in Sources */,
 			);

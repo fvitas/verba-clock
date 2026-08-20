@@ -4,4 +4,6 @@
     <string name="title_activity_main">Verba Clock</string>
     <string name="package_name">com.verba.clock</string>
     <string name="custom_url_scheme">com.verba.clock</string>
+    <string name="widget_label">Verba Clock</string>
+    <string name="widget_description">The word clock on your home screen</string>
 </resources>

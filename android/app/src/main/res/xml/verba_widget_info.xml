@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- updatePeriodMillis is the reboot-proof floor (30 min is the system minimum); the provider's
+     own inexact alarm does the five-minute ticks and gets re-armed by every system update.
+     previewImage is a real render of the face, dumped by FaceRendererTest, so the picker shows
+     the clock itself rather than an app icon. -->
+<appwidget-provider xmlns:android="http://schemas.android.com/apk/res/android"
+    android:initialLayout="@layout/widget_face"
+    android:minWidth="110dp"
+    android:minHeight="110dp"
+    android:targetCellWidth="3"
+    android:targetCellHeight="3"
+    android:description="@string/widget_description"
+    android:previewImage="@drawable/widget_preview"
+    android:resizeMode="horizontal|vertical"
+    android:updatePeriodMillis="1800000"
+    android:widgetCategory="home_screen" />

@@ -19,7 +19,12 @@ type ExportedLanguage = {
   states: ExportedState[];
 };
 
-const OUT = join(dirname(fileURLToPath(import.meta.url)), '../ios/App/VerbaWidgets/FaceData.json');
+const HERE = dirname(fileURLToPath(import.meta.url));
+// Both native widget renderers read the same file — iOS from the bundle, Android from assets
+const OUTS = [
+  join(HERE, '../ios/App/VerbaWidgets/FaceData.json'),
+  join(HERE, '../android/app/src/main/assets/FaceData.json'),
+];
 
 function exportLanguage(lang: (typeof LANGUAGES)[number]): ExportedLanguage {
   const words: ExportedWord[] = [];
@@ -58,6 +63,9 @@ function exportLanguage(lang: (typeof LANGUAGES)[number]): ExportedLanguage {
 // Every face ships: the SwiftUI renderer draws letter grids and word grids, and flips
 // either one for RTL via layoutDirection
 const data = { version: 1, languages: LANGUAGES.map(exportLanguage) };
-mkdirSync(dirname(OUT), { recursive: true });
-writeFileSync(OUT, JSON.stringify(data));
-console.log(`Wrote ${OUT}: ${data.languages.length} languages`);
+const json = JSON.stringify(data);
+for (const out of OUTS) {
+  mkdirSync(dirname(out), { recursive: true });
+  writeFileSync(out, json);
+  console.log(`Wrote ${out}: ${data.languages.length} languages`);
+}

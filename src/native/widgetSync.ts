@@ -7,9 +7,10 @@ type WidgetBridge = {
 
 const WidgetBridge = registerPlugin<WidgetBridge>('WidgetBridge');
 
-// Widgets resolve their "Same as app" options from this App Group copy
+// Widgets resolve their "Same as app" options from this copy — an App Group on iOS,
+// SharedPreferences on Android
 export function syncSettingsToWidgets(settings: Settings): void {
-  if (Capacitor.getPlatform() !== 'ios') return;
+  if (!Capacitor.isNativePlatform()) return;
   void WidgetBridge.syncSettings({ settings: JSON.stringify(settings) }).catch(() => {
     // Plugin missing (e.g. outdated native shell) — widgets just keep defaults
   });

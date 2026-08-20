@@ -26,11 +26,11 @@
             android:exported="true">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
-                <!-- Keeps the face honest across clock changes and screen unlocks, since the
-                     five-minute tick alarm is inexact -->
+                <!-- Keeps the face honest across clock changes, since the five-minute tick alarm
+                     is inexact. USER_PRESENT would be the natural third, but it is an implicit
+                     broadcast a manifest receiver never gets — verified silent on Android 15 -->
                 <action android:name="android.intent.action.TIME_SET" />
                 <action android:name="android.intent.action.TIMEZONE_CHANGED" />
-                <action android:name="android.intent.action.USER_PRESENT" />
             </intent-filter>
             <meta-data
                 android:name="android.appwidget.provider"

@@ -47,7 +47,6 @@ public class VerbaWidgetProvider extends AppWidgetProvider {
         super.onReceive(context, intent);
         String action = intent.getAction();
         if (ACTION_TICK.equals(action)
-            || Intent.ACTION_USER_PRESENT.equals(action)
             || Intent.ACTION_TIME_CHANGED.equals(action)
             || Intent.ACTION_TIMEZONE_CHANGED.equals(action)) {
             Log.d(TAG, "refresh from " + action);

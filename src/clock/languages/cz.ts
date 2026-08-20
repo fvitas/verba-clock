@@ -1,5 +1,6 @@
 // Matrix source: https://github.com/vulture20/QLOCKGENERATOR/blob/master/src/app/configs/languages.ts
 // Cross-checked with: https://github.com/bramp/wordclock/blob/master/lib/languages/natural/czech.dart (reference grid + logic)
+// Verified against official QLOCKTWO photo at 7:30 (mockups/reference-languages/cz-czech.png); row 8 fillers are M…M, not the community sources' N…E
 // Digital-readout face: hour never rolls over; JSOU for hours 2-4, JE otherwise
 import { word, type LanguageDef, type WordCoord } from '../types';
 
@@ -66,7 +67,7 @@ export const czech: LanguageDef = {
     'ČTYŘIADESET',
     'DVACETŘICET',
     'PATNÁCTNULA',
-    'NEČTYŘICETE',
+    'MEČTYŘICETM',
     'PADESÁTDPĚT',
   ],
   itIs: [JE],

@@ -8,11 +8,23 @@ export type Finish = {
   stencilOpacity: number;
 };
 
+// A background SVG only stretches to the element if it declares a viewBox with
+// preserveAspectRatio='none' — without one iOS 18 WebKit aspect-fits and centres the
+// drawing instead, leaving the finish as a band with bare edges (Blink stretches either way)
+const svgTex = (size: number, body: string): string => {
+  const svg =
+    `<svg xmlns='http://www.w3.org/2000/svg' width='${size}' height='${size}' ` +
+    `viewBox='0 0 ${size} ${size}' preserveAspectRatio='none'>${body}</svg>`;
+  return `url("data:image/svg+xml,${encodeURIComponent(svg)}")`;
+};
+
 // SVG fractal noise as a data-URI background layer — the procedural grain for coatings/stone
 const noise = (opacity: number, frequency = 0.8): string =>
-  `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='${frequency}' numOctaves='3'/%3E%3C/filter%3E%3Crect width='120' height='120' filter='url(%23n)' opacity='${opacity}'/%3E%3C/svg%3E")`;
-
-const svgTex = (svg: string): string => `url("data:image/svg+xml,${encodeURIComponent(svg)}")`;
+  svgTex(
+    120,
+    `<filter id='n'><feTurbulence type='fractalNoise' baseFrequency='${frequency}' numOctaves='3'/></filter>` +
+      `<rect width='120' height='120' filter='url(#n)' opacity='${opacity}'/>`,
+  );
 
 type Channels = { r: string; g: string; b: string };
 
@@ -39,14 +51,13 @@ const mottle = ({ freq, hexes, octaves = 5, seed = 7, rotate = 0, type = 'fracta
   const rect = rotate
     ? `<g transform='rotate(${rotate} 450 450)'><rect x='-450' y='-450' width='1800' height='1800' filter='url(#f)'/></g>`
     : `<rect width='900' height='900' filter='url(#f)'/>`;
-  const svg =
-    `<svg xmlns='http://www.w3.org/2000/svg' width='900' height='900'>` +
+  const body =
     `<filter id='f' x='0' y='0' width='100%' height='100%' color-interpolation-filters='sRGB'>` +
     `<feTurbulence type='${type}' baseFrequency='${freq}' numOctaves='${octaves}' seed='${seed}' stitchTiles='stitch'/>` +
     `<feColorMatrix values='1 0 0 0 0 1 0 0 0 0 1 0 0 0 0 0 0 0 0 1'/>` +
     `<feComponentTransfer><feFuncR type='table' tableValues='${p.r}'/><feFuncG type='table' tableValues='${p.g}'/><feFuncB type='table' tableValues='${p.b}'/></feComponentTransfer>` +
-    `</filter>${rect}</svg>`;
-  return `${svgTex(svg)} 0 0 / 100% 100%`;
+    `</filter>${rect}`;
+  return `${svgTex(900, body)} 0 0 / 100% 100%`;
 };
 
 // desert stone: pink-cream grain, golden clouds, brown speck clusters and thin
@@ -56,8 +67,7 @@ const desertSurface = (): string => {
   const vein = 'M495,-20 C440,180 370,330 300,470 C240,590 160,720 70,880';
   const vein2 = 'M-20,160 C120,120 260,90 400,70';
   const vein3 = 'M830,-20 C800,120 760,240 690,400';
-  const svg =
-    `<svg xmlns='http://www.w3.org/2000/svg' width='900' height='900'>` +
+  const body =
     `<filter id='g' x='0' y='0' width='100%' height='100%' color-interpolation-filters='sRGB'><feTurbulence type='fractalNoise' baseFrequency='0.55' numOctaves='3' seed='8' stitchTiles='stitch'/><feColorMatrix values='1 0 0 0 0 1 0 0 0 0 1 0 0 0 0 0 0 0 0 1'/><feComponentTransfer><feFuncR type='table' tableValues='${grain.r}'/><feFuncG type='table' tableValues='${grain.g}'/><feFuncB type='table' tableValues='${grain.b}'/></feComponentTransfer></filter>` +
     `<filter id='w' x='0' y='0' width='100%' height='100%' color-interpolation-filters='sRGB'><feTurbulence type='fractalNoise' baseFrequency='0.006' numOctaves='4' seed='31' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0.753 0 0 0 0 0.627 0 0 0 0 0.412 1 0 0 0 0'/><feComponentTransfer><feFuncA type='table' tableValues='0 0.02 0.08 0.18 0.3'/></feComponentTransfer></filter>` +
     `<filter id='k' x='0' y='0' width='100%' height='100%' color-interpolation-filters='sRGB'><feTurbulence type='fractalNoise' baseFrequency='0.4' numOctaves='3' seed='17' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0.478 0 0 0 0 0.361 0 0 0 0 0.204 1 0 0 0 0'/><feComponentTransfer><feFuncA type='table' tableValues='0 0 0 0 0.12 0.26'/></feComponentTransfer></filter>` +
@@ -76,8 +86,8 @@ const desertSurface = (): string => {
     `<path d='${vein2}' stroke='#85643c' stroke-width='1.8' opacity='0.4'/>` +
     `<path d='${vein3}' stroke='#a5804d' stroke-width='4' opacity='0.18'/>` +
     `<path d='${vein3}' stroke='#85643c' stroke-width='1.6' opacity='0.35'/>` +
-    `</g></svg>`;
-  return `${svgTex(svg)} 0 0 / 100% 100%`;
+    `</g>`;
+  return `${svgTex(900, body)} 0 0 / 100% 100%`;
 };
 
 export const FINISHES: Finish[] = [

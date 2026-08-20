@@ -92,7 +92,7 @@ function ClockScreen({ settingsOpen, docked }: { settingsOpen: boolean; docked: 
   if (onWall) {
     return (
       <main
-        className={`flex h-dvh w-dvw items-center justify-center overflow-hidden bg-[radial-gradient(120%_100%_at_50%_20%,#38342f,#211f1c)] font-[DINish,'Noto_Sans'] transition-[padding,filter] duration-300 [container-type:size] ${sheetInset}`}
+        className={`group flex h-dvh w-dvw items-center justify-center overflow-hidden bg-[radial-gradient(120%_100%_at_50%_20%,#38342f,#211f1c)] font-[DINish,'Noto_Sans'] transition-[padding,filter] duration-300 [container-type:size] ${sheetInset}`}
         style={{ filter: `brightness(${brightness})` }}
         data-settings-open={settingsOpen || undefined}
       >
@@ -108,7 +108,7 @@ function ClockScreen({ settingsOpen, docked }: { settingsOpen: boolean; docked: 
 
   return (
     <main
-      className={`relative flex h-dvh w-dvw items-center justify-center overflow-hidden font-[DINish,'Noto_Sans'] transition-[padding,filter] duration-300 [container-type:size] ${sheetInset}`}
+      className={`group relative flex h-dvh w-dvw items-center justify-center overflow-hidden font-[DINish,'Noto_Sans'] transition-[padding,filter] duration-300 [container-type:size] ${sheetInset}`}
       style={{ background: finish.surface, filter: `brightness(${brightness})` }}
       data-docked={docked || undefined}
       data-settings-open={settingsOpen || undefined}

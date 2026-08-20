@@ -30,6 +30,18 @@ describe('finish catalog', () => {
     }
   });
 
+  // iOS 18 WebKit aspect-fits a viewBox-less SVG instead of stretching it to the element
+  it('every embedded SVG declares a viewBox and preserveAspectRatio=none', () => {
+    for (const f of FINISHES) {
+      // gradients carry bare % signs, so only the data URIs may be percent-decoded
+      for (const uri of f.surface.match(/data:image\/svg\+xml,[^"]+/g) ?? []) {
+        const root = decodeURIComponent(uri).match(/<svg[^>]*>/)?.[0] ?? '';
+        expect(root).toMatch(/viewBox='0 0 (120 120|900 900)'/);
+        expect(root).toContain("preserveAspectRatio='none'");
+      }
+    }
+  });
+
   it('falls back to deep-black for unknown ids', () => {
     expect(getFinish('nope').id).toBe('deep-black');
     expect(getFinish('rust').id).toBe('rust');

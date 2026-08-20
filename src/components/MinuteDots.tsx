@@ -21,7 +21,9 @@ export function MinuteDots({ count, finish, visible, nearEdge }: MinuteDotsProps
 
   return (
     <div
-      className={`absolute ${nearEdge ? 'top-[calc(50cqh+44.5cqmin)]' : 'top-[calc(50cqh+41cqmin)]'} left-[50cqw] flex -translate-x-1/2 gap-[3.5cqmin] transition-opacity duration-[600ms] ${visible ? 'opacity-100' : 'opacity-0'}`}
+      // The mobile sheet slides the face up: the dots cut out at once rather than skating
+      // across the screen with it, then fade back in behind the closing sheet
+      className={`absolute ${nearEdge ? 'top-[calc(50cqh+44.5cqmin)]' : 'top-[calc(50cqh+41cqmin)]'} left-[50cqw] flex -translate-x-1/2 gap-[3.5cqmin] transition-opacity duration-[600ms] max-md:group-data-[settings-open]:opacity-0 max-md:group-data-[settings-open]:duration-0 ${visible ? '' : 'opacity-0'}`}
       data-testid="minute-dots"
     >
       {[0, 1, 2, 3].map((index) => (

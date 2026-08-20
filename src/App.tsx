@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { resolveTime } from './clock/engine';
 import { getLanguage } from './clock/languages';
-import { resolveSeconds } from './clock/seconds';
+import { mirrorCols, resolveSeconds } from './clock/seconds';
 import { useClockTime } from './clock/use-clock-time';
 import { ClockFace } from './components/ClockFace';
 import { CornerDots } from './components/CornerDots';
@@ -36,6 +36,11 @@ function AppShell() {
 
 type Mode = 'words' | 'seconds';
 
+const secondsFor = (seconds: number, dir?: 'rtl'): ReadonlySet<string> => {
+  const lit = resolveSeconds(seconds);
+  return dir === 'rtl' ? mirrorCols(lit) : lit;
+};
+
 function ClockScreen({ settingsOpen, docked }: { settingsOpen: boolean; docked: boolean }) {
   const { settings } = useSettings();
   const time = useClockTime();
@@ -50,7 +55,7 @@ function ClockScreen({ settingsOpen, docked }: { settingsOpen: boolean; docked: 
   const display = resolveTime(time.getHours(), time.getMinutes(), lang, settings.showItIs);
   // Seconds digits render on the letter matrix — word-grid faces (Arabic) have none
   const effectiveMode = lang.layout === 'word' ? 'words' : mode;
-  const lit = effectiveMode === 'words' ? display.lit : resolveSeconds(time.getSeconds());
+  const lit = effectiveMode === 'words' ? display.lit : secondsFor(time.getSeconds(), lang.dir);
 
   const toggleMode = () => {
     if (lang.layout === 'word') return;

@@ -56,7 +56,10 @@ export function ClockFace({ rows, lit, finish, cellOverrides, layout, dir, onCli
 
   return (
     <div
-      className="grid w-[82cqmin] select-none font-medium tracking-widest"
+      // dir="rtl" flips the grid so column 0 lands on the right (Hebrew); tracking would
+      // then pad the wrong side of each cell, so RTL faces rely on the grid gaps alone
+      dir={dir}
+      className={`grid w-[82cqmin] select-none font-medium ${dir === 'rtl' ? '' : 'tracking-widest'}`}
       style={{ gridTemplateColumns: `repeat(${cols}, minmax(0, 1fr))`, fontSize: '4.2cqmin' }}
       onClick={onClick}
     >

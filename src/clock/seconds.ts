@@ -13,6 +13,16 @@ export const DIGITS: Record<string, string[]> = {
   '9': ['01110', '10001', '10001', '01111', '00001', '00010', '01100'],
 };
 
+// RTL faces render column 0 on the right, which would mirror the digits — pre-flip them
+export function mirrorCols(lit: ReadonlySet<string>, cols = 11): ReadonlySet<string> {
+  const flipped = new Set<string>();
+  for (const key of lit) {
+    const [row, col] = key.split(':').map(Number);
+    flipped.add(cellKey(row, cols - 1 - col));
+  }
+  return flipped;
+}
+
 // Digits use the letter grid as pixels, like the hardware's seconds display
 export function resolveSeconds(seconds: number, cols = 11, rows = 10): ReadonlySet<string> {
   const text = String(seconds).padStart(2, '0');

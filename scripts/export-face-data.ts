@@ -51,12 +51,14 @@ function exportLanguage(lang: (typeof LANGUAGES)[number]): ExportedLanguage {
   };
 }
 
-// The SwiftUI widget renderer draws letter matrices; word-grid faces (Arabic) stay app-only
-const exportable = LANGUAGES.filter((lang) => lang.layout !== 'word');
-const skipped = LANGUAGES.filter((lang) => lang.layout === 'word');
+// The SwiftUI widget renderer draws left-to-right letter matrices, so word-grid faces
+// (Arabic) and RTL faces (Hebrew) stay app-only until it learns both
+const appOnly = (lang: (typeof LANGUAGES)[number]): boolean => lang.layout === 'word' || lang.dir === 'rtl';
+const exportable = LANGUAGES.filter((lang) => !appOnly(lang));
+const skipped = LANGUAGES.filter(appOnly);
 
 const data = { version: 1, languages: exportable.map(exportLanguage) };
 mkdirSync(dirname(OUT), { recursive: true });
 writeFileSync(OUT, JSON.stringify(data));
 console.log(`Wrote ${OUT}: ${data.languages.length} languages`);
-if (skipped.length > 0) console.log(`Skipped word-grid faces (no widget support): ${skipped.map((lang) => lang.id).join(', ')}`);
+if (skipped.length > 0) console.log(`Skipped app-only faces (no widget support): ${skipped.map((lang) => lang.id).join(', ')}`);

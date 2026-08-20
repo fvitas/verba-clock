@@ -33,6 +33,15 @@ struct VerbaWidgetView: View {
     let entry: VerbaEntry
 
     var body: some View {
+        // RTL faces store column 0 as the rightmost cell — flipping the layout direction
+        // reverses the matrix HStacks and right-aligns the words style in one move
+        content.environment(
+            \.layoutDirection,
+            entry.moment.language.dir == "rtl" ? .rightToLeft : .leftToRight
+        )
+    }
+
+    @ViewBuilder private var content: some View {
         switch family {
         case .accessoryInline:
             AccessoryInlineView(moment: entry.moment)

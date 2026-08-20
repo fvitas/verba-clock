@@ -12,6 +12,7 @@ type ExportedLanguage = {
   id: string;
   name: string;
   rows: string[];
+  dir?: 'rtl';
   cellOverrides?: Record<string, string>;
   words: ExportedWord[];
   states: ExportedState[];
@@ -45,15 +46,16 @@ function exportLanguage(lang: (typeof LANGUAGES)[number]): ExportedLanguage {
     id: lang.id,
     name: lang.name,
     rows: lang.rows,
+    ...(lang.dir ? { dir: lang.dir } : {}),
     ...(lang.cellOverrides ? { cellOverrides: lang.cellOverrides } : {}),
     words,
     states,
   };
 }
 
-// The SwiftUI widget renderer draws left-to-right letter matrices, so word-grid faces
-// (Arabic) and RTL faces (Hebrew) stay app-only until it learns both
-const appOnly = (lang: (typeof LANGUAGES)[number]): boolean => lang.layout === 'word' || lang.dir === 'rtl';
+// The SwiftUI renderer handles RTL letter grids via layoutDirection, but has no word-slot
+// view, so word-grid faces (Arabic) stay app-only
+const appOnly = (lang: (typeof LANGUAGES)[number]): boolean => lang.layout === 'word';
 const exportable = LANGUAGES.filter((lang) => !appOnly(lang));
 const skipped = LANGUAGES.filter(appOnly);
 

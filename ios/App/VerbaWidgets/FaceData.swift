@@ -20,6 +20,8 @@ struct FaceLanguage: Decodable {
     let id: String
     let name: String
     let rows: [String]
+    // "rtl" for faces whose column 0 is the rightmost cell (Hebrew)
+    let dir: String?
     let cellOverrides: [String: String]?
     let words: [FaceWord]
     let states: [FaceState]

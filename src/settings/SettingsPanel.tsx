@@ -12,6 +12,7 @@ import {
   supportsHaptics,
   tapHaptic,
 } from '../native/haptics';
+import { useBackButton } from '../native/useBackButton';
 import { supportsDock } from '../native/useDockMode';
 import { isNative } from '../native/useNative';
 import { supportsWakeLock } from '../native/useWakeLock';
@@ -201,10 +202,21 @@ export function SettingsPanel({ open, docked, onOpenChange }: SettingsPanelProps
     onOpenChange(next);
   };
 
+  // Android's back gesture: pop the language list, then the panel, then leave the app
+  useBackButton(() => {
+    if (!open) return false;
+    if (view === 'language') {
+      setView('main');
+      return true;
+    }
+    openChange(false);
+    return true;
+  });
+
   const trigger = (
     <button
       aria-label="Settings"
-      className={`fixed bottom-3.5 z-10 -translate-x-1/2 rounded-full p-3.5 transition-[color,left] duration-300 ${open ? 'left-1/2 md:left-[calc(50%-182px)]' : 'left-1/2'} ${cogColor}`}
+      className={`fixed bottom-[calc(0.875rem+env(safe-area-inset-bottom))] z-10 -translate-x-1/2 rounded-full p-3.5 transition-[color,left] duration-300 ${open ? 'left-1/2 md:left-[calc(50%-182px-env(safe-area-inset-right)/2)]' : 'left-1/2'} ${cogColor}`}
     >
       <Settings className="size-6" />
     </button>
@@ -227,7 +239,7 @@ export function SettingsPanel({ open, docked, onOpenChange }: SettingsPanelProps
           <Dialog.Overlay className="fixed inset-0" />
           <Dialog.Content
             aria-describedby={undefined}
-            className="fixed top-3 right-3 bottom-3 z-20 flex w-[340px] flex-col overflow-hidden rounded-2xl bg-neutral-900/55 pb-6 text-neutral-100 backdrop-blur-2xl [animation:sheet-in-right_.3s_ease-out]"
+            className="fixed top-[calc(0.75rem+env(safe-area-inset-top))] right-[calc(0.75rem+env(safe-area-inset-right))] bottom-[calc(0.75rem+env(safe-area-inset-bottom))] z-20 flex w-[340px] flex-col overflow-hidden rounded-2xl bg-neutral-900/55 pb-6 text-neutral-100 backdrop-blur-2xl [animation:sheet-in-right_.3s_ease-out]"
           >
             {body}
           </Dialog.Content>
@@ -243,7 +255,7 @@ export function SettingsPanel({ open, docked, onOpenChange }: SettingsPanelProps
         <Drawer.Overlay className="fixed inset-0 bg-black/35" />
         <Drawer.Content
           aria-describedby={undefined}
-          className="fixed inset-x-0 bottom-0 z-20 flex max-h-[70dvh] flex-col overflow-hidden rounded-t-2xl bg-neutral-900/55 pb-6 text-neutral-100 outline-none backdrop-blur-2xl"
+          className="fixed inset-x-0 bottom-0 z-20 flex max-h-[70dvh] flex-col overflow-hidden rounded-t-2xl bg-neutral-900/55 pb-[calc(1.5rem+env(safe-area-inset-bottom))] text-neutral-100 outline-none backdrop-blur-2xl"
         >
           <div className="mx-auto mt-2 h-1.5 w-9 shrink-0 rounded-full bg-white/25" />
           {body}

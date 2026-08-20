@@ -29,7 +29,6 @@
         </provider>
     </application>
 
-    <!-- Permissions -->
-
-    <uses-permission android:name="android.permission.INTERNET" />
+    <!-- No permissions: the clock is offline forever, and the WebView loads its assets
+         through Capacitor's local asset loader, not the network -->
 </manifest>

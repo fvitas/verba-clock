@@ -68,8 +68,13 @@ function ClockScreen({ settingsOpen, docked }: { settingsOpen: boolean; docked: 
   // the face beside it. Mobile lifts the face with a transform instead: iOS 18 never
   // re-resolves container-query units while the query container's own box animates, so
   // padding there left the letters at a stale size until a later repaint snapped them (D37).
-  const sheetInset = settingsOpen ? 'md:pr-[364px]' : '';
+  // Panel width + its margin + a gap, plus whatever the panel itself is inset by (Android's
+  // landscape nav bar sits on the right)
+  const sheetInset = settingsOpen ? 'md:pr-[calc(364px+env(safe-area-inset-right))]' : '';
   const sheetLift = settingsOpen ? 'max-md:-translate-y-[30dvh] max-md:scale-90' : '';
+  // The fullbleed dial is absolutely positioned, so it centres on the padding box and the
+  // panel would cover its right columns — slide it into the free half instead
+  const sheetShift = settingsOpen ? 'md:translate-x-[calc(-182px-env(safe-area-inset-right)/2)]' : '';
 
   const onWall = settings.presentation === 'wall' && !docked;
 
@@ -119,7 +124,7 @@ function ClockScreen({ settingsOpen, docked }: { settingsOpen: boolean; docked: 
     >
       {corners}
       <div
-        className={`absolute inset-0 flex items-center justify-center transition-transform duration-300 ${sheetLift}`}
+        className={`absolute inset-0 flex items-center justify-center transition-transform duration-300 ${sheetLift} ${sheetShift}`}
       >
         {dial}
       </div>

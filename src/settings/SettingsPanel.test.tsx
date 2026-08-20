@@ -1,4 +1,4 @@
-import { fireEvent, render, screen } from '@testing-library/react';
+import { act, fireEvent, render, screen } from '@testing-library/react';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { SettingsPanel } from './SettingsPanel';
 import { SettingsProvider } from './SettingsContext';
@@ -23,6 +23,15 @@ vi.mock('@capacitor/core', () => ({
   Capacitor: { isNativePlatform: () => isNativePlatform(), getPlatform: () => 'web' },
   registerPlugin: () => ({ syncSettings: () => Promise.resolve() }),
 }));
+
+const backHandler = { current: (): boolean => false };
+vi.mock('../native/useBackButton', () => ({
+  useBackButton: (handler: () => boolean) => {
+    backHandler.current = handler;
+  },
+}));
+
+const pressBack = (): void => void act(() => void backHandler.current());
 
 // The desktop dialog skips vaul, whose pointer-drag handlers can't run in jsdom
 function useDesktopPanel(): void {
@@ -96,6 +105,26 @@ describe('SettingsPanel', () => {
     fireEvent.click(screen.getByRole('button', { name: 'Back' }));
     expect(screen.getByText('Presentation')).toBeInTheDocument();
     expect(loadSettings(localStorage).languageId).toBe('en');
+  });
+
+  it('pops the language subview on the Android back press, then closes the panel', () => {
+    const onOpenChange = vi.fn();
+    renderPanel(true, onOpenChange);
+    fireEvent.click(screen.getByRole('button', { name: /^Language/ }));
+
+    pressBack();
+    expect(screen.getByText('Presentation')).toBeInTheDocument();
+    expect(onOpenChange).not.toHaveBeenCalled();
+
+    pressBack();
+    expect(onOpenChange).toHaveBeenCalledWith(false);
+  });
+
+  it('leaves the closed panel alone so the back press exits the app', () => {
+    const onOpenChange = vi.fn();
+    renderPanel(false, onOpenChange);
+    pressBack();
+    expect(onOpenChange).not.toHaveBeenCalled();
   });
 
   it('persists the presentation choice', () => {

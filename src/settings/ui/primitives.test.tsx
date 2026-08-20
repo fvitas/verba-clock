@@ -1,10 +1,16 @@
 import { render, screen, fireEvent } from '@testing-library/react';
-import { describe, expect, it, vi } from 'vitest';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
+
+const tapHaptic = vi.fn();
+vi.mock('../../native/haptics', () => ({ tapHaptic: () => tapHaptic() }));
+
 import { Toggle } from './Toggle';
 import { Segmented } from './Segmented';
 import { Group } from './Group';
 import { Cell } from './Cell';
 import { SwatchRow } from './SwatchRow';
+
+beforeEach(() => vi.clearAllMocks());
 
 describe('Toggle', () => {
   it('reflects checked state and calls onCheckedChange', () => {
@@ -14,6 +20,7 @@ describe('Toggle', () => {
     expect(toggle).toHaveAttribute('data-state', 'unchecked');
     fireEvent.click(toggle);
     expect(onCheckedChange).toHaveBeenCalledWith(true);
+    expect(tapHaptic).toHaveBeenCalledOnce();
   });
 });
 
@@ -33,6 +40,7 @@ describe('Segmented', () => {
     expect(screen.getByRole('radio', { name: 'Full-bleed' })).toBeChecked();
     fireEvent.click(screen.getByRole('radio', { name: 'Wall' }));
     expect(onChange).toHaveBeenCalledWith('wall');
+    expect(tapHaptic).toHaveBeenCalledOnce();
   });
 
   it('with two options, clicking the active side toggles to the other', () => {
@@ -71,6 +79,7 @@ describe('Group and Cell', () => {
     render(<Cell label="Language" onClick={onClick} />);
     fireEvent.click(screen.getByRole('button', { name: /Language/ }));
     expect(onClick).toHaveBeenCalled();
+    expect(tapHaptic).toHaveBeenCalledOnce();
   });
 });
 
@@ -89,5 +98,6 @@ describe('SwatchRow', () => {
     );
     fireEvent.click(screen.getByRole('button', { name: 'Cream' }));
     expect(onSelect).toHaveBeenCalledWith('cream');
+    expect(tapHaptic).toHaveBeenCalledOnce();
   });
 });

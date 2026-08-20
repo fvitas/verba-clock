@@ -4,11 +4,37 @@ import { SettingsPanel } from './SettingsPanel';
 import { SettingsProvider } from './SettingsContext';
 import { loadSettings } from './store';
 
+const haptics = { supported: false };
+const tapHaptic = vi.fn();
+const startSelectionHaptic = vi.fn();
+const selectionHaptic = vi.fn();
+const endSelectionHaptic = vi.fn();
+vi.mock('../native/haptics', () => ({
+  supportsHaptics: () => haptics.supported,
+  setHapticsEnabled: () => {},
+  tapHaptic: () => tapHaptic(),
+  startSelectionHaptic: () => startSelectionHaptic(),
+  selectionHaptic: () => selectionHaptic(),
+  endSelectionHaptic: () => endSelectionHaptic(),
+}));
+
 const isNativePlatform = vi.fn();
 vi.mock('@capacitor/core', () => ({
   Capacitor: { isNativePlatform: () => isNativePlatform(), getPlatform: () => 'web' },
   registerPlugin: () => ({ syncSettings: () => Promise.resolve() }),
 }));
+
+// The desktop dialog skips vaul, whose pointer-drag handlers can't run in jsdom
+function useDesktopPanel(): void {
+  vi.stubGlobal('matchMedia', (media: string) => ({
+    matches: true,
+    media,
+    onchange: null,
+    addEventListener: () => {},
+    removeEventListener: () => {},
+    dispatchEvent: () => false,
+  }));
+}
 
 function renderPanel(open = true, onOpenChange: (open: boolean) => void = () => {}, docked = false) {
   return render(
@@ -22,6 +48,7 @@ describe('SettingsPanel', () => {
   beforeEach(() => {
     localStorage.clear();
     isNativePlatform.mockReturnValue(false);
+    haptics.supported = false;
   });
   afterEach(() => vi.clearAllMocks());
 
@@ -125,6 +152,43 @@ describe('SettingsPanel', () => {
   it('hides dock mode on web without the Battery API', () => {
     renderPanel();
     expect(screen.queryByRole('switch', { name: 'Dock when charging' })).not.toBeInTheDocument();
+  });
+
+  it('hides the haptics switch where haptics are unsupported', () => {
+    renderPanel();
+    expect(screen.queryByRole('switch', { name: 'Haptics' })).not.toBeInTheDocument();
+  });
+
+  it('persists the haptics toggle where haptics work', () => {
+    haptics.supported = true;
+    renderPanel();
+    fireEvent.click(screen.getByRole('switch', { name: 'Haptics' }));
+    expect(loadSettings(localStorage).haptics).toBe(false);
+  });
+
+  it('buzzes when the sheet opens and closes', () => {
+    const { unmount } = renderPanel(false, () => {});
+    fireEvent.click(screen.getByRole('button', { name: /settings/i }));
+    expect(tapHaptic).toHaveBeenCalledOnce();
+    unmount();
+
+    renderPanel(true, () => {});
+    fireEvent.keyDown(document, { key: 'Escape' });
+    expect(tapHaptic).toHaveBeenCalledTimes(2);
+  });
+
+  it('brackets a brightness drag with selection feedback', () => {
+    useDesktopPanel();
+    renderPanel();
+    const slider = screen.getByRole('slider', { name: 'Brightness' });
+    fireEvent.pointerDown(slider);
+    fireEvent.keyDown(slider, { key: 'ArrowLeft' });
+    fireEvent.keyUp(slider, { key: 'ArrowLeft' });
+    expect(startSelectionHaptic).toHaveBeenCalledOnce();
+    expect(selectionHaptic).toHaveBeenCalledOnce();
+    expect(endSelectionHaptic).toHaveBeenCalled();
+    expect(loadSettings(localStorage).brightness).toBeCloseTo(0.95);
+    vi.unstubAllGlobals();
   });
 
   it('hides the gear trigger while docked', () => {

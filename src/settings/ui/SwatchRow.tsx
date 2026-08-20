@@ -1,3 +1,5 @@
+import { tapHaptic } from '../../native/haptics';
+
 type Swatch = { id: string; name: string; surface: string };
 
 type SwatchRowProps = {
@@ -18,7 +20,10 @@ export function SwatchRow({ swatches, selectedId, onSelect }: SwatchRowProps) {
             swatch.id === selectedId ? 'outline-2 outline-offset-2 outline-white' : ''
           }`}
           style={{ background: swatch.surface }}
-          onClick={() => onSelect(swatch.id)}
+          onClick={() => {
+            tapHaptic();
+            onSelect(swatch.id);
+          }}
         />
       ))}
     </div>

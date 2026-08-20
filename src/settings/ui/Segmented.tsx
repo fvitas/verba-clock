@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { tapHaptic } from '../../native/haptics';
 
 type SegmentedOption<T extends string> = { value: T; label: string };
 
@@ -21,6 +22,7 @@ export function Segmented<T extends string>({ options, value, onChange }: Segmen
           }`}
           onClick={(event: React.MouseEvent<HTMLButtonElement>) => {
             event.stopPropagation();
+            tapHaptic();
             // With two options the control acts as a toggle: clicking the active side flips too
             const next =
               option.value === value && options.length === 2

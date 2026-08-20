@@ -1,5 +1,6 @@
 import { ChevronRight } from 'lucide-react';
 import type { ReactNode } from 'react';
+import { tapHaptic } from '../../native/haptics';
 
 type CellProps = { label: string; children?: ReactNode; onClick?: () => void };
 
@@ -14,7 +15,13 @@ export function Cell({ label, children, onClick }: CellProps) {
   const className = 'flex min-h-[46px] w-full items-center gap-2.5 px-4 py-2';
   if (onClick) {
     return (
-      <button className={`${className} transition-colors active:bg-white/10`} onClick={onClick}>
+      <button
+        className={`${className} transition-colors active:bg-white/10`}
+        onClick={() => {
+          tapHaptic();
+          onClick();
+        }}
+      >
         {content}
       </button>
     );

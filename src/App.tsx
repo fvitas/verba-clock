@@ -7,6 +7,7 @@ import { ClockFace } from './components/ClockFace';
 import { CornerDots } from './components/CornerDots';
 import { MinuteDots } from './components/MinuteDots';
 import { getFinish } from './finishes/catalog';
+import { tapHaptic } from './native/haptics';
 import { useDockMode } from './native/useDockMode';
 import { useNative } from './native/useNative';
 import { useWakeLock } from './native/useWakeLock';
@@ -59,6 +60,7 @@ function ClockScreen({ settingsOpen, docked }: { settingsOpen: boolean; docked: 
 
   const toggleMode = () => {
     if (lang.layout === 'word') return;
+    tapHaptic();
     setMode((prev) => (prev === 'words' ? 'seconds' : 'words'));
   };
 

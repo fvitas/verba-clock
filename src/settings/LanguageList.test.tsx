@@ -2,6 +2,9 @@ import { render, screen, fireEvent } from '@testing-library/react';
 import { describe, expect, it, vi } from 'vitest';
 import { LanguageList } from './LanguageList';
 
+const tapHaptic = vi.fn();
+vi.mock('../native/haptics', () => ({ tapHaptic: () => tapHaptic() }));
+
 // Registry has variants ("English (E2)", "German (D2)"), so name matchers are anchored.
 describe('LanguageList', () => {
   it('lists languages with samples, marks selected, selects and goes back', () => {
@@ -21,6 +24,14 @@ describe('LanguageList', () => {
 
     fireEvent.click(screen.getByRole('button', { name: 'Back' }));
     expect(onBack).toHaveBeenCalled();
+  });
+
+  it('buzzes on a language row and on back', () => {
+    tapHaptic.mockClear();
+    render(<LanguageList selectedId="en" onSelect={vi.fn()} onBack={vi.fn()} />);
+    fireEvent.click(screen.getByRole('button', { name: /^Polish/ }));
+    fireEvent.click(screen.getByRole('button', { name: 'Back' }));
+    expect(tapHaptic).toHaveBeenCalledTimes(2);
   });
 
   it('selecting a language stays on the list', () => {

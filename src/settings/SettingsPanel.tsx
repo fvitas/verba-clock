@@ -5,6 +5,13 @@ import { Settings } from 'lucide-react';
 import { Drawer } from 'vaul';
 import { getLanguage } from '../clock/languages';
 import { FINISHES, getFinish } from '../finishes/catalog';
+import {
+  endSelectionHaptic,
+  selectionHaptic,
+  startSelectionHaptic,
+  supportsHaptics,
+  tapHaptic,
+} from '../native/haptics';
 import { supportsDock } from '../native/useDockMode';
 import { isNative } from '../native/useNative';
 import { supportsWakeLock } from '../native/useWakeLock';
@@ -100,7 +107,12 @@ function PanelBody({ view, Title, onShowLanguage, onBack }: PanelBodyProps) {
               step={0.05}
               className="relative flex h-5 w-36 items-center"
               data-vaul-no-drag
-              onValueChange={([value]) => update({ brightness: value })}
+              onPointerDown={startSelectionHaptic}
+              onValueChange={([value]) => {
+                selectionHaptic();
+                update({ brightness: value });
+              }}
+              onValueCommit={endSelectionHaptic}
             >
               <Slider.Track className="relative h-1 grow rounded-full bg-white/20">
                 <Slider.Range className="absolute h-full rounded-full bg-white" />
@@ -138,7 +150,7 @@ function PanelBody({ view, Title, onShowLanguage, onBack }: PanelBodyProps) {
             />
           </Cell>
         </Group>
-        {(isNative() || supportsWakeLock() || supportsDock()) && (
+        {(isNative() || supportsWakeLock() || supportsDock() || supportsHaptics()) && (
           <Group label="Device">
             {(isNative() || supportsWakeLock()) && (
               <Cell label="Keep screen awake">
@@ -155,6 +167,15 @@ function PanelBody({ view, Title, onShowLanguage, onBack }: PanelBodyProps) {
                   checked={settings.dockMode}
                   aria-label="Dock when charging"
                   onCheckedChange={(checked) => update({ dockMode: checked })}
+                />
+              </Cell>
+            )}
+            {supportsHaptics() && (
+              <Cell label="Haptics">
+                <Toggle
+                  checked={settings.haptics}
+                  aria-label="Haptics"
+                  onCheckedChange={(checked) => update({ haptics: checked })}
                 />
               </Cell>
             )}
@@ -175,6 +196,7 @@ export function SettingsPanel({ open, docked, onOpenChange }: SettingsPanelProps
       : 'text-black/50 hover:text-black';
 
   const openChange = (next: boolean) => {
+    tapHaptic();
     if (!next) setView('main');
     onOpenChange(next);
   };

@@ -9,6 +9,11 @@ class ResizeObserverStub {
 
 globalThis.ResizeObserver ??= ResizeObserverStub as unknown as typeof ResizeObserver;
 
+// jsdom lacks pointer capture; Radix Slider claims it on pointer down
+Element.prototype.setPointerCapture ??= () => {};
+Element.prototype.releasePointerCapture ??= () => {};
+Element.prototype.hasPointerCapture ??= () => false;
+
 // jsdom lacks matchMedia; SettingsPanel branches on the md breakpoint (stub = mobile)
 globalThis.matchMedia ??= ((query: string) => ({
   matches: false,

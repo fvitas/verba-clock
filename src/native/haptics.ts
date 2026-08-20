@@ -1,0 +1,28 @@
+import { Capacitor } from '@capacitor/core';
+import { Haptics, ImpactStyle } from '@capacitor/haptics';
+
+// Kept as module state rather than context so leaf controls can buzz without prop drilling;
+// SettingsProvider pushes the user's preference in on every change.
+let enabled = true;
+
+// Desktop Chromium exposes navigator.vibrate but never buzzes — web haptics are touch-only
+export const supportsHaptics = (): boolean =>
+  Capacitor.isNativePlatform() ||
+  (typeof navigator.vibrate === 'function' && window.matchMedia('(pointer: coarse)').matches);
+
+export function setHapticsEnabled(next: boolean): void {
+  enabled = next;
+}
+
+// Fire-and-forget: a buzz that fails must never break the tap that triggered it
+function fire(run: () => Promise<void>): void {
+  if (!enabled || !supportsHaptics()) return;
+  void run().catch(() => {});
+}
+
+export const tapHaptic = (): void => fire(() => Haptics.impact({ style: ImpactStyle.Light }));
+
+// iOS only vibrates selectionChanged while a generator is prepared, so drags must be bracketed
+export const startSelectionHaptic = (): void => fire(() => Haptics.selectionStart());
+export const selectionHaptic = (): void => fire(() => Haptics.selectionChanged());
+export const endSelectionHaptic = (): void => fire(() => Haptics.selectionEnd());

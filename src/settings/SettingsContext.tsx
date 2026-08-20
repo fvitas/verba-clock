@@ -1,4 +1,5 @@
 import { createContext, useContext, useEffect, useState, type ReactNode } from 'react';
+import { setHapticsEnabled } from '../native/haptics';
 import { syncSettingsToWidgets } from '../native/widgetSync';
 import { loadSettings, saveSettings, type Settings } from './store';
 
@@ -14,6 +15,7 @@ export function SettingsProvider({ children }: { children: ReactNode }) {
 
   useEffect(() => {
     syncSettingsToWidgets(settings);
+    setHapticsEnabled(settings.haptics);
   }, [settings]);
 
   const update = (patch: Partial<Settings>) => {

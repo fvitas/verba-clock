@@ -7,7 +7,9 @@ import { LANGUAGES } from '../src/clock/languages';
 const HERE = dirname(fileURLToPath(import.meta.url));
 const read = (file: string): string => readFileSync(join(HERE, '../ios/App/VerbaWidgets', file), 'utf8');
 
-const faceData = JSON.parse(read('FaceData.json')) as { languages: { id: string; dir?: string }[] };
+const faceData = JSON.parse(read('FaceData.json')) as {
+  languages: { id: string; dir?: string; layout?: string; rows: string[] }[];
+};
 const exportedIds = faceData.languages.map((lang) => lang.id);
 
 // The widget's language picker is a hand-written Swift enum — this is the guard that keeps it
@@ -20,15 +22,16 @@ const pickerIds = (() => {
 })();
 
 describe('widget face data', () => {
-  it('exports every language the SwiftUI renderer can draw', () => {
-    const drawable = LANGUAGES.filter((lang) => lang.layout !== 'word').map((lang) => lang.id);
-    expect(exportedIds).toEqual(drawable);
+  it('exports every language', () => {
+    expect(exportedIds).toEqual(LANGUAGES.map((lang) => lang.id));
   });
 
-  it('skips word-grid faces, which have no widget view', () => {
+  it('marks word-grid faces so the widget picks the slot renderer', () => {
     const wordGrid = LANGUAGES.filter((lang) => lang.layout === 'word').map((lang) => lang.id);
-    expect(wordGrid.length).toBeGreaterThan(0);
-    for (const id of wordGrid) expect(exportedIds).not.toContain(id);
+    expect(wordGrid).toContain('ar');
+    for (const lang of faceData.languages) {
+      expect(lang.layout).toBe(wordGrid.includes(lang.id) ? 'word' : undefined);
+    }
   });
 
   it('offers every exported language in the widget picker', () => {
@@ -42,10 +45,18 @@ describe('widget face data', () => {
   });
 
   it('marks RTL faces so the widget can flip its layout direction', () => {
-    const rtl = LANGUAGES.filter((lang) => lang.dir === 'rtl' && lang.layout !== 'word').map((lang) => lang.id);
-    expect(rtl).toContain('he');
+    const rtl = LANGUAGES.filter((lang) => lang.dir === 'rtl').map((lang) => lang.id);
+    expect(rtl).toEqual(expect.arrayContaining(['he', 'ar']));
     for (const lang of faceData.languages) {
       expect(lang.dir).toBe(rtl.includes(lang.id) ? 'rtl' : undefined);
+    }
+  });
+
+  // FaceMoment keys lit cells as row * 11 + col, so a row may never hold more than 11 slots
+  it('keeps every row within the 11-cell stride the widget hashes on', () => {
+    for (const lang of faceData.languages) {
+      const cells = (row: string) => (lang.layout === 'word' ? row.split(' ').length : row.length);
+      for (const row of lang.rows) expect(cells(row)).toBeLessThanOrEqual(11);
     }
   });
 });

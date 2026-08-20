@@ -13,6 +13,7 @@ type ExportedLanguage = {
   name: string;
   rows: string[];
   dir?: 'rtl';
+  layout?: 'word';
   cellOverrides?: Record<string, string>;
   words: ExportedWord[];
   states: ExportedState[];
@@ -47,20 +48,16 @@ function exportLanguage(lang: (typeof LANGUAGES)[number]): ExportedLanguage {
     name: lang.name,
     rows: lang.rows,
     ...(lang.dir ? { dir: lang.dir } : {}),
+    ...(lang.layout ? { layout: lang.layout } : {}),
     ...(lang.cellOverrides ? { cellOverrides: lang.cellOverrides } : {}),
     words,
     states,
   };
 }
 
-// The SwiftUI renderer handles RTL letter grids via layoutDirection, but has no word-slot
-// view, so word-grid faces (Arabic) stay app-only
-const appOnly = (lang: (typeof LANGUAGES)[number]): boolean => lang.layout === 'word';
-const exportable = LANGUAGES.filter((lang) => !appOnly(lang));
-const skipped = LANGUAGES.filter(appOnly);
-
-const data = { version: 1, languages: exportable.map(exportLanguage) };
+// Every face ships: the SwiftUI renderer draws letter grids and word grids, and flips
+// either one for RTL via layoutDirection
+const data = { version: 1, languages: LANGUAGES.map(exportLanguage) };
 mkdirSync(dirname(OUT), { recursive: true });
 writeFileSync(OUT, JSON.stringify(data));
 console.log(`Wrote ${OUT}: ${data.languages.length} languages`);
-if (skipped.length > 0) console.log(`Skipped app-only faces (no widget support): ${skipped.map((lang) => lang.id).join(', ')}`);

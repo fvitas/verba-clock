@@ -40,6 +40,53 @@ struct MatrixFaceView: View {
     }
 }
 
+// Word-grid faces (Arabic): rows hold whole words, spread edge to edge. Proportions mirror
+// the web face — 82cqmin wide, 74.5cqmin tall, 4.2cqmin type — so the layout the photos were
+// verified against carries over. No tracking: letter-spacing breaks cursive joining.
+struct WordGridFaceView: View {
+    let moment: FaceMoment
+    let finish: Finish
+
+    private static let heightRatio: CGFloat = 74.5 / 82
+    private static let fontRatio: CGFloat = 4.2 / 82
+
+    var body: some View {
+        GeometryReader { geo in
+            let width = min(geo.size.width, geo.size.height / Self.heightRatio)
+            let size = width * Self.fontRatio
+
+            VStack(spacing: 0) {
+                ForEach(0..<moment.language.rows.count, id: \.self) { row in
+                    if row > 0 { Spacer(minLength: 0) }
+                    slotRow(row: row, size: size)
+                }
+            }
+            .frame(width: width, height: width * Self.heightRatio)
+            .frame(width: geo.size.width, height: geo.size.height)
+        }
+    }
+
+    private func slotRow(row: Int, size: CGFloat) -> some View {
+        HStack(spacing: 0) {
+            ForEach(Array(moment.language.slots(row: row).enumerated()), id: \.offset) { slot, text in
+                if slot > 0 { Spacer(minLength: 0) }
+                let lit = moment.litCells.contains(row * 11 + slot)
+                Text(text)
+                    .font(.custom(verbaFont, size: size))
+                    .foregroundStyle(lit ? finish.litColor : finish.stencilColor)
+                    .shadow(
+                        color: lit && finish.letter == .light ? .white.opacity(0.55) : .clear,
+                        radius: size * 0.45
+                    )
+                    .lineLimit(1)
+                    // The Arabic system fallback face is wider than DINish; let a long row
+                    // give a little rather than truncate a word
+                    .minimumScaleFactor(0.7)
+            }
+        }
+    }
+}
+
 // Words style: the sentence stacked as large type, "it is" words dimmed
 struct WordsFaceView: View {
     let moment: FaceMoment

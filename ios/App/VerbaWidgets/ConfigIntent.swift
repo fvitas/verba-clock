@@ -13,7 +13,7 @@ enum WidgetStyle: String, AppEnum {
 
 enum WidgetLanguage: String, AppEnum {
     case sameAsApp
-    case en, e2, de, d2, d3, d4, ch, fr, it, es, ca, nl, dk, no, se, cz, ro, pe, tr, ru, gr, sr, cn, bg, hu, pl, ja, he
+    case en, e2, de, d2, d3, d4, ch, fr, it, es, ca, nl, dk, no, se, cz, ro, pe, tr, ru, gr, sr, cn, bg, hu, pl, ja, he, ar
 
     static let typeDisplayRepresentation = TypeDisplayRepresentation(name: "Language")
     static let caseDisplayRepresentations: [WidgetLanguage: DisplayRepresentation] = [
@@ -24,7 +24,7 @@ enum WidgetLanguage: String, AppEnum {
         .dk: "Danish", .no: "Norwegian", .se: "Swedish", .cz: "Czech", .ro: "Romanian",
         .pe: "Portuguese", .tr: "Turkish", .ru: "Russian", .gr: "Greek", .sr: "Serbian",
         .cn: "Chinese", .bg: "Bulgarian", .hu: "Hungarian", .pl: "Polish",
-        .ja: "Japanese", .he: "Hebrew",
+        .ja: "Japanese", .he: "Hebrew", .ar: "Arabic",
     ]
 
     func resolvedId(app: SharedSettings) -> String {

@@ -20,18 +20,32 @@ struct FaceLanguage: Decodable {
     let id: String
     let name: String
     let rows: [String]
-    // "rtl" for faces whose column 0 is the rightmost cell (Hebrew)
+    // "rtl" for faces whose column 0 is the rightmost cell (Hebrew, Arabic)
     let dir: String?
+    // "word" for faces whose rows are space-separated whole words and whose coords index
+    // word slots instead of letter columns (Arabic — cursive script has no letter cells)
+    let layout: String?
     let cellOverrides: [String: String]?
     let words: [FaceWord]
     let states: [FaceState]
+
+    var isWordGrid: Bool { layout == "word" }
 
     func state(hour: Int, minute: Int) -> FaceState {
         states[hour * 12 + minute / 5]
     }
 
+    // The whole words of a word-grid row, in reading order
+    func slots(row: Int) -> [String] {
+        rows[row].split(separator: " ").map(String.init)
+    }
+
     // Per-cell display text honoring apostrophe overrides (e.g. Italian L')
     func cellText(row: Int, col: Int) -> String {
+        if isWordGrid {
+            let words = slots(row: row)
+            return col < words.count ? words[col] : ""
+        }
         if let override = cellOverrides?["\(row):\(col)"] { return override }
         let chars = Array(rows[row])
         return col < chars.count ? String(chars[col]) : ""

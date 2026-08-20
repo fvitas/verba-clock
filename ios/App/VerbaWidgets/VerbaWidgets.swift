@@ -59,11 +59,18 @@ struct VerbaWidgetView: View {
                 if entry.style == .words {
                     WordsFaceView(moment: entry.moment, finish: finish)
                 } else {
-                    MatrixFaceView(moment: entry.moment, finish: finish)
-                        .padding(family == .systemSmall ? 8 : 12)
+                    face(finish: finish).padding(family == .systemSmall ? 8 : 12)
                 }
             }
             .containerBackground(for: .widget) { entry.finish.surface }
+        }
+    }
+
+    @ViewBuilder private func face(finish: Finish) -> some View {
+        if entry.moment.language.isWordGrid {
+            WordGridFaceView(moment: entry.moment, finish: finish)
+        } else {
+            MatrixFaceView(moment: entry.moment, finish: finish)
         }
     }
 }

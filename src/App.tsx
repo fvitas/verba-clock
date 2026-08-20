@@ -64,16 +64,19 @@ function ClockScreen({ settingsOpen, docked }: { settingsOpen: boolean; docked: 
     setMode((prev) => (prev === 'words' ? 'seconds' : 'words'));
   };
 
-  // Desktop: 340px sheet + 12px margin + 12px gap keeps the face centred beside the sheet.
-  // Mobile: less than the sheet's 70dvh cap — the face peeks larger above it rather than
-  // shrinking to fully clear it.
-  const sheetInset = settingsOpen ? 'md:pr-[364px] max-md:pb-[60dvh]' : '';
+  // Desktop pads the sheet's 340px + 12px margin + 12px gap out of the box, which recentres
+  // the face beside it. Mobile lifts the face with a transform instead: iOS 18 never
+  // re-resolves container-query units while the query container's own box animates, so
+  // padding there left the letters at a stale size until a later repaint snapped them (D37).
+  const sheetInset = settingsOpen ? 'md:pr-[364px]' : '';
+  const sheetLift = settingsOpen ? 'max-md:-translate-y-[30dvh] max-md:scale-90' : '';
 
   const onWall = settings.presentation === 'wall' && !docked;
 
-  const face = (
+  const corners = settings.dots === 'corners' && <CornerDots letter={finish.letter} />;
+
+  const dial = (
     <>
-      {settings.dots === 'corners' && <CornerDots letter={finish.letter} />}
       {settings.dots === 'minutes' && (
         <MinuteDots count={display.dots} finish={finish} visible={effectiveMode === 'words'} nearEdge={onWall} />
       )}
@@ -97,10 +100,11 @@ function ClockScreen({ settingsOpen, docked }: { settingsOpen: boolean; docked: 
         data-settings-open={settingsOpen || undefined}
       >
         <div
-          className="relative flex aspect-square h-[80cqmin] items-center justify-center [container-type:size] [box-shadow:0_25px_50px_rgba(0,0,0,0.6),0_4px_10px_rgba(0,0,0,0.4)]"
+          className={`relative flex aspect-square h-[80cqmin] items-center justify-center transition-transform duration-300 [container-type:size] [box-shadow:0_25px_50px_rgba(0,0,0,0.6),0_4px_10px_rgba(0,0,0,0.4)] ${sheetLift}`}
           style={{ background: finish.surface }}
         >
-          {face}
+          {corners}
+          {dial}
         </div>
       </main>
     );
@@ -113,7 +117,12 @@ function ClockScreen({ settingsOpen, docked }: { settingsOpen: boolean; docked: 
       data-docked={docked || undefined}
       data-settings-open={settingsOpen || undefined}
     >
-      {face}
+      {corners}
+      <div
+        className={`absolute inset-0 flex items-center justify-center transition-transform duration-300 ${sheetLift}`}
+      >
+        {dial}
+      </div>
     </main>
   );
 }

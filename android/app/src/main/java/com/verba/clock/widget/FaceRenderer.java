@@ -36,21 +36,14 @@ public final class FaceRenderer {
 
     private static Typeface typeface;
 
-    /** The finish gradient, drawn at the widget's own aspect ratio to fill the frame. */
+    /** The finish itself, drawn at the widget's own aspect ratio to fill the frame. */
     public static Bitmap renderSurface(Finishes.Finish finish, int width, int height) {
         float scale = Math.min(1f, (float) MAX_SURFACE_SIDE / Math.max(width, height));
         int w = Math.max(1, Math.round(width * scale));
         int h = Math.max(1, Math.round(height * scale));
 
         Bitmap bitmap = Bitmap.createBitmap(w, h, Bitmap.Config.ARGB_8888);
-        Canvas canvas = new Canvas(bitmap);
-        Paint paint = new Paint(Paint.ANTI_ALIAS_FLAG);
-        paint.setShader(finish.surface(w, h));
-        canvas.drawRect(0, 0, w, h, paint);
-        for (int i = 0; i < finish.accentCount(); i++) {
-            paint.setShader(finish.accent(i, w, h));
-            canvas.drawRect(0, 0, w, h, paint);
-        }
+        finish.drawSurface(bitmap);
         return bitmap;
     }
 

@@ -51,7 +51,12 @@ function exportLanguage(lang: (typeof LANGUAGES)[number]): ExportedLanguage {
   };
 }
 
-const data = { version: 1, languages: LANGUAGES.map(exportLanguage) };
+// The SwiftUI widget renderer draws letter matrices; word-grid faces (Arabic) stay app-only
+const exportable = LANGUAGES.filter((lang) => lang.layout !== 'word');
+const skipped = LANGUAGES.filter((lang) => lang.layout === 'word');
+
+const data = { version: 1, languages: exportable.map(exportLanguage) };
 mkdirSync(dirname(OUT), { recursive: true });
 writeFileSync(OUT, JSON.stringify(data));
 console.log(`Wrote ${OUT}: ${data.languages.length} languages`);
+if (skipped.length > 0) console.log(`Skipped word-grid faces (no widget support): ${skipped.map((lang) => lang.id).join(', ')}`);

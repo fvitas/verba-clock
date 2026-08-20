@@ -7,10 +7,12 @@ type ClockFaceProps = {
   lit: ReadonlySet<string>;
   finish: Finish;
   cellOverrides?: Record<string, string>;
+  layout?: 'word';
+  dir?: 'rtl';
   onClick?: (event: React.MouseEvent<HTMLDivElement>) => void;
 };
 
-export function ClockFace({ rows, lit, finish, cellOverrides, onClick }: ClockFaceProps) {
+export function ClockFace({ rows, lit, finish, cellOverrides, layout, dir, onClick }: ClockFaceProps) {
   const cols = rows[0].length;
   const litClass =
     finish.letter === 'light'
@@ -20,6 +22,37 @@ export function ClockFace({ rows, lit, finish, cellOverrides, onClick }: ClockFa
     finish.letter === 'light'
       ? `rgba(255,255,255,${finish.stencilOpacity})`
       : `rgba(0,0,0,${finish.stencilOpacity})`;
+
+  if (layout === 'word') {
+    // Rows are whole words in slot order; height matches the letter grid's 10/11 footprint
+    // so the minute-dot offsets hold. No tracking — letter-spacing breaks cursive joining.
+    return (
+      <div
+        dir={dir}
+        className="flex h-[74.5cqmin] w-[82cqmin] select-none flex-col justify-between font-medium"
+        style={{ fontSize: '4.2cqmin' }}
+        onClick={onClick}
+      >
+        {rows.map((row, r) => (
+          <div key={r} className="flex items-center justify-between">
+            {row.split(' ').map((w, c) => {
+              const on = lit.has(cellKey(r, c));
+              return (
+                <span
+                  key={cellKey(r, c)}
+                  className={`transition-colors duration-[600ms] ${on ? litClass : ''}`}
+                  style={on ? undefined : { color: stencilColor }}
+                  data-lit={on}
+                >
+                  {w}
+                </span>
+              );
+            })}
+          </div>
+        ))}
+      </div>
+    );
+  }
 
   return (
     <div

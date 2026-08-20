@@ -48,9 +48,14 @@ function ClockScreen({ settingsOpen, docked }: { settingsOpen: boolean; docked: 
   const lang = getLanguage(settings.languageId);
   const finish = getFinish(settings.finishId);
   const display = resolveTime(time.getHours(), time.getMinutes(), lang, settings.showItIs);
-  const lit = mode === 'words' ? display.lit : resolveSeconds(time.getSeconds());
+  // Seconds digits render on the letter matrix — word-grid faces (Arabic) have none
+  const effectiveMode = lang.layout === 'word' ? 'words' : mode;
+  const lit = effectiveMode === 'words' ? display.lit : resolveSeconds(time.getSeconds());
 
-  const toggleMode = () => setMode((prev) => (prev === 'words' ? 'seconds' : 'words'));
+  const toggleMode = () => {
+    if (lang.layout === 'word') return;
+    setMode((prev) => (prev === 'words' ? 'seconds' : 'words'));
+  };
 
   // Desktop: 340px sheet + 12px margin + 12px gap keeps the face centred beside the sheet.
   // Mobile: less than the sheet's 70dvh cap — the face peeks larger above it rather than
@@ -63,13 +68,15 @@ function ClockScreen({ settingsOpen, docked }: { settingsOpen: boolean; docked: 
     <>
       {settings.dots === 'corners' && <CornerDots letter={finish.letter} />}
       {settings.dots === 'minutes' && (
-        <MinuteDots count={display.dots} finish={finish} visible={mode === 'words'} nearEdge={onWall} />
+        <MinuteDots count={display.dots} finish={finish} visible={effectiveMode === 'words'} nearEdge={onWall} />
       )}
       <ClockFace
         rows={lang.rows}
         lit={lit}
         finish={finish}
         cellOverrides={lang.cellOverrides}
+        layout={lang.layout}
+        dir={lang.dir}
         onClick={toggleMode}
       />
     </>

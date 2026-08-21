@@ -1,15 +1,26 @@
+import { cellTiming } from '../clock/transitions';
 import { type Finish, withAlpha } from '../finishes/catalog';
+import type { Transition } from '../settings/store';
 
 type MinuteDotsProps = {
   count: number;
   finish: Finish;
   visible: boolean;
   nearEdge: boolean;
+  transition?: Transition;
+  dark?: boolean;
 };
 
 // Watch-style +1..+4 row below the letter grid. On the wall panel it sinks toward the
 // panel edge like the watch dial; full-bleed hugs the grid since the viewport edge is the cog's.
-export function MinuteDots({ count, finish, visible, nearEdge }: MinuteDotsProps) {
+export function MinuteDots({
+  count,
+  finish,
+  visible,
+  nearEdge,
+  transition = 'instant',
+  dark = false,
+}: MinuteDotsProps) {
   const eink = finish.render === 'eink';
   const litClass = eink
     ? ''
@@ -22,6 +33,9 @@ export function MinuteDots({ count, finish, visible, nearEdge }: MinuteDotsProps
     : finish.letter === 'light'
       ? `rgba(255,255,255,${finish.stencilOpacity})`
       : `rgba(0,0,0,${finish.stencilOpacity})`;
+  // A dot is one cell of one, so it never staggers — it just crossfades with the letters
+  const { duration, ease } = cellTiming(transition, 0, 1, dark);
+  const dotTiming = duration ? { transition: `background-color ${duration}ms ${ease}` } : {};
 
   return (
     <div
@@ -33,8 +47,8 @@ export function MinuteDots({ count, finish, visible, nearEdge }: MinuteDotsProps
       {[0, 1, 2, 3].map((index) => (
         <span
           key={index}
-          className={`size-[1.4cqmin] rounded-full ${eink ? '' : 'transition-colors duration-[600ms]'} ${index < count ? litClass : ''}`}
-          style={index < count ? litStyle : { backgroundColor: stencilColor }}
+          className={`size-[1.4cqmin] rounded-full ${index < count ? litClass : ''}`}
+          style={{ ...(index < count ? litStyle : { backgroundColor: stencilColor }), ...dotTiming }}
           data-lit={index < count}
         />
       ))}

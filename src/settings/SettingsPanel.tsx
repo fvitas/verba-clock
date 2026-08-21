@@ -18,7 +18,7 @@ import { isNative } from '../native/useNative';
 import { supportsWakeLock } from '../native/useWakeLock';
 import { LanguageList } from './LanguageList';
 import { useSettings } from './SettingsContext';
-import type { DotsMode, Presentation } from './store';
+import type { DotsMode, Presentation, Transition } from './store';
 import { Cell } from './ui/Cell';
 import { Group } from './ui/Group';
 import { Segmented } from './ui/Segmented';
@@ -34,6 +34,14 @@ const DOTS_MODES: { value: DotsMode; label: string }[] = [
   { value: 'corners', label: 'Corners' },
   { value: 'minutes', label: 'Minutes' },
   { value: 'off', label: 'Off' },
+];
+
+// The stored values name the mechanism; the labels name what you see
+const TRANSITIONS: { value: Transition; label: string }[] = [
+  { value: 'instant', label: 'Instant' },
+  { value: 'crossfade', label: 'Fade' },
+  { value: 'typewriter', label: 'Typewriter' },
+  { value: 'offthenon', label: 'Blink' },
 ];
 
 const DESKTOP = '(min-width: 768px)';
@@ -98,6 +106,14 @@ function PanelBody({ view, Title, onShowLanguage, onBack }: PanelBodyProps) {
               swatches={FINISHES}
               selectedId={settings.finishId}
               onSelect={(id) => update({ finishId: id })}
+            />
+          </Cell>
+          <Cell label="Word Transition" stacked>
+            <Segmented
+              full
+              options={TRANSITIONS}
+              value={settings.transition}
+              onChange={(value) => update({ transition: value })}
             />
           </Cell>
           <Cell label="Brightness">

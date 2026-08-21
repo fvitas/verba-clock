@@ -2,6 +2,8 @@ export type Presentation = 'fullbleed' | 'wall';
 
 export type DotsMode = 'corners' | 'minutes' | 'off';
 
+export type Transition = 'instant' | 'crossfade' | 'typewriter' | 'offthenon';
+
 export type Settings = {
   schemaVersion: 1;
   languageId: string;
@@ -9,6 +11,7 @@ export type Settings = {
   presentation: Presentation;
   showItIs: boolean;
   dots: DotsMode;
+  transition: Transition;
   brightness: number;
   keepAwake: boolean;
   dockMode: boolean;
@@ -22,6 +25,7 @@ export const DEFAULT_SETTINGS: Settings = {
   presentation: 'fullbleed',
   showItIs: true,
   dots: 'corners',
+  transition: 'crossfade',
   brightness: 1,
   keepAwake: true,
   dockMode: false,

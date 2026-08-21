@@ -147,6 +147,15 @@ describe('SettingsPanel', () => {
     expect(loadSettings(localStorage).dots).toBe('off');
   });
 
+  it('persists the word transition', () => {
+    renderPanel();
+    expect(screen.getByText('Word Transition')).toBeInTheDocument();
+    fireEvent.click(screen.getByRole('radio', { name: 'Typewriter' }));
+    expect(loadSettings(localStorage).transition).toBe('typewriter');
+    fireEvent.click(screen.getByRole('radio', { name: 'Blink' }));
+    expect(loadSettings(localStorage).transition).toBe('offthenon');
+  });
+
   it('renders a brightness slider', () => {
     renderPanel();
     expect(screen.getByRole('slider', { name: 'Brightness' })).toBeInTheDocument();

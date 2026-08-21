@@ -2,6 +2,8 @@ import { useState } from 'react';
 import { resolveTime } from './clock/engine';
 import { getLanguage } from './clock/languages';
 import { mirrorCols, resolveSeconds } from './clock/seconds';
+import { resolveTransition, SPECS } from './clock/transitions';
+import { useArrival } from './clock/use-arrival';
 import { useClockTime } from './clock/use-clock-time';
 import { ClockFace } from './components/ClockFace';
 import { CornerDots } from './components/CornerDots';
@@ -10,6 +12,7 @@ import { getFinish } from './finishes/catalog';
 import { tapHaptic } from './native/haptics';
 import { useDockMode } from './native/useDockMode';
 import { useNative } from './native/useNative';
+import { useReducedMotion } from './native/useReducedMotion';
 import { useWakeLock } from './native/useWakeLock';
 import { SettingsProvider, useSettings } from './settings/SettingsContext';
 import { SettingsPanel } from './settings/SettingsPanel';
@@ -46,6 +49,7 @@ function ClockScreen({ settingsOpen, docked }: { settingsOpen: boolean; docked: 
   const { settings } = useSettings();
   const time = useClockTime();
   const [mode, setMode] = useState<Mode>('words');
+  const reducedMotion = useReducedMotion();
   // A docked clock must stay lit regardless of the keep-awake setting
   useNative(settings.keepAwake || docked);
   useWakeLock(settings.keepAwake || docked);
@@ -57,6 +61,15 @@ function ClockScreen({ settingsOpen, docked }: { settingsOpen: boolean; docked: 
   // Seconds digits render on the letter matrix — word-grid faces (Arabic) have none
   const effectiveMode = lang.layout === 'word' ? 'words' : mode;
   const lit = effectiveMode === 'words' ? display.lit : secondsFor(time.getSeconds(), lang.dir);
+
+  const transition = resolveTransition({
+    setting: settings.transition,
+    seconds: effectiveMode === 'seconds',
+    docked,
+    reducedMotion,
+    eink: finish.render === 'eink',
+  });
+  const arrival = useArrival({ lit, dots: display.dots }, transition !== 'instant', SPECS[transition].dark);
 
   const toggleMode = () => {
     if (lang.layout === 'word') return;
@@ -85,12 +98,21 @@ function ClockScreen({ settingsOpen, docked }: { settingsOpen: boolean; docked: 
   const dial = (
     <>
       {settings.dots === 'minutes' && (
-        <MinuteDots count={display.dots} finish={finish} visible={effectiveMode === 'words'} nearEdge={onWall} />
+        <MinuteDots
+          count={arrival.face.dots}
+          finish={finish}
+          visible={effectiveMode === 'words'}
+          nearEdge={onWall}
+          transition={transition}
+          dark={arrival.dark}
+        />
       )}
       <ClockFace
         rows={lang.rows}
-        lit={lit}
+        lit={arrival.face.lit}
         finish={finish}
+        transition={transition}
+        dark={arrival.dark}
         cellOverrides={lang.cellOverrides}
         layout={lang.layout}
         dir={lang.dir}

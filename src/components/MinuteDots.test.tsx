@@ -36,6 +36,18 @@ describe('MinuteDots', () => {
     expect((second as HTMLElement).style.backgroundColor).toBe('rgba(197, 195, 190, 0.12)');
   });
 
+  it('fades a dot with the letters, never staggered', () => {
+    render(<MinuteDots count={1} finish={finish} visible nearEdge transition="crossfade" />);
+    const [first] = screen.getByTestId('minute-dots').children;
+    expect(first.getAttribute('style')).toContain('background-color 600ms ease-in-out');
+  });
+
+  it('leaves an instant dot untransitioned', () => {
+    render(<MinuteDots count={1} finish={finish} visible nearEdge />);
+    const [first] = screen.getByTestId('minute-dots').children;
+    expect(first.getAttribute('style') ?? '').not.toContain('transition');
+  });
+
   it('fades the row out when not visible', () => {
     render(<MinuteDots count={2} finish={finish} visible={false} nearEdge />);
     expect(screen.getByTestId('minute-dots').className).toContain('opacity-0');

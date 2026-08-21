@@ -49,6 +49,40 @@ describe('ClockFace', () => {
     expect(dimCell?.getAttribute('style')).toContain('background-clip: text');
   });
 
+  it('leaves no transition behind on an instant face', () => {
+    const { container } = render(<ClockFace rows={english.rows} lit={new Set<string>()} finish={deepBlack} />);
+    const cell = container.querySelector('[data-lit]');
+    expect(cell?.getAttribute('style')).not.toContain('transition');
+  });
+
+  it('crossfades every cell together, glow included', () => {
+    const { container } = render(
+      <ClockFace rows={english.rows} lit={new Set<string>()} finish={deepBlack} transition="crossfade" />,
+    );
+    const cells = [...container.querySelectorAll('[data-lit]')];
+    const expected = 'color 600ms ease-in-out 0ms, text-shadow 600ms ease-in-out 0ms';
+    expect(cells[0].getAttribute('style')).toContain(expected);
+    expect(cells[109].getAttribute('style')).toContain(expected);
+  });
+
+  // The sweep crosses the whole face, so the delay is the cell's own place in reading order
+  it('staggers the typewriter across the whole grid inside one second', () => {
+    const { container } = render(
+      <ClockFace rows={english.rows} lit={new Set<string>()} finish={deepBlack} transition="typewriter" />,
+    );
+    const cells = [...container.querySelectorAll('[data-lit]')];
+    expect(cells[0].getAttribute('style')).toContain('color 180ms ease-out 0ms');
+    expect(cells[109].getAttribute('style')).toContain('color 180ms ease-out 820ms');
+  });
+
+  it('drops the face as one on the way dark', () => {
+    const { container } = render(
+      <ClockFace rows={english.rows} lit={new Set<string>()} finish={deepBlack} transition="offthenon" dark />,
+    );
+    const cells = [...container.querySelectorAll('[data-lit]')];
+    expect(cells[109].getAttribute('style')).toContain('color 220ms ease-in-out 0ms');
+  });
+
   it('uses dark letters on light finishes', () => {
     const { lit } = resolveTime(10, 17, english, true);
     const { container } = render(<ClockFace rows={english.rows} lit={lit} finish={getFinish('gold')} />);

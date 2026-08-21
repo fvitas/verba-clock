@@ -38,6 +38,15 @@ describe('settings store', () => {
     expect(loadSettings(localStorage).keepAwake).toBe(true);
   });
 
+  it('defaults the minute change to a crossfade', () => {
+    expect(DEFAULT_SETTINGS.transition).toBe('crossfade');
+  });
+
+  it('fills the transition for persisted v1 settings that predate it', () => {
+    localStorage.setItem('verba-settings', JSON.stringify({ schemaVersion: 1, dots: 'minutes' }));
+    expect(loadSettings(localStorage).transition).toBe('crossfade');
+  });
+
   it('migrates legacy showDots: false to dots off', () => {
     localStorage.setItem('verba-settings', JSON.stringify({ schemaVersion: 1, showDots: false }));
     expect(loadSettings(localStorage).dots).toBe('off');

@@ -48,6 +48,14 @@ describe('MinuteDots', () => {
     expect(first.getAttribute('style') ?? '').not.toContain('transition');
   });
 
+  // The desktop sheet pads the query container, so `cqw` here drifts the row off the face
+  it('centres the row on its containing block, not on container units', () => {
+    render(<MinuteDots count={2} finish={finish} visible nearEdge />);
+    const row = screen.getByTestId('minute-dots');
+    expect(row.className).toContain('left-1/2');
+    expect(row.className).not.toContain('cqw');
+  });
+
   it('fades the row out when not visible', () => {
     render(<MinuteDots count={2} finish={finish} visible={false} nearEdge />);
     expect(screen.getByTestId('minute-dots').className).toContain('opacity-0');

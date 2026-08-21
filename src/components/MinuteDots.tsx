@@ -41,7 +41,9 @@ export function MinuteDots({
     <div
       // The mobile sheet slides the face up: the dots cut out at once rather than skating
       // across the screen with it, then fade back in behind the closing sheet
-      className={`absolute ${nearEdge ? 'top-[calc(50cqh+44.5cqmin)]' : 'top-[calc(50cqh+41cqmin)]'} left-[50cqw] flex -translate-x-1/2 gap-[3.5cqmin] transition-opacity duration-[600ms] max-md:group-data-[settings-open]:opacity-0 max-md:group-data-[settings-open]:duration-0 ${visible ? '' : 'opacity-0'}`}
+      // Centred on the containing block, not on `cqw`: the desktop sheet pads the query
+      // container, so container units would take that inset once and the dial's own shift again
+      className={`absolute ${nearEdge ? 'top-[calc(50%+44.5cqmin)]' : 'top-[calc(50%+41cqmin)]'} left-1/2 flex -translate-x-1/2 gap-[3.5cqmin] transition-opacity duration-[600ms] max-md:group-data-[settings-open]:opacity-0 max-md:group-data-[settings-open]:duration-0 ${visible ? '' : 'opacity-0'}`}
       data-testid="minute-dots"
     >
       {[0, 1, 2, 3].map((index) => (

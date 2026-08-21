@@ -26,6 +26,16 @@ describe('MinuteDots', () => {
     );
   });
 
+  it('gives e-ink dots the exact ink, with no glow and no fade', () => {
+    const ink = getFinish('ink');
+    render(<MinuteDots count={1} finish={ink} visible nearEdge={false} />);
+    const [first, second] = screen.getByTestId('minute-dots').children;
+    expect((first as HTMLElement).style.backgroundColor).toBe('rgb(197, 195, 190)');
+    expect(first.className).not.toContain('box-shadow');
+    expect(first.className).not.toContain('transition-colors');
+    expect((second as HTMLElement).style.backgroundColor).toBe('rgba(197, 195, 190, 0.12)');
+  });
+
   it('fades the row out when not visible', () => {
     render(<MinuteDots count={2} finish={finish} visible={false} nearEdge />);
     expect(screen.getByTestId('minute-dots').className).toContain('opacity-0');

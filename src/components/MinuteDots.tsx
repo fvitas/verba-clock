@@ -1,4 +1,4 @@
-import type { Finish } from '../finishes/catalog';
+import { type Finish, withAlpha } from '../finishes/catalog';
 
 type MinuteDotsProps = {
   count: number;
@@ -10,12 +10,16 @@ type MinuteDotsProps = {
 // Watch-style +1..+4 row below the letter grid. On the wall panel it sinks toward the
 // panel edge like the watch dial; full-bleed hugs the grid since the viewport edge is the cog's.
 export function MinuteDots({ count, finish, visible, nearEdge }: MinuteDotsProps) {
-  const litClass =
-    finish.letter === 'light'
+  const eink = finish.render === 'eink';
+  const litClass = eink
+    ? ''
+    : finish.letter === 'light'
       ? 'bg-white [box-shadow:0_0_10px_rgba(255,255,255,0.55)]'
       : 'bg-[#181614] [box-shadow:0_0_8px_rgba(0,0,0,0.3)]';
-  const stencilColor =
-    finish.letter === 'light'
+  const litStyle = eink ? { backgroundColor: finish.ink } : undefined;
+  const stencilColor = eink
+    ? withAlpha(finish.ink, finish.stencilOpacity)
+    : finish.letter === 'light'
       ? `rgba(255,255,255,${finish.stencilOpacity})`
       : `rgba(0,0,0,${finish.stencilOpacity})`;
 
@@ -29,8 +33,8 @@ export function MinuteDots({ count, finish, visible, nearEdge }: MinuteDotsProps
       {[0, 1, 2, 3].map((index) => (
         <span
           key={index}
-          className={`size-[1.4cqmin] rounded-full transition-colors duration-[600ms] ${index < count ? litClass : ''}`}
-          style={index < count ? undefined : { backgroundColor: stencilColor }}
+          className={`size-[1.4cqmin] rounded-full ${eink ? '' : 'transition-colors duration-[600ms]'} ${index < count ? litClass : ''}`}
+          style={index < count ? litStyle : { backgroundColor: stencilColor }}
           data-lit={index < count}
         />
       ))}

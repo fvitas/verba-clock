@@ -1,11 +1,36 @@
-export type Finish = {
+type FinishBase = {
   id: string;
   name: string;
-  series: 'classic' | 'steel' | 'pepper' | 'creators-edition';
+  series: 'classic' | 'steel' | 'pepper' | 'creators-edition' | 'original';
   tier: 'free' | 'premium';
   surface: string;
   letter: 'light' | 'dark';
   stencilOpacity: number;
+};
+
+// An unlit e-ink letter is a Bayer lattice of ink pixels, not a grey: the panel holds one ink,
+// so a dim letter can only be fewer dots of it. `dots` are the lit slots of a `size`-square tile.
+type Dither = { size: number; dots: readonly [number, number][] };
+
+// The lit finishes glow; an e-ink finish renders flat and carries its own exact ink colour.
+// `render?: never` keeps the union discriminated without tagging all sixteen lit entries.
+export type Finish =
+  | (FinishBase & { render?: never; ink?: never; dither?: never })
+  | (FinishBase & { render: 'eink'; ink: string; dither: Dither });
+
+export const withAlpha = (hex: string, alpha: number): string => {
+  const rgb = parseInt(hex.slice(1), 16);
+  return `rgba(${(rgb >> 16) & 255}, ${(rgb >> 8) & 255}, ${rgb & 255}, ${alpha})`;
+};
+
+// Sizes are CSS pixels on purpose: at DPR 3 each dot is three device pixels and reads as a dot,
+// where a device-pixel lattice would blur into flat grey. crispEdges keeps them square.
+export const ditherImage = (ink: string, { size, dots }: Dither): string => {
+  const rects = dots
+    .map(([x, y]) => `<rect x='${x}' y='${y}' width='1' height='1' fill='${ink}'/>`)
+    .join('');
+  const svg = `<svg xmlns='http://www.w3.org/2000/svg' width='${size}' height='${size}' viewBox='0 0 ${size} ${size}' shape-rendering='crispEdges'>${rects}</svg>`;
+  return `url("data:image/svg+xml,${encodeURIComponent(svg)}")`;
 };
 
 // A background SVG only stretches to the element if it declares a viewBox with
@@ -123,6 +148,19 @@ export const FINISHES: Finish[] = [
     surface: `${noise(0.15, 0.8)}, ${mottle({ freq: '0.003 0.014', octaves: 4, seed: 9, rotate: -35, hexes: ['#0b0d0f', '#131518', '#1a1d20', '#22262a', '#31363c'] })}` },
   { id: 'desert', name: 'Desert', series: 'creators-edition', tier: 'free', letter: 'dark', stencilOpacity: 0.3,
     surface: desertSurface() },
+  // Tones measured off a Carta panel photo (mockups/reference-eink/): the ink core sits at 11%
+  // of the paper's luminance, and the paper is a mid-grey — never white. No texture: the
+  // reference holds no dither at all, so what reads as e-ink is the tone pair, not a pattern.
+  // 25% — one ink pixel per 2x2, the coarsest lattice that still reads as an even tone
+  { id: 'paper', name: 'Paper', series: 'original', tier: 'free', letter: 'dark', stencilOpacity: 0.22,
+    render: 'eink', ink: '#16171a', surface: '#c9c7c2',
+    dither: { size: 4, dots: [[0, 0], [2, 0], [0, 2], [2, 2]] } },
+  // Light ink on a dark field reads brighter than dark on light at the same density (Weber), so
+  // the inverted polarity needs fewer dots, not dimmer ones. 6/64 = 9.4%, on the six lowest
+  // thresholds of an 8x8 Bayer matrix — a 4x4 tile cannot express anything between 12.5% and 6.25%
+  { id: 'ink', name: 'Ink', series: 'original', tier: 'free', letter: 'light', stencilOpacity: 0.12,
+    render: 'eink', ink: '#c5c3be', surface: '#1b1c1f',
+    dither: { size: 8, dots: [[0, 0], [4, 4], [0, 4], [4, 0], [2, 2], [6, 6]] } },
 ];
 
 export const getFinish = (id: string): Finish => FINISHES.find((f) => f.id === id) ?? FINISHES[0];

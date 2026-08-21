@@ -76,9 +76,11 @@ function ClockScreen({ settingsOpen, docked }: { settingsOpen: boolean; docked: 
   // panel would cover its right columns — slide it into the free half instead
   const sheetShift = settingsOpen ? 'md:translate-x-[calc(-182px-env(safe-area-inset-right)/2)]' : '';
 
-  const onWall = settings.presentation === 'wall' && !docked;
+  // The wall panel is a lit object in a room — drop-shadowed, floating on dark chrome. An
+  // e-ink face is the surface itself, so it always fills the screen like a real panel would
+  const onWall = settings.presentation === 'wall' && !docked && finish.render !== 'eink';
 
-  const corners = settings.dots === 'corners' && <CornerDots letter={finish.letter} />;
+  const corners = settings.dots === 'corners' && <CornerDots finish={finish} />;
 
   const dial = (
     <>

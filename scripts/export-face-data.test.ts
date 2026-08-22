@@ -5,9 +5,12 @@ import { describe, expect, it } from 'vitest';
 import { LANGUAGES } from '../src/clock/languages';
 
 const HERE = dirname(fileURLToPath(import.meta.url));
-const read = (file: string): string => readFileSync(join(HERE, '../ios/App/VerbaWidgets', file), 'utf8');
+const read = (dir: string, file: string): string => readFileSync(join(HERE, '../ios/App', dir, file), 'utf8');
+// The face data lives in the shared package; the intent stays in the widget extension
+const readFaceKit = (file: string): string => read('VerbaFaceKit/Sources/VerbaFaceKit/Resources', file);
+const readWidgets = (file: string): string => read('VerbaWidgets', file);
 
-const faceData = JSON.parse(read('FaceData.json')) as {
+const faceData = JSON.parse(readFaceKit('FaceData.json')) as {
   languages: { id: string; dir?: string; layout?: string; rows: string[] }[];
 };
 const exportedIds = faceData.languages.map((lang) => lang.id);
@@ -15,7 +18,7 @@ const exportedIds = faceData.languages.map((lang) => lang.id);
 // The widget's language picker is a hand-written Swift enum — this is the guard that keeps it
 // in step with the generated face data
 const pickerIds = (() => {
-  const swift = read('ConfigIntent.swift');
+  const swift = readWidgets('ConfigIntent.swift');
   const cases = /case sameAsApp\s+case ([^\n]+)/.exec(swift);
   if (!cases) throw new Error('could not find WidgetLanguage cases');
   return cases[1].split(',').map((entry) => entry.trim());
@@ -39,7 +42,7 @@ describe('widget face data', () => {
   });
 
   it('names every picker case in the display representations', () => {
-    const swift = read('ConfigIntent.swift');
+    const swift = readWidgets('ConfigIntent.swift');
     const shown = swift.slice(swift.indexOf('caseDisplayRepresentations: [WidgetLanguage'));
     for (const id of pickerIds) expect(shown).toContain(`.${id}: "`);
   });

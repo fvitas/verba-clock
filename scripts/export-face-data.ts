@@ -20,9 +20,10 @@ type ExportedLanguage = {
 };
 
 const HERE = dirname(fileURLToPath(import.meta.url));
-// Both native widget renderers read the same file — iOS from the bundle, Android from assets
+// Both native renderers read the same file — iOS from the VerbaFaceKit package bundle
+// (shared by the widgets and the watch app), Android from assets
 const OUTS = [
-  join(HERE, '../ios/App/VerbaWidgets/FaceData.json'),
+  join(HERE, '../ios/App/VerbaFaceKit/Sources/VerbaFaceKit/Resources/FaceData.json'),
   join(HERE, '../android/app/src/main/assets/FaceData.json'),
 ];
 

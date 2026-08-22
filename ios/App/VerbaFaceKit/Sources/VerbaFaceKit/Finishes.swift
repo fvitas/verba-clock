@@ -6,26 +6,32 @@ import SwiftUI
 /// here. The materials themselves are generated rather than approximated — see Textures.
 typealias SurfaceLayer = (CGContext, Int) -> Void
 
-struct Finish {
-    let id: String
-    let name: String
-    let letter: LetterTone
-    let stencilOpacity: Double
+public struct Finish {
+    public let id: String
+    public let name: String
+    public let letter: LetterTone
+    public let stencilOpacity: Double
     let layers: [SurfaceLayer]
 
-    enum LetterTone { case light, dark }
+    public enum LetterTone { case light, dark }
 
-    var litColor: Color { letter == .light ? .white : Color(hex: 0x181614) }
-    var stencilColor: Color {
+    public var litColor: Color { letter == .light ? .white : Color(hex: 0x181614) }
+    public var stencilColor: Color {
         (letter == .light ? Color.white : Color.black).opacity(stencilOpacity)
     }
 
-    var surface: AnyView { AnyView(SurfaceView(id: id, layers: layers)) }
+    public var surface: AnyView { AnyView(SurfaceView(id: id, layers: layers)) }
 
     // StandBy/lock screen strip the container background; letters must read on black
-    var onBlack: Finish {
+    public var onBlack: Finish {
         Finish(id: id, name: name, letter: .light, stencilOpacity: stencilOpacity, layers: layers)
     }
+}
+
+public extension Finish {
+    /// Always-On Display: black surface, faint stencil, no texture — the system dims further
+    static let alwaysOn = Finish(id: "aod", name: "Always On", letter: .light,
+                                 stencilOpacity: 0.08, layers: [])
 }
 
 extension Color {
@@ -267,8 +273,8 @@ private func rotated(_ freqX: Float, _ freqY: Float, _ octaves: Int, _ seed: Int
     Textures.Noise(freqX: freqX, freqY: freqY, octaves: octaves, seed: seed, rotate: degrees)
 }
 
-enum Finishes {
-    static let all: [Finish] = [
+public enum Finishes {
+    public static let all: [Finish] = [
         Finish(id: "deep-black", name: "Deep Black", letter: .light, stencilOpacity: 0.15,
                layers: [gradient([(0x0A0A0C, 0), (0x050506, 0.6), (0x070709, 1)])]),
         Finish(id: "stainless-steel", name: "Stainless Steel", letter: .dark, stencilOpacity: 0.3,
@@ -323,7 +329,7 @@ enum Finishes {
                ]),
     ]
 
-    static func byId(_ id: String) -> Finish {
+    public static func byId(_ id: String) -> Finish {
         all.first { $0.id == id } ?? all[0]
     }
 }

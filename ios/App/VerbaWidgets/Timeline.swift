@@ -1,5 +1,6 @@
-import WidgetKit
 import SwiftUI
+import VerbaFaceKit
+import WidgetKit
 
 struct VerbaEntry: TimelineEntry {
     let date: Date
@@ -24,6 +25,14 @@ struct VerbaTimelineProvider: AppIntentTimelineProvider {
             style: intent.style
         )
     }
+
+#if os(watchOS)
+    // The watch has no widget-config gallery; the Smart Stack picks from offered presets.
+    // One default ("Same as app") — per-widget tweaks happen in the widget's edit sheet.
+    func recommendations() -> [AppIntentRecommendation<VerbaConfigIntent>] {
+        [AppIntentRecommendation(intent: VerbaConfigIntent(), description: "Verba Clock")]
+    }
+#endif
 
     func placeholder(in context: Context) -> VerbaEntry {
         // Gallery preview: ten past ten, the watchmaker's pose

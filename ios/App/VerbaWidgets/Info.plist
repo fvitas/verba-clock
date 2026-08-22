@@ -9,9 +9,5 @@
 		<key>NSExtensionPointIdentifier</key>
 		<string>com.apple.widgetkit-extension</string>
 	</dict>
-	<key>UIAppFonts</key>
-	<array>
-		<string>DINish-Medium.ttf</string>
-	</array>
 </dict>
 </plist>

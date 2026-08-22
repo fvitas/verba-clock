@@ -7,12 +7,12 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		15AA82C8C0F303640D8F515B /* FaceData.json in Resources */ = {isa = PBXBuildFile; fileRef = 590DC0B811F4209CC3093FAB /* FaceData.json */; };
 		16AA91460576F2D6AA2FC2B6 /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FD0BAF78197C4BAC373D977 /* MainViewController.swift */; };
 		1DE4D18C144DBBBB1E1F0669 /* VerbaWidgets.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 0BC66AE947805A0E63DE67A3 /* VerbaWidgets.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
-		2262190800FB16980E1EE2CD /* DINish-LICENSE.txt in Resources */ = {isa = PBXBuildFile; fileRef = CD5DEF0B6C830D7A939258C3 /* DINish-LICENSE.txt */; };
+		24080CB72D9E0D288B82E2AF /* VerbaWatchWidgets.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 4CDD9A7627217B103EDA82AA /* VerbaWatchWidgets.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		2FAD9763203C412B000D30F8 /* config.xml in Resources */ = {isa = PBXBuildFile; fileRef = 2FAD9762203C412B000D30F8 /* config.xml */; };
-		495A701C0AE55742A1106FB4 /* SharedSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AB2E17C180F35D71FAEBBE0 /* SharedSettings.swift */; };
+		33851FC380940FD0DD36E53F /* WatchFaceScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2677ED98DA7BE5C347C546F4 /* WatchFaceScreen.swift */; };
+		38060FEB960D74DE6815BB3D /* ConfigIntent.swift in Sources */ = {isa = PBXBuildFile; fileRef = E8928F0D8D2796EB5517E2F8 /* ConfigIntent.swift */; };
 		4D22ABE92AF431CB00220026 /* CapApp-SPM in Frameworks */ = {isa = PBXBuildFile; productRef = 4D22ABE82AF431CB00220026 /* CapApp-SPM */; };
 		50379B232058CBB4000EE86E /* capacitor.config.json in Resources */ = {isa = PBXBuildFile; fileRef = 50379B222058CBB4000EE86E /* capacitor.config.json */; };
 		504EC3081FED79650016851F /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 504EC3071FED79650016851F /* AppDelegate.swift */; };
@@ -20,26 +20,43 @@
 		504EC30F1FED79650016851F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 504EC30E1FED79650016851F /* Assets.xcassets */; };
 		504EC3121FED79650016851F /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 504EC3101FED79650016851F /* LaunchScreen.storyboard */; };
 		50B271D11FEDC1A000F3C39B /* public in Resources */ = {isa = PBXBuildFile; fileRef = 50B271D01FEDC1A000F3C39B /* public */; };
+		51D01F79106667D65FAD7B93 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 737CFA131E0D2B8CF1F38315 /* Assets.xcassets */; };
 		5CBB88F6BD47FC53CA913E09 /* VerbaWidgets.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE545FC75B6CCDA1D1B33704 /* VerbaWidgets.swift */; };
+		6A1046A447C8AE921D8E7B00 /* Timeline.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF3AA8CB04E35670B9BFC5CF /* Timeline.swift */; };
 		9582B6832FE993A70072D4E8 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9582B6822FE993A50072D4E8 /* SceneDelegate.swift */; };
-		9ADCA9F8A81048B6AA9EFB65 /* FaceViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = D62729F58942E9A2FC1D6F5B /* FaceViews.swift */; };
+		9B49B93AEB0FBDA5FC815D6D /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7E3FA55C1A64FE205EEB97E9 /* Foundation.framework */; };
 		9C875DC339AEB30E1A94C48D /* WidgetBridgePlugin.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DC35E9966959F50E4192248 /* WidgetBridgePlugin.swift */; };
-		A4D7314D4B10F65B52B4FB70 /* DINish-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 3FA666A9A209A12F09048C18 /* DINish-Medium.ttf */; };
+		A08334949765295E06B5641F /* WatchWidgets.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CB6D37F63BC7C2106820DA0 /* WatchWidgets.swift */; };
+		AF2A5F04AECE2525E46D1871 /* VerbaWatchApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C15143B82AE8D715EA2B162 /* VerbaWatchApp.swift */; };
 		B3DF21D4153606C893787676 /* ConfigIntent.swift in Sources */ = {isa = PBXBuildFile; fileRef = E8928F0D8D2796EB5517E2F8 /* ConfigIntent.swift */; };
+		CA68774B279D9DF948C4E818 /* WatchSettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 456184D130641672F131F7DE /* WatchSettingsView.swift */; };
 		CB79790181D62AC10E4F43ED /* Timeline.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF3AA8CB04E35670B9BFC5CF /* Timeline.swift */; };
 		D09E5CC0820B54FCB8F6D53C /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 01A019876BF77ED232E22339 /* Foundation.framework */; };
-		EE373CD7D70C406B3FD97B2A /* FaceData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5DEFDB8C9826E9875D963F00 /* FaceData.swift */; };
-		F277962F3F5B32B5B4199A92 /* Finishes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E63AA79CE81DB9E4F16A8C8 /* Finishes.swift */; };
-		A1B2C3D40000000000000102 /* Textures.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1B2C3D40000000000000101 /* Textures.swift */; };
+		D7AD48D87C980B55D228EFFF /* VerbaWatch.app in Embed Watch Content */ = {isa = PBXBuildFile; fileRef = 0A2EEE6BFA1A5756A229A531 /* VerbaWatch.app */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		D8FEF2D17239BA8E6B6E4684 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7E3FA55C1A64FE205EEB97E9 /* Foundation.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		0A07E574CA042AAFF7A427D6 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 504EC2FC1FED79650016851F /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = C00B0A41D8DBDFBB0A4C6D9B;
+			remoteInfo = VerbaWatchWidgets;
+		};
 		1FCE88B351CD95D4095991D4 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 504EC2FC1FED79650016851F /* Project object */;
 			proxyType = 1;
 			remoteGlobalIDString = B4B7AEEFAEAB760C87D66FC6;
 			remoteInfo = VerbaWidgets;
+		};
+		E74B060B28FF952F721A622E /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 504EC2FC1FED79650016851F /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 34129983EF4DC8A1BF9E6E61;
+			remoteInfo = VerbaWatch;
 		};
 /* End PBXContainerItemProxy section */
 
@@ -55,18 +72,42 @@
 			name = "Embed Foundation Extensions";
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		90AD110DEBFE6BF16814D110 /* Embed Watch Content */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "$(CONTENTS_FOLDER_PATH)/Watch";
+			dstSubfolderSpec = 16;
+			files = (
+				D7AD48D87C980B55D228EFFF /* VerbaWatch.app in Embed Watch Content */,
+			);
+			name = "Embed Watch Content";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		C66999E2F3B21E857481EF90 /* Embed Foundation Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+				24080CB72D9E0D288B82E2AF /* VerbaWatchWidgets.appex in Embed Foundation Extensions */,
+			);
+			name = "Embed Foundation Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		01A019876BF77ED232E22339 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS26.0.sdk/System/Library/Frameworks/Foundation.framework; sourceTree = DEVELOPER_DIR; };
 		027302B8FC53D8BD5280E212 /* Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		0A2EEE6BFA1A5756A229A531 /* VerbaWatch.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = VerbaWatch.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		0BC66AE947805A0E63DE67A3 /* VerbaWidgets.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = VerbaWidgets.appex; sourceTree = BUILT_PRODUCTS_DIR; };
-		1E63AA79CE81DB9E4F16A8C8 /* Finishes.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = Finishes.swift; sourceTree = "<group>"; };
-		A1B2C3D40000000000000101 /* Textures.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = Textures.swift; sourceTree = "<group>"; };
+		0C15143B82AE8D715EA2B162 /* VerbaWatchApp.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = VerbaWatchApp.swift; sourceTree = "<group>"; };
+		2677ED98DA7BE5C347C546F4 /* WatchFaceScreen.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = WatchFaceScreen.swift; sourceTree = "<group>"; };
 		2FAD9762203C412B000D30F8 /* config.xml */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = config.xml; sourceTree = "<group>"; };
 		3DC35E9966959F50E4192248 /* WidgetBridgePlugin.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = WidgetBridgePlugin.swift; sourceTree = "<group>"; };
-		3FA666A9A209A12F09048C18 /* DINish-Medium.ttf */ = {isa = PBXFileReference; includeInIndex = 1; path = "DINish-Medium.ttf"; sourceTree = "<group>"; };
+		456184D130641672F131F7DE /* WatchSettingsView.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = WatchSettingsView.swift; sourceTree = "<group>"; };
 		47C649F4046D8DC4BB06CDCF /* VerbaWidgets.entitlements */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.entitlements; path = VerbaWidgets.entitlements; sourceTree = "<group>"; };
+		4CDD9A7627217B103EDA82AA /* VerbaWatchWidgets.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = VerbaWatchWidgets.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		4FD0BAF78197C4BAC373D977 /* MainViewController.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
 		50379B222058CBB4000EE86E /* capacitor.config.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = capacitor.config.json; sourceTree = "<group>"; };
 		504EC3041FED79650016851F /* App.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = App.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -76,25 +117,42 @@
 		504EC3111FED79650016851F /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		504EC3131FED79650016851F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		50B271D01FEDC1A000F3C39B /* public */ = {isa = PBXFileReference; lastKnownFileType = folder; path = public; sourceTree = "<group>"; };
-		590DC0B811F4209CC3093FAB /* FaceData.json */ = {isa = PBXFileReference; includeInIndex = 1; path = FaceData.json; sourceTree = "<group>"; };
-		5DEFDB8C9826E9875D963F00 /* FaceData.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = FaceData.swift; sourceTree = "<group>"; };
-		6AB2E17C180F35D71FAEBBE0 /* SharedSettings.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = SharedSettings.swift; sourceTree = "<group>"; };
+		6D9A9EEA0F61EEDDAC32CE98 /* VerbaWatch.entitlements */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.entitlements; path = VerbaWatch.entitlements; sourceTree = "<group>"; };
+		737CFA131E0D2B8CF1F38315 /* Assets.xcassets */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		7E3FA55C1A64FE205EEB97E9 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = Platforms/WatchOS.platform/Developer/SDKs/WatchOS26.0.sdk/System/Library/Frameworks/Foundation.framework; sourceTree = DEVELOPER_DIR; };
+		87BB13A17AC30933EFA3354D /* Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		8CB6D37F63BC7C2106820DA0 /* WatchWidgets.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = WatchWidgets.swift; sourceTree = "<group>"; };
 		9582B6822FE993A50072D4E8 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
 		958DCC722DB07C7200EA8C5F /* debug.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; name = debug.xcconfig; path = ../debug.xcconfig; sourceTree = SOURCE_ROOT; };
+		A737D1810357A73C29D96499 /* VerbaWatchWidgets.entitlements */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.entitlements; path = VerbaWatchWidgets.entitlements; sourceTree = "<group>"; };
 		AE545FC75B6CCDA1D1B33704 /* VerbaWidgets.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = VerbaWidgets.swift; sourceTree = "<group>"; };
 		B715302A7BA698BC8E53925B /* App.entitlements */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.entitlements; path = App.entitlements; sourceTree = "<group>"; };
 		BF3AA8CB04E35670B9BFC5CF /* Timeline.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = Timeline.swift; sourceTree = "<group>"; };
-		CD5DEF0B6C830D7A939258C3 /* DINish-LICENSE.txt */ = {isa = PBXFileReference; includeInIndex = 1; path = "DINish-LICENSE.txt"; sourceTree = "<group>"; };
-		D62729F58942E9A2FC1D6F5B /* FaceViews.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = FaceViews.swift; sourceTree = "<group>"; };
 		E8928F0D8D2796EB5517E2F8 /* ConfigIntent.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = ConfigIntent.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		4D923BB8A4CB1E83CAA04EAF /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D8FEF2D17239BA8E6B6E4684 /* Foundation.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		504EC3011FED79650016851F /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 				4D22ABE92AF431CB00220026 /* CapApp-SPM in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		BFD4BD41EB6EBD650B3A6183 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				9B49B93AEB0FBDA5FC815D6D /* Foundation.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -114,15 +172,7 @@
 			children = (
 				AE545FC75B6CCDA1D1B33704 /* VerbaWidgets.swift */,
 				BF3AA8CB04E35670B9BFC5CF /* Timeline.swift */,
-				D62729F58942E9A2FC1D6F5B /* FaceViews.swift */,
-				5DEFDB8C9826E9875D963F00 /* FaceData.swift */,
-				1E63AA79CE81DB9E4F16A8C8 /* Finishes.swift */,
-				A1B2C3D40000000000000101 /* Textures.swift */,
 				E8928F0D8D2796EB5517E2F8 /* ConfigIntent.swift */,
-				6AB2E17C180F35D71FAEBBE0 /* SharedSettings.swift */,
-				590DC0B811F4209CC3093FAB /* FaceData.json */,
-				3FA666A9A209A12F09048C18 /* DINish-Medium.ttf */,
-				CD5DEF0B6C830D7A939258C3 /* DINish-LICENSE.txt */,
 				027302B8FC53D8BD5280E212 /* Info.plist */,
 				47C649F4046D8DC4BB06CDCF /* VerbaWidgets.entitlements */,
 			);
@@ -130,12 +180,37 @@
 			path = VerbaWidgets;
 			sourceTree = "<group>";
 		};
+		44AE6705B209791A9A8C20B6 /* VerbaWatch */ = {
+			isa = PBXGroup;
+			children = (
+				0C15143B82AE8D715EA2B162 /* VerbaWatchApp.swift */,
+				2677ED98DA7BE5C347C546F4 /* WatchFaceScreen.swift */,
+				456184D130641672F131F7DE /* WatchSettingsView.swift */,
+				6D9A9EEA0F61EEDDAC32CE98 /* VerbaWatch.entitlements */,
+				737CFA131E0D2B8CF1F38315 /* Assets.xcassets */,
+			);
+			name = VerbaWatch;
+			path = VerbaWatch;
+			sourceTree = "<group>";
+		};
 		44EF9930B0976C0EDF3D9363 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
 				A95A11AA1DF30A2B767F9C2F /* iOS */,
+				F80DC4BC64609F2587CA0123 /* watchOS */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		4FE6361CFE3A421E2AE5E161 /* VerbaWatchWidgets */ = {
+			isa = PBXGroup;
+			children = (
+				8CB6D37F63BC7C2106820DA0 /* WatchWidgets.swift */,
+				87BB13A17AC30933EFA3354D /* Info.plist */,
+				A737D1810357A73C29D96499 /* VerbaWatchWidgets.entitlements */,
+			);
+			name = VerbaWatchWidgets;
+			path = VerbaWatchWidgets;
 			sourceTree = "<group>";
 		};
 		504EC2FB1FED79650016851F = {
@@ -146,6 +221,8 @@
 				504EC3051FED79650016851F /* Products */,
 				44EF9930B0976C0EDF3D9363 /* Frameworks */,
 				200D975702BCAB2F50C567A6 /* VerbaWidgets */,
+				44AE6705B209791A9A8C20B6 /* VerbaWatch */,
+				4FE6361CFE3A421E2AE5E161 /* VerbaWatchWidgets */,
 			);
 			sourceTree = "<group>";
 		};
@@ -154,6 +231,8 @@
 			children = (
 				504EC3041FED79650016851F /* App.app */,
 				0BC66AE947805A0E63DE67A3 /* VerbaWidgets.appex */,
+				0A2EEE6BFA1A5756A229A531 /* VerbaWatch.app */,
+				4CDD9A7627217B103EDA82AA /* VerbaWatchWidgets.appex */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -185,9 +264,39 @@
 			name = iOS;
 			sourceTree = "<group>";
 		};
+		F80DC4BC64609F2587CA0123 /* watchOS */ = {
+			isa = PBXGroup;
+			children = (
+				7E3FA55C1A64FE205EEB97E9 /* Foundation.framework */,
+			);
+			name = watchOS;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
+		34129983EF4DC8A1BF9E6E61 /* VerbaWatch */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = AA29AE89FE5636E331A03E6A /* Build configuration list for PBXNativeTarget "VerbaWatch" */;
+			buildPhases = (
+				4E048453FBE7A9AE3526F811 /* Sources */,
+				4D923BB8A4CB1E83CAA04EAF /* Frameworks */,
+				EA695B782ABE91420B717B32 /* Resources */,
+				C66999E2F3B21E857481EF90 /* Embed Foundation Extensions */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				188AB61008F23A21980B8A5E /* PBXTargetDependency */,
+			);
+			name = VerbaWatch;
+			packageProductDependencies = (
+				024E542C69A330DBD276B0A5 /* VerbaFaceKit */,
+			);
+			productName = VerbaWatch;
+			productReference = 0A2EEE6BFA1A5756A229A531 /* VerbaWatch.app */;
+			productType = "com.apple.product-type.application";
+		};
 		504EC3031FED79650016851F /* App */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 504EC3161FED79650016851F /* Build configuration list for PBXNativeTarget "App" */;
@@ -196,11 +305,13 @@
 				504EC3011FED79650016851F /* Frameworks */,
 				504EC3021FED79650016851F /* Resources */,
 				6780BE1C6E24683628E0BFBA /* Embed Foundation Extensions */,
+				90AD110DEBFE6BF16814D110 /* Embed Watch Content */,
 			);
 			buildRules = (
 			);
 			dependencies = (
 				5687DA5AECA2433355FB4C95 /* PBXTargetDependency */,
+				646B2FC5E08F2FA568097993 /* PBXTargetDependency */,
 			);
 			name = App;
 			packageProductDependencies = (
@@ -223,8 +334,31 @@
 			dependencies = (
 			);
 			name = VerbaWidgets;
+			packageProductDependencies = (
+				942D20BC82B43069331812E2 /* VerbaFaceKit */,
+			);
 			productName = VerbaWidgets;
 			productReference = 0BC66AE947805A0E63DE67A3 /* VerbaWidgets.appex */;
+			productType = "com.apple.product-type.app-extension";
+		};
+		C00B0A41D8DBDFBB0A4C6D9B /* VerbaWatchWidgets */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 70E21AA0961013B507A74580 /* Build configuration list for PBXNativeTarget "VerbaWatchWidgets" */;
+			buildPhases = (
+				933105AE3C6BCAEB52F70A8D /* Sources */,
+				BFD4BD41EB6EBD650B3A6183 /* Frameworks */,
+				2CFC98B7516088C2AEE7FC69 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = VerbaWatchWidgets;
+			packageProductDependencies = (
+				D8AF9871A9704375CC556482 /* VerbaFaceKit */,
+			);
+			productName = VerbaWatchWidgets;
+			productReference = 4CDD9A7627217B103EDA82AA /* VerbaWatchWidgets.appex */;
 			productType = "com.apple.product-type.app-extension";
 		};
 /* End PBXNativeTarget section */
@@ -254,6 +388,7 @@
 			mainGroup = 504EC2FB1FED79650016851F;
 			packageReferences = (
 				D4C12C0A2AAA248700AAC8A2 /* XCLocalSwiftPackageReference "CapApp-SPM" */,
+				F0A8CBA75DC1F0B70CC6B95E /* XCLocalSwiftPackageReference "VerbaFaceKit" */,
 			);
 			productRefGroup = 504EC3051FED79650016851F /* Products */;
 			projectDirPath = "";
@@ -261,11 +396,20 @@
 			targets = (
 				504EC3031FED79650016851F /* App */,
 				B4B7AEEFAEAB760C87D66FC6 /* VerbaWidgets */,
+				34129983EF4DC8A1BF9E6E61 /* VerbaWatch */,
+				C00B0A41D8DBDFBB0A4C6D9B /* VerbaWatchWidgets */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		2CFC98B7516088C2AEE7FC69 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		504EC3021FED79650016851F /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -283,15 +427,30 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				15AA82C8C0F303640D8F515B /* FaceData.json in Resources */,
-				A4D7314D4B10F65B52B4FB70 /* DINish-Medium.ttf in Resources */,
-				2262190800FB16980E1EE2CD /* DINish-LICENSE.txt in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		EA695B782ABE91420B717B32 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				51D01F79106667D65FAD7B93 /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		4E048453FBE7A9AE3526F811 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				AF2A5F04AECE2525E46D1871 /* VerbaWatchApp.swift in Sources */,
+				33851FC380940FD0DD36E53F /* WatchFaceScreen.swift in Sources */,
+				CA68774B279D9DF948C4E818 /* WatchSettingsView.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		504EC3001FED79650016851F /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -309,23 +468,40 @@
 			files = (
 				5CBB88F6BD47FC53CA913E09 /* VerbaWidgets.swift in Sources */,
 				CB79790181D62AC10E4F43ED /* Timeline.swift in Sources */,
-				9ADCA9F8A81048B6AA9EFB65 /* FaceViews.swift in Sources */,
-				EE373CD7D70C406B3FD97B2A /* FaceData.swift in Sources */,
-				F277962F3F5B32B5B4199A92 /* Finishes.swift in Sources */,
-				A1B2C3D40000000000000102 /* Textures.swift in Sources */,
 				B3DF21D4153606C893787676 /* ConfigIntent.swift in Sources */,
-				495A701C0AE55742A1106FB4 /* SharedSettings.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		933105AE3C6BCAEB52F70A8D /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A08334949765295E06B5641F /* WatchWidgets.swift in Sources */,
+				38060FEB960D74DE6815BB3D /* ConfigIntent.swift in Sources */,
+				6A1046A447C8AE921D8E7B00 /* Timeline.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
+		188AB61008F23A21980B8A5E /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = VerbaWatchWidgets;
+			target = C00B0A41D8DBDFBB0A4C6D9B /* VerbaWatchWidgets */;
+			targetProxy = 0A07E574CA042AAFF7A427D6 /* PBXContainerItemProxy */;
+		};
 		5687DA5AECA2433355FB4C95 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			name = VerbaWidgets;
 			target = B4B7AEEFAEAB760C87D66FC6 /* VerbaWidgets */;
 			targetProxy = 1FCE88B351CD95D4095991D4 /* PBXContainerItemProxy */;
+		};
+		646B2FC5E08F2FA568097993 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = VerbaWatch;
+			target = 34129983EF4DC8A1BF9E6E61 /* VerbaWatch */;
+			targetProxy = E74B060B28FF952F721A622E /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -349,6 +525,32 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
+		4F54F9CB81E3FE5AF4A3C075 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = VerbaWatch/VerbaWatch.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 7Z5VPU7R3V;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_CFBundleDisplayName = "Verba Clock";
+				INFOPLIST_KEY_WKApplication = YES;
+				INFOPLIST_KEY_WKCompanionAppBundleIdentifier = com.verba.clock;
+				INFOPLIST_KEY_WKRunsIndependentlyOfCompanionApp = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.verba.clock.watchkitapp;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = watchos;
+				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 4;
+				VALIDATE_PRODUCT = YES;
+				WATCHOS_DEPLOYMENT_TARGET = 10.0;
+			};
+			name = Release;
+		};
 		504EC3141FED79650016851F /* Debug */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 958DCC722DB07C7200EA8C5F /* debug.xcconfig */;
@@ -506,6 +708,31 @@
 			};
 			name = Release;
 		};
+		60F65845A17E54E886DFC598 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = VerbaWatch/VerbaWatch.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 7Z5VPU7R3V;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_CFBundleDisplayName = "Verba Clock";
+				INFOPLIST_KEY_WKApplication = YES;
+				INFOPLIST_KEY_WKCompanionAppBundleIdentifier = com.verba.clock;
+				INFOPLIST_KEY_WKRunsIndependentlyOfCompanionApp = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.verba.clock.watchkitapp;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = watchos;
+				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 4;
+				WATCHOS_DEPLOYMENT_TARGET = 10.0;
+			};
+			name = Debug;
+		};
 		C484C88E8907627D1B732CC1 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -528,6 +755,45 @@
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		C67D2762F6B079105587D229 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_ENTITLEMENTS = VerbaWatchWidgets/VerbaWatchWidgets.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 7Z5VPU7R3V;
+				GENERATE_INFOPLIST_FILE = NO;
+				INFOPLIST_FILE = VerbaWatchWidgets/Info.plist;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.verba.clock.watchkitapp.widgets;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = watchos;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 4;
+				WATCHOS_DEPLOYMENT_TARGET = 10.0;
+			};
+			name = Debug;
+		};
+		CF52FA877751DCF498408943 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_ENTITLEMENTS = VerbaWatchWidgets/VerbaWatchWidgets.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 7Z5VPU7R3V;
+				GENERATE_INFOPLIST_FILE = NO;
+				INFOPLIST_FILE = VerbaWatchWidgets/Info.plist;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.verba.clock.watchkitapp.widgets;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = watchos;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 4;
+				VALIDATE_PRODUCT = YES;
+				WATCHOS_DEPLOYMENT_TARGET = 10.0;
 			};
 			name = Release;
 		};
@@ -585,6 +851,24 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
+		70E21AA0961013B507A74580 /* Build configuration list for PBXNativeTarget "VerbaWatchWidgets" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				CF52FA877751DCF498408943 /* Release */,
+				C67D2762F6B079105587D229 /* Debug */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		AA29AE89FE5636E331A03E6A /* Build configuration list for PBXNativeTarget "VerbaWatch" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				4F54F9CB81E3FE5AF4A3C075 /* Release */,
+				60F65845A17E54E886DFC598 /* Debug */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 /* End XCConfigurationList section */
 
 /* Begin XCLocalSwiftPackageReference section */
@@ -592,13 +876,29 @@
 			isa = XCLocalSwiftPackageReference;
 			relativePath = "CapApp-SPM";
 		};
+		F0A8CBA75DC1F0B70CC6B95E /* XCLocalSwiftPackageReference "VerbaFaceKit" */ = {
+			isa = XCLocalSwiftPackageReference;
+			relativePath = VerbaFaceKit;
+		};
 /* End XCLocalSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		024E542C69A330DBD276B0A5 /* VerbaFaceKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = VerbaFaceKit;
+		};
 		4D22ABE82AF431CB00220026 /* CapApp-SPM */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = D4C12C0A2AAA248700AAC8A2 /* XCLocalSwiftPackageReference "CapApp-SPM" */;
 			productName = "CapApp-SPM";
+		};
+		942D20BC82B43069331812E2 /* VerbaFaceKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = VerbaFaceKit;
+		};
+		D8AF9871A9704375CC556482 /* VerbaFaceKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = VerbaFaceKit;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

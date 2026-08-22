@@ -1,5 +1,6 @@
-import WidgetKit
 import SwiftUI
+import VerbaFaceKit
+import WidgetKit
 
 @main
 struct VerbaWidgetsBundle: WidgetBundle {

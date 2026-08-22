@@ -2,46 +2,46 @@ import Foundation
 
 // Decodes FaceData.json — precomputed by scripts/export-face-data.ts. The TS
 // engine is the single source of truth; Swift only looks states up.
-struct FaceData: Decodable {
-    let version: Int
-    let languages: [FaceLanguage]
+public struct FaceData: Decodable {
+    public let version: Int
+    public let languages: [FaceLanguage]
 
-    static let shared: FaceData = {
-        let url = Bundle.main.url(forResource: "FaceData", withExtension: "json")!
+    public static let shared: FaceData = {
+        let url = Bundle.module.url(forResource: "FaceData", withExtension: "json")!
         return try! JSONDecoder().decode(FaceData.self, from: Data(contentsOf: url))
     }()
 
-    func language(_ id: String) -> FaceLanguage {
+    public func language(_ id: String) -> FaceLanguage {
         languages.first { $0.id == id } ?? languages[0]
     }
 }
 
-struct FaceLanguage: Decodable {
-    let id: String
-    let name: String
-    let rows: [String]
+public struct FaceLanguage: Decodable {
+    public let id: String
+    public let name: String
+    public let rows: [String]
     // "rtl" for faces whose column 0 is the rightmost cell (Hebrew, Arabic)
-    let dir: String?
+    public let dir: String?
     // "word" for faces whose rows are space-separated whole words and whose coords index
     // word slots instead of letter columns (Arabic — cursive script has no letter cells)
-    let layout: String?
-    let cellOverrides: [String: String]?
-    let words: [FaceWord]
-    let states: [FaceState]
+    public let layout: String?
+    public let cellOverrides: [String: String]?
+    public let words: [FaceWord]
+    public let states: [FaceState]
 
-    var isWordGrid: Bool { layout == "word" }
+    public var isWordGrid: Bool { layout == "word" }
 
-    func state(hour: Int, minute: Int) -> FaceState {
+    public func state(hour: Int, minute: Int) -> FaceState {
         states[hour * 12 + minute / 5]
     }
 
     // The whole words of a word-grid row, in reading order
-    func slots(row: Int) -> [String] {
+    public func slots(row: Int) -> [String] {
         rows[row].split(separator: " ").map(String.init)
     }
 
     // Per-cell display text honoring apostrophe overrides (e.g. Italian L')
-    func cellText(row: Int, col: Int) -> String {
+    public func cellText(row: Int, col: Int) -> String {
         if isWordGrid {
             let words = slots(row: row)
             return col < words.count ? words[col] : ""
@@ -51,32 +51,32 @@ struct FaceLanguage: Decodable {
         return col < chars.count ? String(chars[col]) : ""
     }
 
-    func wordText(_ word: FaceWord) -> String {
+    public func wordText(_ word: FaceWord) -> String {
         (word.s...word.e).map { cellText(row: word.r, col: $0) }.joined()
     }
 }
 
-struct FaceWord: Decodable {
-    let t: String
-    let r: Int
-    let s: Int
-    let e: Int
+public struct FaceWord: Decodable {
+    public let t: String
+    public let r: Int
+    public let s: Int
+    public let e: Int
 }
 
-struct FaceState: Decodable {
-    let i: [Int]
-    let p: [Int]
+public struct FaceState: Decodable {
+    public let i: [Int]
+    public let p: [Int]
 }
 
 // A resolved moment on a face: which cells are lit and the sentence words.
-struct FaceMoment {
-    let language: FaceLanguage
-    let litCells: Set<Int>
-    let sentence: [String]
-    let itIsWordCount: Int
+public struct FaceMoment {
+    public let language: FaceLanguage
+    public let litCells: Set<Int>
+    public let sentence: [String]
+    public let itIsWordCount: Int
 
     // Cells keyed as row * 11 + col to keep Set members hashable and compact
-    init(language: FaceLanguage, hour: Int, minute: Int, showItIs: Bool) {
+    public init(language: FaceLanguage, hour: Int, minute: Int, showItIs: Bool) {
         self.language = language
         let state = language.state(hour: hour, minute: minute)
         let itIs = showItIs ? state.i : []

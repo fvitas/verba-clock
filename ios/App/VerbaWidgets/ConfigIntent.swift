@@ -1,4 +1,5 @@
 import AppIntents
+import VerbaFaceKit
 import WidgetKit
 
 enum WidgetStyle: String, AppEnum {

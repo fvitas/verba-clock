@@ -14,6 +14,11 @@ type ClockFaceProps = {
   layout?: 'word';
   dir?: 'rtl';
   onClick?: (event: React.MouseEvent<HTMLDivElement>) => void;
+  // The light-play long-press listens on the letter grid itself, not the whole screen
+  onPointerDown?: (event: React.PointerEvent<HTMLDivElement>) => void;
+  onPointerUp?: (event: React.PointerEvent<HTMLDivElement>) => void;
+  onPointerLeave?: (event: React.PointerEvent<HTMLDivElement>) => void;
+  onPointerCancel?: (event: React.PointerEvent<HTMLDivElement>) => void;
 };
 
 export function ClockFace({
@@ -26,6 +31,10 @@ export function ClockFace({
   layout,
   dir,
   onClick,
+  onPointerDown,
+  onPointerUp,
+  onPointerLeave,
+  onPointerCancel,
 }: ClockFaceProps) {
   const cols = rows[0].length;
   const eink = finish.render === 'eink';
@@ -102,6 +111,10 @@ export function ClockFace({
       dir={dir}
       className={`grid w-[82cqmin] select-none font-medium ${dir === 'rtl' ? '' : 'tracking-widest'}`}
       style={{ gridTemplateColumns: `repeat(${cols}, minmax(0, 1fr))`, fontSize: '4.2cqmin' }}
+      onPointerDown={onPointerDown}
+      onPointerUp={onPointerUp}
+      onPointerLeave={onPointerLeave}
+      onPointerCancel={onPointerCancel}
       onClick={onClick}
     >
       {rows.flatMap((row, r) =>

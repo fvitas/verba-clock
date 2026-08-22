@@ -19,9 +19,14 @@ export function useArrival(next: Face, animate: boolean, darkMs: number): Arriva
   target.current = next;
   const [painted, setPainted] = useState<Face>(DARK);
   const arrived = useRef(false);
+  const paintedKey = useRef<string | null>(null);
   const key = signature(next);
 
   useEffect(() => {
+    // The dark frame belongs to a change of words. Regaining animation — a light-play run
+    // ending, a transition picked in settings — must not blink the same time back on.
+    const changed = paintedKey.current !== key;
+    paintedKey.current = key;
     if (!animate) {
       arrived.current = true;
       setPainted(target.current);
@@ -36,7 +41,7 @@ export function useArrival(next: Face, animate: boolean, darkMs: number): Arriva
       });
       return () => cancelAnimationFrame(frame);
     }
-    if (!darkMs) {
+    if (!darkMs || !changed) {
       setPainted(target.current);
       return;
     }

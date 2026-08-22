@@ -47,6 +47,30 @@ describe('settings store', () => {
     expect(loadSettings(localStorage).transition).toBe('crossfade');
   });
 
+  it('defaults light play to the ripple', () => {
+    expect(DEFAULT_SETTINGS.lightPlay).toBe('ripple');
+  });
+
+  it('fills light play for persisted v1 settings that predate it', () => {
+    localStorage.setItem('verba-settings', JSON.stringify({ schemaVersion: 1, dots: 'minutes' }));
+    expect(loadSettings(localStorage).lightPlay).toBe('ripple');
+  });
+
+  it('migrates the legacy egg key to light play', () => {
+    localStorage.setItem('verba-settings', JSON.stringify({ schemaVersion: 1, egg: 'moire' }));
+    const settings = loadSettings(localStorage);
+    expect(settings.lightPlay).toBe('moire');
+    expect('egg' in settings).toBe(false);
+  });
+
+  it('keeps an explicit light play choice over the legacy egg key', () => {
+    localStorage.setItem(
+      'verba-settings',
+      JSON.stringify({ schemaVersion: 1, lightPlay: 'off', egg: 'moire' }),
+    );
+    expect(loadSettings(localStorage).lightPlay).toBe('off');
+  });
+
   it('migrates legacy showDots: false to dots off', () => {
     localStorage.setItem('verba-settings', JSON.stringify({ schemaVersion: 1, showDots: false }));
     expect(loadSettings(localStorage).dots).toBe('off');

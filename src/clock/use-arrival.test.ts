@@ -54,6 +54,19 @@ describe('useArrival', () => {
     expect(result.current.dark).toBe(false);
   });
 
+  // A light-play run turns animation off and hands the face back already showing the time
+  it('does not blink when animation comes back with the same words', async () => {
+    const { result, rerender } = renderHook(({ animate }) => useArrival(TEN_PAST, animate, 60), {
+      initialProps: { animate: true },
+    });
+    await waitFor(() => expect(result.current.face).toBe(TEN_PAST));
+
+    rerender({ animate: false });
+    rerender({ animate: true });
+    expect(result.current.dark).toBe(false);
+    expect(result.current.face).toBe(TEN_PAST);
+  });
+
   // `lit` is a fresh Set every tick, so identity can't be the trigger — the same words must not blink
   it('ignores a rebuilt face that says the same thing', async () => {
     const { result, rerender } = renderHook(({ next }) => useArrival(next, true, 60), {

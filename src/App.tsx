@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useRef, useState, type RefObject } from 'react';
 import { resolveTime } from './clock/engine';
 import { getLanguage } from './clock/languages';
 import { mirrorCols, resolveSeconds } from './clock/seconds';
@@ -8,6 +8,8 @@ import { useClockTime } from './clock/use-clock-time';
 import { ClockFace } from './components/ClockFace';
 import { CornerDots } from './components/CornerDots';
 import { MinuteDots } from './components/MinuteDots';
+import type { LightPlaySetting } from './lightplay/effects';
+import { EMPTY_LIT, useLightPlay } from './lightplay/useLightPlay';
 import { getFinish } from './finishes/catalog';
 import { tapHaptic } from './native/haptics';
 import { useDockMode } from './native/useDockMode';
@@ -29,11 +31,18 @@ function AppShell() {
   const { settings } = useSettings();
   const [settingsOpen, setSettingsOpen] = useState(false);
   const docked = useDockMode(settings.dockMode);
+  // The panel plays light play on the live face, which lives in a sibling tree
+  const playEffect = useRef<(id: LightPlaySetting) => void>(() => {});
 
   return (
     <>
-      <ClockScreen settingsOpen={settingsOpen} docked={docked} />
-      <SettingsPanel open={settingsOpen} docked={docked} onOpenChange={setSettingsOpen} />
+      <ClockScreen settingsOpen={settingsOpen} docked={docked} playEffect={playEffect} />
+      <SettingsPanel
+        open={settingsOpen}
+        docked={docked}
+        onOpenChange={setSettingsOpen}
+        onPreviewEffect={(id) => playEffect.current(id)}
+      />
     </>
   );
 }
@@ -45,7 +54,13 @@ const secondsFor = (seconds: number, dir?: 'rtl'): ReadonlySet<string> => {
   return dir === 'rtl' ? mirrorCols(lit) : lit;
 };
 
-function ClockScreen({ settingsOpen, docked }: { settingsOpen: boolean; docked: boolean }) {
+type ClockScreenProps = {
+  settingsOpen: boolean;
+  docked: boolean;
+  playEffect: RefObject<(id: LightPlaySetting) => void>;
+};
+
+function ClockScreen({ settingsOpen, docked, playEffect }: ClockScreenProps) {
   const { settings } = useSettings();
   const time = useClockTime();
   const [mode, setMode] = useState<Mode>('words');
@@ -62,17 +77,36 @@ function ClockScreen({ settingsOpen, docked }: { settingsOpen: boolean; docked: 
   const effectiveMode = lang.layout === 'word' ? 'words' : mode;
   const lit = effectiveMode === 'words' ? display.lit : secondsFor(time.getSeconds(), lang.dir);
 
-  const transition = resolveTransition({
-    setting: settings.transition,
-    seconds: effectiveMode === 'seconds',
-    docked,
-    reducedMotion,
-    eink: finish.render === 'eink',
+  // Light play is inert on e-ink (a panel's pixel flips, it never fades), on the Arabic word
+  // grid, and while docked
+  const lightPlay = useLightPlay({
+    enabled: !docked && finish.render !== 'eink' && lang.layout !== 'word',
+    effectId: settings.lightPlay,
+    liveLit: lit,
+    rows: lang.rows,
+    finish,
+    dir: lang.dir,
+    cellOverrides: lang.cellOverrides,
   });
+  useEffect(() => {
+    playEffect.current = lightPlay.play;
+  });
+
+  const transition = lightPlay.active
+    ? 'instant'
+    : resolveTransition({
+        setting: settings.transition,
+        seconds: effectiveMode === 'seconds',
+        docked,
+        reducedMotion,
+        eink: finish.render === 'eink',
+      });
   const arrival = useArrival({ lit, dots: display.dots }, transition !== 'instant', SPECS[transition].dark);
 
   const toggleMode = () => {
     if (lang.layout === 'word') return;
+    // The click after a long-press (or during a run) belongs to light play, not to seconds
+    if (lightPlay.consumeClick()) return;
     tapHaptic();
     setMode((prev) => (prev === 'words' ? 'seconds' : 'words'));
   };
@@ -99,7 +133,7 @@ function ClockScreen({ settingsOpen, docked }: { settingsOpen: boolean; docked: 
     <>
       {settings.dots === 'minutes' && (
         <MinuteDots
-          count={arrival.face.dots}
+          count={lightPlay.takeover ? 0 : arrival.face.dots}
           finish={finish}
           visible={effectiveMode === 'words'}
           nearEdge={onWall}
@@ -109,15 +143,20 @@ function ClockScreen({ settingsOpen, docked }: { settingsOpen: boolean; docked: 
       )}
       <ClockFace
         rows={lang.rows}
-        lit={arrival.face.lit}
+        lit={lightPlay.takeover ? EMPTY_LIT : arrival.face.lit}
         finish={finish}
         transition={transition}
         dark={arrival.dark}
         cellOverrides={lang.cellOverrides}
         layout={lang.layout}
         dir={lang.dir}
+        onPointerDown={lightPlay.pressProps.onPointerDown}
+        onPointerUp={lightPlay.pressProps.onPointerUp}
+        onPointerLeave={lightPlay.pressProps.onPointerLeave}
+        onPointerCancel={lightPlay.pressProps.onPointerCancel}
         onClick={toggleMode}
       />
+      {lightPlay.overlay}
     </>
   );
 

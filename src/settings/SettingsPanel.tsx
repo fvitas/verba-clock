@@ -16,6 +16,8 @@ import { useBackButton } from '../native/useBackButton';
 import { supportsDock } from '../native/useDockMode';
 import { isNative } from '../native/useNative';
 import { supportsWakeLock } from '../native/useWakeLock';
+import { getEffect, type LightPlaySetting } from '../lightplay/effects';
+import { LightPlayList } from './LightPlayList';
 import { LanguageList } from './LanguageList';
 import { useSettings } from './SettingsContext';
 import type { DotsMode, Presentation, Transition } from './store';
@@ -61,9 +63,10 @@ type SettingsPanelProps = {
   open: boolean;
   docked: boolean;
   onOpenChange: (open: boolean) => void;
+  onPreviewEffect?: (id: LightPlaySetting) => void;
 };
 
-type View = 'main' | 'language';
+type View = 'main' | 'language' | 'lightplay';
 
 // Vaul bundles its own Radix Dialog, so the a11y title must come from the
 // namespace that rendered the surrounding Content
@@ -73,11 +76,31 @@ type PanelBodyProps = {
   view: View;
   Title: PanelTitle;
   onShowLanguage: () => void;
+  onShowLightPlay: () => void;
   onBack: () => void;
+  onPreviewEffect?: (id: LightPlaySetting) => void;
 };
 
-function PanelBody({ view, Title, onShowLanguage, onBack }: PanelBodyProps) {
+function PanelBody({ view, Title, onShowLanguage, onShowLightPlay, onBack, onPreviewEffect }: PanelBodyProps) {
   const { settings, update } = useSettings();
+
+  if (view === 'lightplay') {
+    return (
+      <>
+        <Title className="sr-only">Light play</Title>
+        <div className="flex min-h-0 flex-1 flex-col pt-3">
+          <LightPlayList
+            selectedId={settings.lightPlay}
+            onSelect={(id) => {
+              update({ lightPlay: id });
+              if (id !== 'off') onPreviewEffect?.(id);
+            }}
+            onBack={onBack}
+          />
+        </div>
+      </>
+    );
+  }
 
   if (view === 'language') {
     return (
@@ -166,6 +189,16 @@ function PanelBody({ view, Title, onShowLanguage, onBack }: PanelBodyProps) {
               onChange={(value) => update({ dots: value })}
             />
           </Cell>
+          {/* Light play is inert on e-ink finishes and word-grid faces, so the row goes with them */}
+          {getFinish(settings.finishId).render !== 'eink' && getLanguage(settings.languageId).layout !== 'word' ? (
+            <Cell label="Light play" onClick={onShowLightPlay}>
+              <span className="text-sm text-white/45">{getEffect(settings.lightPlay)?.label ?? 'Off'}</span>
+            </Cell>
+          ) : (
+            <Cell label="Light play">
+              <span className="text-sm text-white/30">Off</span>
+            </Cell>
+          )}
         </Group>
         {(isNative() || supportsWakeLock() || supportsDock() || supportsHaptics()) && (
           <Group label="Device">
@@ -203,7 +236,7 @@ function PanelBody({ view, Title, onShowLanguage, onBack }: PanelBodyProps) {
   );
 }
 
-export function SettingsPanel({ open, docked, onOpenChange }: SettingsPanelProps) {
+export function SettingsPanel({ open, docked, onOpenChange, onPreviewEffect }: SettingsPanelProps) {
   const { settings } = useSettings();
   const isDesktop = useIsDesktop();
   const [view, setView] = React.useState<View>('main');
@@ -218,10 +251,10 @@ export function SettingsPanel({ open, docked, onOpenChange }: SettingsPanelProps
     onOpenChange(next);
   };
 
-  // Android's back gesture: pop the language list, then the panel, then leave the app
+  // Android's back gesture: pop the open subview, then the panel, then leave the app
   useBackButton(() => {
     if (!open) return false;
-    if (view === 'language') {
+    if (view !== 'main') {
       setView('main');
       return true;
     }
@@ -243,7 +276,9 @@ export function SettingsPanel({ open, docked, onOpenChange }: SettingsPanelProps
       view={view}
       Title={isDesktop ? Dialog.Title : Drawer.Title}
       onShowLanguage={() => setView('language')}
+      onShowLightPlay={() => setView('lightplay')}
       onBack={() => setView('main')}
+      onPreviewEffect={onPreviewEffect}
     />
   );
 

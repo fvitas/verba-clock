@@ -45,10 +45,17 @@ function useDesktopPanel(): void {
   }));
 }
 
+const onPreviewEffect = vi.fn();
+
 function renderPanel(open = true, onOpenChange: (open: boolean) => void = () => {}, docked = false) {
   return render(
     <SettingsProvider>
-      <SettingsPanel open={open} docked={docked} onOpenChange={onOpenChange} />
+      <SettingsPanel
+        open={open}
+        docked={docked}
+        onOpenChange={onOpenChange}
+        onPreviewEffect={onPreviewEffect}
+      />
     </SettingsProvider>,
   );
 }
@@ -227,6 +234,50 @@ describe('SettingsPanel', () => {
     expect(endSelectionHaptic).toHaveBeenCalled();
     expect(loadSettings(localStorage).brightness).toBeCloseTo(0.95);
     vi.unstubAllGlobals();
+  });
+
+  it('persists a light play choice from its subview and previews it on the face', () => {
+    renderPanel();
+    const cell = screen.getByRole('button', { name: /^Light play/ });
+    expect(cell).toHaveTextContent('Ripple');
+
+    fireEvent.click(cell);
+    fireEvent.click(screen.getByRole('button', { name: /^Rose curve/ }));
+
+    expect(loadSettings(localStorage).lightPlay).toBe('rose');
+    expect(onPreviewEffect).toHaveBeenCalledWith('rose');
+    expect(screen.getByRole('button', { name: /^Rose curve/ }).querySelector('[data-selected]')).not.toBeNull();
+
+    fireEvent.click(screen.getByRole('button', { name: 'Back' }));
+    expect(screen.getByRole('button', { name: /^Light play/ })).toHaveTextContent('Rose curve');
+  });
+
+  it('offers Off last in the light play list and plays nothing for it', () => {
+    renderPanel();
+    fireEvent.click(screen.getByRole('button', { name: /^Light play/ }));
+    const options = screen.getAllByRole('button').slice(1);
+    expect(options).toHaveLength(11);
+    expect(options[options.length - 1]).toHaveTextContent('Off');
+
+    fireEvent.click(screen.getByRole('button', { name: /^Off/ }));
+    expect(loadSettings(localStorage).lightPlay).toBe('off');
+    expect(onPreviewEffect).not.toHaveBeenCalled();
+  });
+
+  it('shows the light play row off and unreachable on an e-ink finish', () => {
+    renderPanel();
+    fireEvent.click(screen.getByRole('button', { name: 'Ink' }));
+    expect(screen.queryByRole('button', { name: /^Light play/ })).not.toBeInTheDocument();
+    expect(screen.getByText('Light play').parentElement).toHaveTextContent('Off');
+  });
+
+  it('shows the light play row off and unreachable on the Arabic word face', () => {
+    renderPanel();
+    fireEvent.click(screen.getByRole('button', { name: /^Language/ }));
+    fireEvent.click(screen.getByRole('button', { name: /^Arabic/ }));
+    fireEvent.click(screen.getByRole('button', { name: 'Back' }));
+    expect(screen.queryByRole('button', { name: /^Light play/ })).not.toBeInTheDocument();
+    expect(screen.getByText('Light play').parentElement).toHaveTextContent('Off');
   });
 
   it('hides the gear trigger while docked', () => {

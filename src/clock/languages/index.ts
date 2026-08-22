@@ -9,7 +9,9 @@ import { catalan } from './ca';
 import { danish } from './dk';
 import { norwegian } from './no';
 import { swedish } from './se';
+import { finnish } from './fi';
 import { czech } from './cz';
+import { slovak } from './sk';
 import { romanian } from './ro';
 import { portuguese } from './pe';
 import { turkish } from './tr';
@@ -19,6 +21,7 @@ import { swabian } from './d3';
 import { germanD4 } from './d4';
 import { englishE2 } from './e2';
 import { russian } from './ru';
+import { ukrainian } from './ua';
 import { greek } from './gr';
 import { serbian } from './sr';
 import { chinese } from './cn';
@@ -29,6 +32,6 @@ import { arabic } from './ar';
 import { hebrew } from './he';
 import { japanese } from './ja';
 
-export const LANGUAGES: LanguageDef[] = [english, englishE2, german, germanD2, swabian, germanD4, swissGerman, french, italian, spanish, catalan, dutch, danish, norwegian, swedish, czech, romanian, portuguese, turkish, russian, greek, serbian, chinese, bulgarian, hungarian, polish, arabic, hebrew, japanese];
+export const LANGUAGES: LanguageDef[] = [english, englishE2, german, germanD2, swabian, germanD4, swissGerman, french, italian, spanish, catalan, dutch, danish, norwegian, swedish, finnish, czech, slovak, romanian, portuguese, turkish, russian, ukrainian, greek, serbian, chinese, bulgarian, hungarian, polish, arabic, hebrew, japanese];
 
 export const getLanguage = (id: string): LanguageDef => LANGUAGES.find((l) => l.id === id) ?? english;

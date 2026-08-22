@@ -14,7 +14,7 @@ enum WidgetStyle: String, AppEnum {
 
 enum WidgetLanguage: String, AppEnum {
     case sameAsApp
-    case en, e2, de, d2, d3, d4, ch, fr, it, es, ca, nl, dk, no, se, cz, ro, pe, tr, ru, gr, sr, cn, bg, hu, pl, ja, he, ar
+    case en, e2, de, d2, d3, d4, ch, fr, it, es, ca, nl, dk, no, se, fi, cz, sk, ro, pe, tr, ru, ua, gr, sr, cn, bg, hu, pl, ja, he, ar
 
     static let typeDisplayRepresentation = TypeDisplayRepresentation(name: "Language")
     static let caseDisplayRepresentations: [WidgetLanguage: DisplayRepresentation] = [
@@ -22,8 +22,10 @@ enum WidgetLanguage: String, AppEnum {
         .en: "English", .e2: "English (E2)", .de: "German", .d2: "German (D2)",
         .d3: "Swabian (D3)", .d4: "German East (D4)", .ch: "Swiss German",
         .fr: "French", .it: "Italian", .es: "Spanish", .ca: "Catalan", .nl: "Dutch",
-        .dk: "Danish", .no: "Norwegian", .se: "Swedish", .cz: "Czech", .ro: "Romanian",
-        .pe: "Portuguese", .tr: "Turkish", .ru: "Russian", .gr: "Greek", .sr: "Serbian",
+        .dk: "Danish", .no: "Norwegian", .se: "Swedish", .fi: "Finnish",
+        .cz: "Czech", .sk: "Slovak", .ro: "Romanian",
+        .pe: "Portuguese", .tr: "Turkish", .ru: "Russian", .ua: "Ukrainian",
+        .gr: "Greek", .sr: "Serbian",
         .cn: "Chinese", .bg: "Bulgarian", .hu: "Hungarian", .pl: "Polish",
         .ja: "Japanese", .he: "Hebrew", .ar: "Arabic",
     ]

@@ -29,6 +29,9 @@ export function LightPlayList({ selectedId, onSelect, onBack }: LightPlayListPro
           <span className="text-[15px] leading-none font-semibold text-neutral-100">Light play</span>
         </button>
       </div>
+      <p className="px-5 pb-2.5 text-[12px] leading-snug text-white/40">
+        Swipe across the clock face and the letters play with light for a few seconds.
+      </p>
       <div className="mx-3.5 min-h-0 flex-1 divide-y divide-white/10 overflow-y-auto rounded-xl bg-white/[0.08]">
         {OPTIONS.map((option) => (
           <button
@@ -44,9 +47,6 @@ export function LightPlayList({ selectedId, onSelect, onBack }: LightPlayListPro
           </button>
         ))}
       </div>
-      <p className="px-5 pt-2 text-[12px] text-white/40">
-        Long-press the clock face to play it. Picking one here plays it once.
-      </p>
     </div>
   );
 }

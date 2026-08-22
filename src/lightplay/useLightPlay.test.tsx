@@ -4,7 +4,7 @@ import { cellKey } from '../clock/engine';
 import { getLanguage } from '../clock/languages';
 import { getFinish } from '../finishes/catalog';
 import { getEffect, type LightPlaySetting } from './effects';
-import { EXIT_FADE, LONG_PRESS_MS } from './engine';
+import { EXIT_FADE } from './engine';
 import { useLightPlay } from './useLightPlay';
 
 const tapHaptic = vi.fn();
@@ -24,18 +24,38 @@ function Harness({ enabled = true, effectId = 'ripple' }: HarnessProps) {
   const lightPlay = useLightPlay({ enabled, effectId, liveLit: LIT, rows: ROWS, finish: FINISH });
   api = lightPlay;
   return (
-    <div data-testid="grid" {...lightPlay.pressProps} onClick={() => lightPlay.consumeClick()}>
+    <div data-testid="grid" {...lightPlay.gestureProps} onClick={() => lightPlay.consumeClick()}>
       {lightPlay.overlay}
     </div>
   );
 }
 
-// jsdom measures every box as zero, so the press point needs a real grid to land in
-const press = (): void => {
-  const grid = screen.getByTestId('grid');
-  grid.getBoundingClientRect = () =>
-    ({ left: 0, top: 0, width: 110, height: 100 }) as DOMRect;
-  fireEvent.pointerDown(grid, { clientX: 50, clientY: 40 });
+// jsdom measures every box as zero, so the gesture needs a real grid to land in. The short side is
+// 500, which puts the swipe threshold at 40px; the tap slop is a flat 10px.
+const grid = (): HTMLElement => {
+  const el = screen.getByTestId('grid');
+  el.getBoundingClientRect = () => ({ left: 0, top: 0, width: 550, height: 500 }) as DOMRect;
+  return el;
+};
+
+// jsdom has no PointerEvent, and testing-library's pointer helpers then drop clientX/clientY —
+// a MouseEvent under the pointer event's name keeps the coordinates the gesture is made of
+const pointer = (el: HTMLElement, type: string, x: number, y: number): void =>
+  void fireEvent(el, new MouseEvent(type, { clientX: x, clientY: y, bubbles: true }));
+
+const drag = (distance: number): void => {
+  const el = grid();
+  pointer(el, 'pointerdown', 200, 200);
+  pointer(el, 'pointermove', 200 + distance, 200);
+  pointer(el, 'pointerup', 200 + distance, 200);
+};
+
+const swipe = (): void => drag(120);
+
+const tap = (): void => {
+  const el = grid();
+  pointer(el, 'pointerdown', 200, 200);
+  pointer(el, 'pointerup', 200, 200);
 };
 
 const advance = (ms: number): void => void act(() => void vi.advanceTimersByTime(ms));
@@ -57,13 +77,12 @@ describe('useLightPlay', () => {
     vi.clearAllMocks();
   });
 
-  it('takes over the lattice after a long press, and hands it back when the run ends', () => {
+  it('takes over the lattice on a swipe, and hands it back when the run ends', () => {
     render(<Harness />);
     expect(api.active).toBe(false);
     expect(overlayCells()).toHaveLength(0);
 
-    press();
-    advance(LONG_PRESS_MS);
+    swipe();
     expect(api.takeover).toBe(true);
     expect(tapHaptic).toHaveBeenCalledOnce();
     expect(overlayCells()).toHaveLength(ROWS.length * ROWS[0].length);
@@ -75,8 +94,7 @@ describe('useLightPlay', () => {
 
   it('paints the lit time on its last frame, so the overlay leaves over identical pixels', () => {
     render(<Harness />);
-    press();
-    advance(LONG_PRESS_MS);
+    swipe();
     advance(RIPPLE.dur - 20);
 
     const cells = overlayCells();
@@ -89,50 +107,62 @@ describe('useLightPlay', () => {
 
   it('is still animating an effect when the blend opens', () => {
     render(<Harness />);
-    press();
-    advance(LONG_PRESS_MS);
+    swipe();
     advance(RIPPLE.dur - EXIT_FADE);
 
     const alive = overlayCells().filter((cell) => Number(cell.style.opacity) > 0.25);
     expect(alive.length).toBeGreaterThan(10);
   });
 
-  it('swallows the click that ends a long press, but passes an ordinary tap through', () => {
+  it('plays as soon as the finger has travelled far enough, without waiting for the release', () => {
     render(<Harness />);
-    press();
-    advance(LONG_PRESS_MS);
+    const el = grid();
+    pointer(el, 'pointerdown', 200, 200);
+    expect(api.active).toBe(false);
+
+    pointer(el, 'pointermove', 260, 200);
+    expect(api.takeover).toBe(true);
+  });
+
+  it('swallows the click that ends a swipe', () => {
+    render(<Harness />);
+    swipe();
     expect(api.consumeClick()).toBe(true);
     finishRun(RIPPLE.dur);
     expect(api.consumeClick()).toBe(false);
   });
 
-  it('ignores a press let go before the threshold', () => {
+  it('leaves a clean tap alone, so it can still toggle seconds', () => {
     render(<Harness />);
-    press();
-    advance(LONG_PRESS_MS - 100);
-    fireEvent.pointerUp(screen.getByTestId('grid'));
-    advance(LONG_PRESS_MS);
+    tap();
+    expect(api.active).toBe(false);
+    expect(api.consumeClick()).toBe(false);
+    expect(tapHaptic).not.toHaveBeenCalled();
+  });
+
+  it('plays nothing for a slide too short to be a swipe, and eats its click all the same', () => {
+    render(<Harness />);
+    drag(25);
     expect(api.active).toBe(false);
     expect(tapHaptic).not.toHaveBeenCalled();
+    // A press that slid is not a tap either way, whether or not it went far enough to play
+    expect(api.consumeClick()).toBe(true);
   });
 
   it('holds nothing back when the setting is off or the context forbids it', () => {
     const { unmount } = render(<Harness effectId="off" />);
-    press();
-    advance(LONG_PRESS_MS);
+    swipe();
     expect(api.active).toBe(false);
     unmount();
 
     render(<Harness enabled={false} />);
-    press();
-    advance(LONG_PRESS_MS);
+    swipe();
     expect(api.active).toBe(false);
   });
 
   it('drops the run when the app goes to the background', () => {
     render(<Harness />);
-    press();
-    advance(LONG_PRESS_MS);
+    swipe();
     advance(400);
     expect(api.takeover).toBe(true);
 

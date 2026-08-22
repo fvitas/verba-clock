@@ -2,7 +2,13 @@ import { cellKey } from '../clock/engine';
 import { CELL_COUNT, GRID_COLS, GRID_ROWS, smooth, type Effect, type EffectContext, type EffectState } from './effects';
 
 export const EXIT_FADE = 650;
-export const LONG_PRESS_MS = 600;
+// How far a finger has to travel to count as a swipe, as a fraction of the grid's shorter side —
+// a fraction rather than pixels so the flick is the same size on a phone and on a wall display
+export const SWIPE_FRACTION = 0.08;
+
+// A press that slid this far is no longer a tap, so it must not toggle seconds on release. Flat
+// pixels, not a fraction: this is finger jitter, which is the same size on every screen.
+export const TAP_SLOP_PX = 10;
 
 // The lit set as an intensity field, in the same row-major order the effects write
 export function fieldFromLit(lit: ReadonlySet<string>): Float32Array {

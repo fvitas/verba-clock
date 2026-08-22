@@ -105,7 +105,7 @@ function ClockScreen({ settingsOpen, docked, playEffect }: ClockScreenProps) {
 
   const toggleMode = () => {
     if (lang.layout === 'word') return;
-    // The click after a long-press (or during a run) belongs to light play, not to seconds
+    // A click that ended a swipe, or landed during a run, belongs to light play — not to seconds
     if (lightPlay.consumeClick()) return;
     tapHaptic();
     setMode((prev) => (prev === 'words' ? 'seconds' : 'words'));
@@ -150,10 +150,11 @@ function ClockScreen({ settingsOpen, docked, playEffect }: ClockScreenProps) {
         cellOverrides={lang.cellOverrides}
         layout={lang.layout}
         dir={lang.dir}
-        onPointerDown={lightPlay.pressProps.onPointerDown}
-        onPointerUp={lightPlay.pressProps.onPointerUp}
-        onPointerLeave={lightPlay.pressProps.onPointerLeave}
-        onPointerCancel={lightPlay.pressProps.onPointerCancel}
+        onPointerDown={lightPlay.gestureProps.onPointerDown}
+        onPointerMove={lightPlay.gestureProps.onPointerMove}
+        onPointerUp={lightPlay.gestureProps.onPointerUp}
+        onPointerLeave={lightPlay.gestureProps.onPointerLeave}
+        onPointerCancel={lightPlay.gestureProps.onPointerCancel}
         onClick={toggleMode}
       />
       {lightPlay.overlay}

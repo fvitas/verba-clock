@@ -3,12 +3,22 @@ import { cellKey } from '../clock/engine';
 import type { Finish } from '../finishes/catalog';
 import { tapHaptic } from '../native/haptics';
 import { CELL_COUNT, clamp, getEffect, GRID_COLS, GRID_ROWS, type Effect, type LightPlaySetting } from './effects';
-import { composeFrame, fieldFromLit, LONG_PRESS_MS } from './engine';
+import { composeFrame, fieldFromLit, SWIPE_FRACTION, TAP_SLOP_PX } from './engine';
 
 export const EMPTY_LIT: ReadonlySet<string> = new Set();
 
-type PressProps = {
+type Swipe = {
+  x: number;
+  y: number;
+  // Where the finger landed, in lattice units — the effect's origin
+  point?: { px: number; py: number };
+  reach: number;
+  canPlay: boolean;
+};
+
+type GestureProps = {
   onPointerDown: (event: React.PointerEvent<HTMLDivElement>) => void;
+  onPointerMove: (event: React.PointerEvent<HTMLDivElement>) => void;
   onPointerUp: (event: React.PointerEvent<HTMLDivElement>) => void;
   onPointerLeave: (event: React.PointerEvent<HTMLDivElement>) => void;
   onPointerCancel: (event: React.PointerEvent<HTMLDivElement>) => void;
@@ -33,8 +43,8 @@ type LightPlay = {
   takeover: boolean;
   overlay: React.ReactNode;
   play: (id: LightPlaySetting, seed?: { px: number; py: number }) => void;
-  pressProps: PressProps;
-  // Swallows the click that follows a long-press (or lands mid-run) so it can't toggle seconds
+  gestureProps: GestureProps;
+  // Swallows the click that ends a swipe (or lands mid-run) so it can't toggle seconds
   consumeClick: () => boolean;
 };
 
@@ -53,7 +63,7 @@ export function useLightPlay({
   const cells = React.useRef<(HTMLSpanElement | null)[]>([]);
   const target = React.useRef(fieldFromLit(liveLit));
   const seed = React.useRef<{ px: number | null; py: number | null }>({ px: null, py: null });
-  const pressTimer = React.useRef<number | null>(null);
+  const swipe = React.useRef<Swipe | null>(null);
   const suppressClick = React.useRef(false);
 
   // The blend lands on whatever the face currently shows — words or live seconds digits
@@ -119,34 +129,49 @@ export function useLightPlay({
     setRun({ effect });
   };
 
-  const clearPress = () => {
-    if (pressTimer.current === null) return;
-    window.clearTimeout(pressTimer.current);
-    pressTimer.current = null;
+  const endSwipe = () => {
+    swipe.current = null;
   };
 
-  const pressProps: PressProps = {
+  const gestureProps: GestureProps = {
     onPointerDown: (event: React.PointerEvent<HTMLDivElement>) => {
-      if (!enabled || active || effectId === 'off') return;
+      // Every gesture starts clean, and the click it ends with is the one that reads the flag
+      suppressClick.current = false;
+      swipe.current = null;
       const rect = event.currentTarget.getBoundingClientRect();
+      // A grid with no measured box has nothing to swipe across, and would seed the origin at infinity
+      if (!rect.width || !rect.height) return;
       const u = (event.clientX - rect.left) / rect.width;
       const v = (event.clientY - rect.top) / rect.height;
       // Cell centres run 0..cols-1; RTL grids flip the visual axis back to logical columns
       const px = (dir === 'rtl' ? 1 - u : u) * GRID_COLS - 0.5;
       const py = v * GRID_ROWS - 0.5;
-      // A grid with no measured box would seed the origin at infinity and paint nothing
-      const point = Number.isFinite(px) && Number.isFinite(py) ? { px, py } : undefined;
-      clearPress();
-      pressTimer.current = window.setTimeout(() => {
-        pressTimer.current = null;
-        suppressClick.current = true;
-        tapHaptic();
-        play(effectId, point);
-      }, LONG_PRESS_MS);
+      const short = Math.min(rect.width, rect.height);
+      swipe.current = {
+        x: event.clientX,
+        y: event.clientY,
+        // An unplaceable touch seeds nothing rather than seeding the origin at infinity
+        point: Number.isFinite(px) && Number.isFinite(py) ? { px, py } : undefined,
+        reach: short * SWIPE_FRACTION,
+        canPlay: enabled && !active && effectId !== 'off',
+      };
     },
-    onPointerUp: clearPress,
-    onPointerLeave: clearPress,
-    onPointerCancel: clearPress,
+    // Plays the moment the finger has travelled far enough, so the light chases the hand
+    onPointerMove: (event: React.PointerEvent<HTMLDivElement>) => {
+      const from = swipe.current;
+      if (!from) return;
+      const travelled = Math.hypot(event.clientX - from.x, event.clientY - from.y);
+      // A move with no usable coordinates measures nothing, so it can neither play nor cancel a tap
+      if (!Number.isFinite(travelled)) return;
+      if (travelled > TAP_SLOP_PX) suppressClick.current = true;
+      if (!from.canPlay || travelled < from.reach) return;
+      swipe.current = null;
+      tapHaptic();
+      play(effectId, from.point);
+    },
+    onPointerUp: endSwipe,
+    onPointerLeave: endSwipe,
+    onPointerCancel: endSwipe,
   };
 
   const consumeClick = () => {
@@ -159,7 +184,7 @@ export function useLightPlay({
     <LightPlayOverlay rows={rows} finish={finish} dir={dir} cellOverrides={cellOverrides} cells={cells} />
   ) : null;
 
-  return { active, takeover: run !== null, overlay, play, pressProps, consumeClick };
+  return { active, takeover: run !== null, overlay, play, gestureProps, consumeClick };
 }
 
 type LightPlayOverlayProps = {

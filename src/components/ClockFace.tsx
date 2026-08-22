@@ -14,8 +14,9 @@ type ClockFaceProps = {
   layout?: 'word';
   dir?: 'rtl';
   onClick?: (event: React.MouseEvent<HTMLDivElement>) => void;
-  // The light-play long-press listens on the letter grid itself, not the whole screen
+  // The light-play swipe listens on the letter grid itself, not the whole screen
   onPointerDown?: (event: React.PointerEvent<HTMLDivElement>) => void;
+  onPointerMove?: (event: React.PointerEvent<HTMLDivElement>) => void;
   onPointerUp?: (event: React.PointerEvent<HTMLDivElement>) => void;
   onPointerLeave?: (event: React.PointerEvent<HTMLDivElement>) => void;
   onPointerCancel?: (event: React.PointerEvent<HTMLDivElement>) => void;
@@ -32,6 +33,7 @@ export function ClockFace({
   dir,
   onClick,
   onPointerDown,
+  onPointerMove,
   onPointerUp,
   onPointerLeave,
   onPointerCancel,
@@ -109,9 +111,11 @@ export function ClockFace({
       // dir="rtl" flips the grid so column 0 lands on the right (Hebrew); tracking would
       // then pad the wrong side of each cell, so RTL faces rely on the grid gaps alone
       dir={dir}
-      className={`grid w-[82cqmin] select-none font-medium ${dir === 'rtl' ? '' : 'tracking-widest'}`}
+      // touch-none: the swipe needs the browser's pointer moves, not a page pan or a zoom gesture
+      className={`grid w-[82cqmin] touch-none select-none font-medium ${dir === 'rtl' ? '' : 'tracking-widest'}`}
       style={{ gridTemplateColumns: `repeat(${cols}, minmax(0, 1fr))`, fontSize: '4.2cqmin' }}
       onPointerDown={onPointerDown}
+      onPointerMove={onPointerMove}
       onPointerUp={onPointerUp}
       onPointerLeave={onPointerLeave}
       onPointerCancel={onPointerCancel}

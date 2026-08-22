@@ -149,4 +149,33 @@ describe('useLightPlay', () => {
     act(() => api.play('sonar'));
     expect(api.takeover).toBe(true);
   });
+
+  it('cuts the running effect off and plays the newly picked one from the start', () => {
+    render(<Harness />);
+    act(() => api.play('ripple'));
+    advance(1_000);
+
+    act(() => api.play('sonar'));
+    // Past where the ripple would have ended, so only a restarted run can still hold the lattice
+    advance(RIPPLE.dur);
+    expect(api.takeover).toBe(true);
+    expect(overlayCells()).toHaveLength(ROWS.length * ROWS[0].length);
+
+    finishRun(getEffect('sonar')!.dur);
+    expect(api.active).toBe(false);
+  });
+
+  it('restarts the effect that is already playing when it is picked again', () => {
+    render(<Harness />);
+    act(() => api.play('ripple'));
+    advance(RIPPLE.dur - 200);
+
+    act(() => api.play('ripple'));
+    // The first run's clock is past its duration here, so a still-held lattice means it restarted
+    advance(300);
+    expect(api.takeover).toBe(true);
+
+    finishRun(RIPPLE.dur - 300);
+    expect(api.active).toBe(false);
+  });
 });

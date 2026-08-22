@@ -47,7 +47,8 @@ export function useLightPlay({
   dir,
   cellOverrides,
 }: UseLightPlayOptions): LightPlay {
-  const [run, setRun] = React.useState<Effect | null>(null);
+  // Wrapped, not bare: a fresh object every time is what lets the effect already playing restart
+  const [run, setRun] = React.useState<{ effect: Effect } | null>(null);
   const [settling, setSettling] = React.useState(false);
   const cells = React.useRef<(HTMLSpanElement | null)[]>([]);
   const target = React.useRef(fieldFromLit(liveLit));
@@ -62,19 +63,20 @@ export function useLightPlay({
 
   React.useEffect(() => {
     if (!run) return;
-    const st = run.init();
+    const { effect } = run;
+    const st = effect.init();
     const ctx = seed.current;
     const out = new Float32Array(CELL_COUNT);
     const last = new Float32Array(CELL_COUNT).fill(-1);
     const t0 = performance.now();
     let raf = requestAnimationFrame(function frame(now) {
       const t = now - t0;
-      if (t >= run.dur) {
+      if (t >= effect.dur) {
         setRun(null);
         setSettling(true);
         return;
       }
-      composeFrame(run, t, st, ctx, out, target.current);
+      composeFrame(effect, t, st, ctx, out, target.current);
       for (let i = 0; i < CELL_COUNT; i++) {
         const v = Math.round(clamp(out[i]) * 100) / 100;
         if (v === last[i]) continue;
@@ -106,13 +108,15 @@ export function useLightPlay({
 
   const active = run !== null || settling;
 
+  // Picking in the settings list plays straight away: whatever is running is cut off mid-frame
   const play = (id: LightPlaySetting, point?: { px: number; py: number }) => {
-    if (!enabled || active) return;
+    if (!enabled) return;
     const effect = getEffect(id);
     if (!effect) return;
     seed.current = { px: point?.px ?? null, py: point?.py ?? null };
-    cells.current = [];
-    setRun(effect);
+    // An overlay still on screen keeps its cell refs; only a fresh mount has to collect them again
+    if (!active) cells.current = [];
+    setRun({ effect });
   };
 
   const clearPress = () => {

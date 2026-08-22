@@ -78,7 +78,7 @@ function phrase(hours: number, minutes: number): WordCoord[] {
 
 export const korean: LanguageDef = {
   id: 'kr',
-  name: '한국어',
+  name: 'Korean',
   sample: '일곱 시 반',
   rows: [
     '지금은시각은초새벽낮밤',

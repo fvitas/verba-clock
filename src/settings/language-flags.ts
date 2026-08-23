@@ -68,6 +68,7 @@ export const LANGUAGE_FLAGS: Record<string, string | null> = {
   ua,
   gr,
   sr: rs,
+  s2: rs,
   mk,
   cn,
   bg,

@@ -15,12 +15,13 @@ function gridSvg({ size, span, background }) {
     [...row].forEach((ch, c) => {
       const x = (pad + (c + 0.5) * cw).toFixed(1);
       const y = (pad + (r + 0.5) * cw + fs * 0.35).toFixed(1);
-      const opacity = isLit(r, c) ? '' : ' fill-opacity="0.32"';
+      const opacity = isLit(r, c) ? '' : ' fill="#d2ccb6" fill-opacity="0.32"';
       cells += `<text x="${x}" y="${y}" font-size="${fs.toFixed(1)}"${opacity}>${ch}</text>`;
     }),
   );
   const bg = background ? `<rect width="${size}" height="${size}" fill="${background}"/>` : '';
-  return `<svg xmlns="http://www.w3.org/2000/svg" width="${size}" height="${size}" viewBox="0 0 ${size} ${size}">${bg}<g font-family="Helvetica, Arial, sans-serif" font-weight="500" text-anchor="middle" fill="#ffffff">${cells}</g></svg>`;
+  // Bi-metal (logo E): lit letters gold, dim letters platinum
+  return `<svg xmlns="http://www.w3.org/2000/svg" width="${size}" height="${size}" viewBox="0 0 ${size} ${size}">${bg}<g font-family="Helvetica, Arial, sans-serif" font-weight="500" text-anchor="middle" fill="#e8cc60">${cells}</g></svg>`;
 }
 
 const solidSvg = (size) => `<svg xmlns="http://www.w3.org/2000/svg" width="${size}" height="${size}"><rect width="${size}" height="${size}" fill="#0a0a0a"/></svg>`;

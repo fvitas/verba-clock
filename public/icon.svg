@@ -1,26 +1,26 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
 <rect width="512" height="512" rx="96" fill="#0a0a0a"/>
-<g font-family="Helvetica, Arial, sans-serif" font-size="55" font-weight="500" text-anchor="middle" fill="#ffffff">
+<g font-family="Helvetica, Arial, sans-serif" font-size="55" font-weight="500" text-anchor="middle" fill="#e8cc60">
   <text x="104.0" y="123.3">A</text>
   <text x="180.0" y="123.3">R</text>
   <text x="256.0" y="123.3">T</text>
-  <text x="332.0" y="123.3" fill-opacity="0.32">O</text>
-  <text x="408.0" y="123.3" fill-opacity="0.32">F</text>
-  <text x="104.0" y="199.3" fill-opacity="0.32">H</text>
-  <text x="180.0" y="199.3" fill-opacity="0.32">O</text>
-  <text x="256.0" y="199.3" fill-opacity="0.32">U</text>
-  <text x="332.0" y="199.3" fill-opacity="0.32">R</text>
-  <text x="408.0" y="199.3" fill-opacity="0.32">S</text>
+  <text x="332.0" y="123.3" fill="#d2ccb6" fill-opacity="0.32">O</text>
+  <text x="408.0" y="123.3" fill="#d2ccb6" fill-opacity="0.32">F</text>
+  <text x="104.0" y="199.3" fill="#d2ccb6" fill-opacity="0.32">H</text>
+  <text x="180.0" y="199.3" fill="#d2ccb6" fill-opacity="0.32">O</text>
+  <text x="256.0" y="199.3" fill="#d2ccb6" fill-opacity="0.32">U</text>
+  <text x="332.0" y="199.3" fill="#d2ccb6" fill-opacity="0.32">R</text>
+  <text x="408.0" y="199.3" fill="#d2ccb6" fill-opacity="0.32">S</text>
   <text x="104.0" y="275.3">W</text>
   <text x="180.0" y="275.3">O</text>
   <text x="256.0" y="275.3">R</text>
   <text x="332.0" y="275.3">D</text>
-  <text x="408.0" y="275.3" fill-opacity="0.32">S</text>
-  <text x="104.0" y="351.3" fill-opacity="0.32">L</text>
-  <text x="180.0" y="351.3" fill-opacity="0.32">I</text>
-  <text x="256.0" y="351.3" fill-opacity="0.32">G</text>
-  <text x="332.0" y="351.3" fill-opacity="0.32">H</text>
-  <text x="408.0" y="351.3" fill-opacity="0.32">T</text>
+  <text x="408.0" y="275.3" fill="#d2ccb6" fill-opacity="0.32">S</text>
+  <text x="104.0" y="351.3" fill="#d2ccb6" fill-opacity="0.32">L</text>
+  <text x="180.0" y="351.3" fill="#d2ccb6" fill-opacity="0.32">I</text>
+  <text x="256.0" y="351.3" fill="#d2ccb6" fill-opacity="0.32">G</text>
+  <text x="332.0" y="351.3" fill="#d2ccb6" fill-opacity="0.32">H</text>
+  <text x="408.0" y="351.3" fill="#d2ccb6" fill-opacity="0.32">T</text>
   <text x="104.0" y="427.3">C</text>
   <text x="180.0" y="427.3">L</text>
   <text x="256.0" y="427.3">O</text>

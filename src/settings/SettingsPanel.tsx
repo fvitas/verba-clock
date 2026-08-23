@@ -18,6 +18,7 @@ import { isNative } from '../native/useNative';
 import { supportsWakeLock } from '../native/useWakeLock';
 import { getEffect, type LightPlaySetting } from '../lightplay/effects';
 import { LightPlayList } from './LightPlayList';
+import { LanguageFlag } from './LanguageFlag';
 import { LanguageList } from './LanguageList';
 import { useSettings } from './SettingsContext';
 import type { DotsMode, Presentation, Transition } from './store';
@@ -166,6 +167,7 @@ function PanelBody({ view, Title, onShowLanguage, onShowLightPlay, onBack, onPre
         </Group>
         <Group label="Clock">
           <Cell label="Language" onClick={onShowLanguage}>
+            <LanguageFlag languageId={settings.languageId} />
             <span className="text-sm text-white/45">{getLanguage(settings.languageId).name}</span>
           </Cell>
           <Cell label="Presentation">

@@ -1,6 +1,7 @@
 import { Check, ChevronLeft } from 'lucide-react';
 import { LANGUAGES } from '../clock/languages';
 import { tapHaptic } from '../native/haptics';
+import { LanguageFlag } from './LanguageFlag';
 
 type LanguageListProps = {
   selectedId: string;
@@ -34,6 +35,10 @@ export function LanguageList({ selectedId, onSelect, onBack }: LanguageListProps
               onSelect(lang.id);
             }}
           >
+            {/* Slot stays reserved when a face has no flag, so the names line up */}
+            <span className="h-[18px] w-6 shrink-0">
+              <LanguageFlag languageId={lang.id} />
+            </span>
             <span className="flex-1 text-left text-[14.5px] text-neutral-100">{lang.name}</span>
             <span className="text-[12px] text-white/40">{lang.sample}</span>
             {lang.id === selectedId && <Check className="size-[17px] text-white" data-selected />}

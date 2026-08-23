@@ -26,7 +26,7 @@ enum WidgetLanguage: String, AppEnum {
         .ic: "Icelandic",
         .cz: "Czech", .sk: "Slovak", .sl: "Slovenian", .ro: "Romanian",
         .pe: "Portuguese", .tr: "Turkish", .ru: "Russian", .ua: "Ukrainian",
-        .gr: "Greek", .sr: "Serbian", .s2: "Serbian (Latin)", .mk: "Macedonian",
+        .gr: "Greek", .sr: "Serbian", .s2: "Serbian Latin", .mk: "Macedonian",
         .cn: "Chinese", .bg: "Bulgarian", .hu: "Hungarian", .pl: "Polish",
         .ja: "Japanese", .kr: "Korean", .id: "Indonesian", .he: "Hebrew", .ar: "Arabic",
     ]

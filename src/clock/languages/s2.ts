@@ -56,7 +56,7 @@ function phrase(hours: number, minutes: number): WordCoord[] {
 
 export const serbianLatin: LanguageDef = {
   id: 's2',
-  name: 'Serbian (Latin)',
+  name: 'Serbian Latin',
   sample: 'SADA JE',
   rows: [
     'SADAKJEPOLA',

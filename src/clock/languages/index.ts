@@ -37,6 +37,6 @@ import { icelandic } from './ic';
 import { macedonian } from './mk';
 import { korean } from './kr';
 
-export const LANGUAGES: LanguageDef[] = [english, englishE2, german, germanD2, swabian, germanD4, swissGerman, french, italian, spanish, catalan, dutch, danish, norwegian, swedish, finnish, icelandic, czech, slovak, slovenian, romanian, portuguese, turkish, russian, ukrainian, greek, serbian, macedonian, chinese, bulgarian, hungarian, polish, arabic, hebrew, japanese, korean, indonesian];
+export const LANGUAGES: LanguageDef[] = [english, englishE2, german, germanD2, swabian, germanD4, swissGerman, french, italian, spanish, catalan, portuguese, dutch, danish, norwegian, swedish, finnish, icelandic, hungarian, czech, slovak, slovenian, polish, ukrainian, russian, serbian, macedonian, romanian, bulgarian, greek, turkish, japanese, korean, indonesian, chinese, arabic, hebrew];
 
 export const getLanguage = (id: string): LanguageDef => LANGUAGES.find((l) => l.id === id) ?? english;

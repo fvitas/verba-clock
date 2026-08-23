@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		13C12DEA12E625DCFEB26EE2 /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = DB18641CC4D653754E26566B /* PrivacyInfo.xcprivacy */; };
 		16AA91460576F2D6AA2FC2B6 /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FD0BAF78197C4BAC373D977 /* MainViewController.swift */; };
 		1DE4D18C144DBBBB1E1F0669 /* VerbaWidgets.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 0BC66AE947805A0E63DE67A3 /* VerbaWidgets.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		24080CB72D9E0D288B82E2AF /* VerbaWatchWidgets.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 4CDD9A7627217B103EDA82AA /* VerbaWatchWidgets.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
@@ -14,6 +15,7 @@
 		33851FC380940FD0DD36E53F /* WatchFaceScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2677ED98DA7BE5C347C546F4 /* WatchFaceScreen.swift */; };
 		38060FEB960D74DE6815BB3D /* ConfigIntent.swift in Sources */ = {isa = PBXBuildFile; fileRef = E8928F0D8D2796EB5517E2F8 /* ConfigIntent.swift */; };
 		4D22ABE92AF431CB00220026 /* CapApp-SPM in Frameworks */ = {isa = PBXBuildFile; productRef = 4D22ABE82AF431CB00220026 /* CapApp-SPM */; };
+		4F3B07AAED905314C116403B /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = DB18641CC4D653754E26566B /* PrivacyInfo.xcprivacy */; };
 		50379B232058CBB4000EE86E /* capacitor.config.json in Resources */ = {isa = PBXBuildFile; fileRef = 50379B222058CBB4000EE86E /* capacitor.config.json */; };
 		504EC3081FED79650016851F /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 504EC3071FED79650016851F /* AppDelegate.swift */; };
 		504EC30D1FED79650016851F /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 504EC30B1FED79650016851F /* Main.storyboard */; };
@@ -26,9 +28,11 @@
 		9582B6832FE993A70072D4E8 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9582B6822FE993A50072D4E8 /* SceneDelegate.swift */; };
 		9B49B93AEB0FBDA5FC815D6D /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7E3FA55C1A64FE205EEB97E9 /* Foundation.framework */; };
 		9C875DC339AEB30E1A94C48D /* WidgetBridgePlugin.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DC35E9966959F50E4192248 /* WidgetBridgePlugin.swift */; };
+		9FAFBFA7F0CC007EC89DB2F5 /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = DB18641CC4D653754E26566B /* PrivacyInfo.xcprivacy */; };
 		A08334949765295E06B5641F /* WatchWidgets.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CB6D37F63BC7C2106820DA0 /* WatchWidgets.swift */; };
 		AF2A5F04AECE2525E46D1871 /* VerbaWatchApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C15143B82AE8D715EA2B162 /* VerbaWatchApp.swift */; };
 		B3DF21D4153606C893787676 /* ConfigIntent.swift in Sources */ = {isa = PBXBuildFile; fileRef = E8928F0D8D2796EB5517E2F8 /* ConfigIntent.swift */; };
+		B50405DA03488D0C6B669C8E /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = DB18641CC4D653754E26566B /* PrivacyInfo.xcprivacy */; };
 		CA68774B279D9DF948C4E818 /* WatchSettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 456184D130641672F131F7DE /* WatchSettingsView.swift */; };
 		CB79790181D62AC10E4F43ED /* Timeline.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF3AA8CB04E35670B9BFC5CF /* Timeline.swift */; };
 		D09E5CC0820B54FCB8F6D53C /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 01A019876BF77ED232E22339 /* Foundation.framework */; };
@@ -128,6 +132,7 @@
 		AE545FC75B6CCDA1D1B33704 /* VerbaWidgets.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = VerbaWidgets.swift; sourceTree = "<group>"; };
 		B715302A7BA698BC8E53925B /* App.entitlements */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.entitlements; path = App.entitlements; sourceTree = "<group>"; };
 		BF3AA8CB04E35670B9BFC5CF /* Timeline.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = Timeline.swift; sourceTree = "<group>"; };
+		DB18641CC4D653754E26566B /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; includeInIndex = 1; path = PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
 		E8928F0D8D2796EB5517E2F8 /* ConfigIntent.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = ConfigIntent.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -252,6 +257,7 @@
 				3DC35E9966959F50E4192248 /* WidgetBridgePlugin.swift */,
 				4FD0BAF78197C4BAC373D977 /* MainViewController.swift */,
 				B715302A7BA698BC8E53925B /* App.entitlements */,
+				DB18641CC4D653754E26566B /* PrivacyInfo.xcprivacy */,
 			);
 			path = App;
 			sourceTree = "<group>";
@@ -407,6 +413,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				13C12DEA12E625DCFEB26EE2 /* PrivacyInfo.xcprivacy in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -420,6 +427,7 @@
 				50379B232058CBB4000EE86E /* capacitor.config.json in Resources */,
 				504EC30D1FED79650016851F /* Main.storyboard in Resources */,
 				2FAD9763203C412B000D30F8 /* config.xml in Resources */,
+				B50405DA03488D0C6B669C8E /* PrivacyInfo.xcprivacy in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -427,6 +435,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9FAFBFA7F0CC007EC89DB2F5 /* PrivacyInfo.xcprivacy in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -435,6 +444,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				51D01F79106667D65FAD7B93 /* Assets.xcassets in Resources */,
+				4F3B07AAED905314C116403B /* PrivacyInfo.xcprivacy in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

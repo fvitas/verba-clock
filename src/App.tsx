@@ -10,7 +10,8 @@ import { CornerDots } from './components/CornerDots';
 import { MinuteDots } from './components/MinuteDots';
 import type { LightPlaySetting } from './lightplay/effects';
 import { EMPTY_LIT, useLightPlay } from './lightplay/useLightPlay';
-import { getFinish } from './finishes/catalog';
+import { resolveTheme, type Theme } from './themes/model';
+import { loadPhoto } from './themes/photoStore';
 import { tapHaptic } from './native/haptics';
 import { useDockMode } from './native/useDockMode';
 import { useNative } from './native/useNative';
@@ -30,18 +31,26 @@ export function App() {
 function AppShell() {
   const { settings } = useSettings();
   const [settingsOpen, setSettingsOpen] = useState(false);
+  // The theme editor's draft, live on the real face while the sheet is up
+  const [previewTheme, setPreviewTheme] = useState<Theme | null>(null);
   const docked = useDockMode(settings.dockMode);
   // The panel plays light play on the live face, which lives in a sibling tree
   const playEffect = useRef<(id: LightPlaySetting) => void>(() => {});
 
   return (
     <>
-      <ClockScreen settingsOpen={settingsOpen} docked={docked} playEffect={playEffect} />
+      <ClockScreen
+        settingsOpen={settingsOpen}
+        docked={docked}
+        playEffect={playEffect}
+        previewTheme={previewTheme}
+      />
       <SettingsPanel
         open={settingsOpen}
         docked={docked}
         onOpenChange={setSettingsOpen}
         onPreviewEffect={(id) => playEffect.current(id)}
+        onPreviewTheme={setPreviewTheme}
       />
     </>
   );
@@ -58,9 +67,10 @@ type ClockScreenProps = {
   settingsOpen: boolean;
   docked: boolean;
   playEffect: RefObject<(id: LightPlaySetting) => void>;
+  previewTheme: Theme | null;
 };
 
-function ClockScreen({ settingsOpen, docked, playEffect }: ClockScreenProps) {
+function ClockScreen({ settingsOpen, docked, playEffect, previewTheme }: ClockScreenProps) {
   const { settings } = useSettings();
   const time = useClockTime();
   const [mode, setMode] = useState<Mode>('words');
@@ -71,7 +81,9 @@ function ClockScreen({ settingsOpen, docked, playEffect }: ClockScreenProps) {
 
   const brightness = docked ? Math.min(settings.brightness, 0.3) : settings.brightness;
   const lang = getLanguage(settings.languageId);
-  const finish = getFinish(settings.finishId);
+  const theme =
+    previewTheme ??
+    resolveTheme(settings.themeId, settings.customThemes, loadPhoto(localStorage, settings.themeId));
   const display = resolveTime(time.getHours(), time.getMinutes(), lang, settings.showItIs);
   // Seconds digits render on the letter matrix — word-grid faces (Arabic) have none
   const effectiveMode = lang.layout === 'word' ? 'words' : mode;
@@ -80,11 +92,11 @@ function ClockScreen({ settingsOpen, docked, playEffect }: ClockScreenProps) {
   // Light play is inert on e-ink (a panel's pixel flips, it never fades), on the Arabic word
   // grid, and while docked
   const lightPlay = useLightPlay({
-    enabled: !docked && finish.render !== 'eink' && lang.layout !== 'word',
+    enabled: !docked && !theme.eink && lang.layout !== 'word',
     effectId: settings.lightPlay,
     liveLit: lit,
     rows: lang.rows,
-    finish,
+    theme,
     dir: lang.dir,
     cellOverrides: lang.cellOverrides,
   });
@@ -99,7 +111,7 @@ function ClockScreen({ settingsOpen, docked, playEffect }: ClockScreenProps) {
         seconds: effectiveMode === 'seconds',
         docked,
         reducedMotion,
-        eink: finish.render === 'eink',
+        eink: Boolean(theme.eink),
       });
   const arrival = useArrival({ lit, dots: display.dots }, transition !== 'instant', SPECS[transition].dark);
 
@@ -125,16 +137,16 @@ function ClockScreen({ settingsOpen, docked, playEffect }: ClockScreenProps) {
 
   // The wall panel is a lit object in a room — drop-shadowed, floating on dark chrome. An
   // e-ink face is the surface itself, so it always fills the screen like a real panel would
-  const onWall = settings.presentation === 'wall' && !docked && finish.render !== 'eink';
+  const onWall = settings.presentation === 'wall' && !docked && !theme.eink;
 
-  const corners = settings.dots === 'corners' && <CornerDots finish={finish} />;
+  const corners = settings.dots === 'corners' && <CornerDots theme={theme} />;
 
   const dial = (
     <>
       {settings.dots === 'minutes' && (
         <MinuteDots
           count={lightPlay.takeover ? 0 : arrival.face.dots}
-          finish={finish}
+          theme={theme}
           visible={effectiveMode === 'words'}
           nearEdge={onWall}
           transition={transition}
@@ -144,7 +156,7 @@ function ClockScreen({ settingsOpen, docked, playEffect }: ClockScreenProps) {
       <ClockFace
         rows={lang.rows}
         lit={lightPlay.takeover ? EMPTY_LIT : arrival.face.lit}
-        finish={finish}
+        theme={theme}
         transition={transition}
         dark={arrival.dark}
         cellOverrides={lang.cellOverrides}
@@ -170,7 +182,7 @@ function ClockScreen({ settingsOpen, docked, playEffect }: ClockScreenProps) {
       >
         <div
           className={`relative flex aspect-square h-[80cqmin] items-center justify-center transition-transform duration-300 [container-type:size] [box-shadow:0_25px_50px_rgba(0,0,0,0.6),0_4px_10px_rgba(0,0,0,0.4)] ${sheetLift}`}
-          style={{ background: finish.surface }}
+          style={{ background: theme.surface }}
         >
           {corners}
           {dial}
@@ -182,7 +194,7 @@ function ClockScreen({ settingsOpen, docked, playEffect }: ClockScreenProps) {
   return (
     <main
       className={`group relative flex h-dvh w-dvw items-center justify-center overflow-hidden font-[DINish,'Noto_Sans'] transition-[padding,filter] duration-300 [container-type:size] ${sheetInset}`}
-      style={{ background: finish.surface, filter: `brightness(${brightness})` }}
+      style={{ background: theme.surface, filter: `brightness(${brightness})` }}
       data-docked={docked || undefined}
       data-settings-open={settingsOpen || undefined}
     >

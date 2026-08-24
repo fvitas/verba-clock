@@ -10,7 +10,7 @@ type FinishBase = {
 
 // An unlit e-ink letter is a Bayer lattice of ink pixels, not a grey: the panel holds one ink,
 // so a dim letter can only be fewer dots of it. `dots` are the lit slots of a `size`-square tile.
-type Dither = { size: number; dots: readonly [number, number][] };
+export type Dither = { size: number; dots: readonly [number, number][] };
 
 // The lit finishes glow; an e-ink finish renders flat and carries its own exact ink colour.
 // `render?: never` keeps the union discriminated without tagging all sixteen lit entries.

@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { cellKey } from '../clock/engine';
-import type { Finish } from '../finishes/catalog';
+import type { Theme } from '../themes/model';
 import { tapHaptic } from '../native/haptics';
 import { CELL_COUNT, clamp, getEffect, GRID_COLS, GRID_ROWS, type Effect, type LightPlaySetting } from './effects';
 import { composeFrame, fieldFromLit, SWIPE_FRACTION, TAP_SLOP_PX } from './engine';
@@ -31,7 +31,7 @@ type UseLightPlayOptions = {
   effectId: LightPlaySetting;
   liveLit: ReadonlySet<string>;
   rows: string[];
-  finish: Finish;
+  theme: Theme;
   dir?: 'rtl';
   cellOverrides?: Record<string, string>;
 };
@@ -53,7 +53,7 @@ export function useLightPlay({
   effectId,
   liveLit,
   rows,
-  finish,
+  theme,
   dir,
   cellOverrides,
 }: UseLightPlayOptions): LightPlay {
@@ -181,7 +181,7 @@ export function useLightPlay({
   };
 
   const overlay = active ? (
-    <LightPlayOverlay rows={rows} finish={finish} dir={dir} cellOverrides={cellOverrides} cells={cells} />
+    <LightPlayOverlay rows={rows} theme={theme} dir={dir} cellOverrides={cellOverrides} cells={cells} />
   ) : null;
 
   return { active, takeover: run !== null, overlay, play, gestureProps, consumeClick };
@@ -189,20 +189,17 @@ export function useLightPlay({
 
 type LightPlayOverlayProps = {
   rows: string[];
-  finish: Finish;
+  theme: Theme;
   dir?: 'rtl';
   cellOverrides?: Record<string, string>;
   cells: React.RefObject<(HTMLSpanElement | null)[]>;
 };
 
 // A second grid with identical geometry stacked over the ghosted face: every glyph in the
-// finish's lit style, opacity written imperatively per frame — the mockup board's renderer
-function LightPlayOverlay({ rows, finish, dir, cellOverrides, cells }: LightPlayOverlayProps) {
+// theme's lit style, opacity written imperatively per frame — the mockup board's renderer
+function LightPlayOverlay({ rows, theme, dir, cellOverrides, cells }: LightPlayOverlayProps) {
   const cols = rows[0].length;
-  const litClass =
-    finish.letter === 'light'
-      ? 'text-white [text-shadow:0_0_0.4em_rgba(255,255,255,0.55)]'
-      : 'text-[#181614] [text-shadow:0_0_0.07em_rgba(0,0,0,0.5),0_0_0.2em_rgba(0,0,0,0.3)]';
+  const litStyle = { color: theme.lit.color, textShadow: theme.lit.textShadow };
   return (
     <div aria-hidden className="pointer-events-none absolute inset-0 flex items-center justify-center">
       <div
@@ -214,8 +211,8 @@ function LightPlayOverlay({ rows, finish, dir, cellOverrides, cells }: LightPlay
           [...row].map((ch, c) => (
             <span
               key={cellKey(r, c)}
-              className={`flex aspect-square items-center justify-center ${litClass}`}
-              style={{ opacity: 0 }}
+              className="flex aspect-square items-center justify-center"
+              style={{ ...litStyle, opacity: 0 }}
               ref={(el) => {
                 cells.current[r * cols + c] = el;
               }}

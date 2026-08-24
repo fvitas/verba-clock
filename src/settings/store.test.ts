@@ -9,7 +9,21 @@ describe('settings store', () => {
   });
 
   it('round-trips saved settings', () => {
-    const custom = { ...DEFAULT_SETTINGS, finishId: 'rust', brightness: 0.5 };
+    const custom = { ...DEFAULT_SETTINGS, themeId: 'rust', brightness: 0.5 };
+    saveSettings(localStorage, custom);
+    expect(loadSettings(localStorage)).toEqual(custom);
+  });
+
+  it('round-trips custom themes', () => {
+    const theme = {
+      id: 'custom-1',
+      name: 'Night Amber',
+      background: { kind: 'solid' as const, color: '#0d1526' },
+      ledColor: '#ffb347',
+      dimOpacity: 0.15,
+      glow: 0.55,
+    };
+    const custom = { ...DEFAULT_SETTINGS, themeId: 'custom-1', customThemes: [theme] };
     saveSettings(localStorage, custom);
     expect(loadSettings(localStorage)).toEqual(custom);
   });
@@ -20,13 +34,35 @@ describe('settings store', () => {
   });
 
   it('returns defaults on unknown schema version', () => {
-    localStorage.setItem('verba-settings', JSON.stringify({ schemaVersion: 99, finishId: 'rust' }));
+    localStorage.setItem('verba-settings', JSON.stringify({ schemaVersion: 99, themeId: 'rust' }));
     expect(loadSettings(localStorage)).toEqual(DEFAULT_SETTINGS);
   });
 
   it('fills missing keys from defaults', () => {
+    localStorage.setItem('verba-settings', JSON.stringify({ schemaVersion: 2, themeId: 'gold' }));
+    expect(loadSettings(localStorage)).toEqual({ ...DEFAULT_SETTINGS, themeId: 'gold' });
+  });
+
+  it('migrates a v1 finishId to the theme id', () => {
     localStorage.setItem('verba-settings', JSON.stringify({ schemaVersion: 1, finishId: 'gold' }));
-    expect(loadSettings(localStorage)).toEqual({ ...DEFAULT_SETTINGS, finishId: 'gold' });
+    const settings = loadSettings(localStorage);
+    expect(settings.schemaVersion).toBe(2);
+    expect(settings.themeId).toBe('gold');
+    expect(settings.customThemes).toEqual([]);
+    expect('finishId' in settings).toBe(false);
+  });
+
+  it('migrates a full v1 payload without losing other keys', () => {
+    localStorage.setItem(
+      'verba-settings',
+      JSON.stringify({ schemaVersion: 1, finishId: 'rust', languageId: 'sr', brightness: 0.5 }),
+    );
+    expect(loadSettings(localStorage)).toEqual({
+      ...DEFAULT_SETTINGS,
+      themeId: 'rust',
+      languageId: 'sr',
+      brightness: 0.5,
+    });
   });
 
   it('defaults keepAwake to true', () => {
@@ -49,11 +85,6 @@ describe('settings store', () => {
 
   it('defaults light play to the ripple', () => {
     expect(DEFAULT_SETTINGS.lightPlay).toBe('ripple');
-  });
-
-  it('fills light play for persisted v1 settings that predate it', () => {
-    localStorage.setItem('verba-settings', JSON.stringify({ schemaVersion: 1, dots: 'minutes' }));
-    expect(loadSettings(localStorage).lightPlay).toBe('ripple');
   });
 
   it('migrates the legacy egg key to light play', () => {

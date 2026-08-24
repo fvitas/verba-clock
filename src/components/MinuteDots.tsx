@@ -1,10 +1,10 @@
 import { cellTiming } from '../clock/transitions';
-import { type Finish, withAlpha } from '../finishes/catalog';
+import type { Theme } from '../themes/model';
 import type { Transition } from '../settings/store';
 
 type MinuteDotsProps = {
   count: number;
-  finish: Finish;
+  theme: Theme;
   visible: boolean;
   nearEdge: boolean;
   transition?: Transition;
@@ -15,24 +15,13 @@ type MinuteDotsProps = {
 // panel edge like the watch dial; full-bleed hugs the grid since the viewport edge is the cog's.
 export function MinuteDots({
   count,
-  finish,
+  theme,
   visible,
   nearEdge,
   transition = 'instant',
   dark = false,
 }: MinuteDotsProps) {
-  const eink = finish.render === 'eink';
-  const litClass = eink
-    ? ''
-    : finish.letter === 'light'
-      ? 'bg-white [box-shadow:0_0_10px_rgba(255,255,255,0.55)]'
-      : 'bg-[#181614] [box-shadow:0_0_8px_rgba(0,0,0,0.3)]';
-  const litStyle = eink ? { backgroundColor: finish.ink } : undefined;
-  const stencilColor = eink
-    ? withAlpha(finish.ink, finish.stencilOpacity)
-    : finish.letter === 'light'
-      ? `rgba(255,255,255,${finish.stencilOpacity})`
-      : `rgba(0,0,0,${finish.stencilOpacity})`;
+  const litStyle = { backgroundColor: theme.lit.color, boxShadow: theme.dotGlow };
   // A dot is one cell of one, so it never staggers — it just crossfades with the letters
   const { duration, ease } = cellTiming(transition, 0, 1, dark);
   const dotTiming = duration ? { transition: `background-color ${duration}ms ${ease}` } : {};
@@ -49,8 +38,8 @@ export function MinuteDots({
       {[0, 1, 2, 3].map((index) => (
         <span
           key={index}
-          className={`size-[1.4cqmin] rounded-full ${index < count ? litClass : ''}`}
-          style={{ ...(index < count ? litStyle : { backgroundColor: stencilColor }), ...dotTiming }}
+          className="size-[1.4cqmin] rounded-full"
+          style={{ ...(index < count ? litStyle : { backgroundColor: theme.dim }), ...dotTiming }}
           data-lit={index < count}
         />
       ))}

@@ -11,7 +11,11 @@ const WidgetBridge = registerPlugin<WidgetBridge>('WidgetBridge');
 // SharedPreferences on Android
 export function syncSettingsToWidgets(settings: Settings): void {
   if (!Capacitor.isNativePlatform()) return;
-  void WidgetBridge.syncSettings({ settings: JSON.stringify(settings) }).catch(() => {
+  // Native readers still key on finishId; a custom theme falls back to Deep Black on the
+  // widgets until the native renderers learn the theme object
+  const builtin = !settings.customThemes.some((theme) => theme.id === settings.themeId);
+  const payload = { ...settings, finishId: builtin ? settings.themeId : 'deep-black' };
+  void WidgetBridge.syncSettings({ settings: JSON.stringify(payload) }).catch(() => {
     // Plugin missing (e.g. outdated native shell) — widgets just keep defaults
   });
 }

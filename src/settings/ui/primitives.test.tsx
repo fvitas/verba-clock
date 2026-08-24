@@ -8,7 +8,6 @@ import { Toggle } from './Toggle';
 import { Segmented } from './Segmented';
 import { Group } from './Group';
 import { Cell } from './Cell';
-import { SwatchRow } from './SwatchRow';
 
 beforeEach(() => vi.clearAllMocks());
 
@@ -83,21 +82,3 @@ describe('Group and Cell', () => {
   });
 });
 
-describe('SwatchRow', () => {
-  it('selects a swatch', () => {
-    const onSelect = vi.fn();
-    render(
-      <SwatchRow
-        swatches={[
-          { id: 'deep-black', name: 'Deep Black', surface: '#0a0a0a' },
-          { id: 'cream', name: 'Cream', surface: '#efe9dd' },
-        ]}
-        selectedId="deep-black"
-        onSelect={onSelect}
-      />,
-    );
-    fireEvent.click(screen.getByRole('button', { name: 'Cream' }));
-    expect(onSelect).toHaveBeenCalledWith('cream');
-    expect(tapHaptic).toHaveBeenCalledOnce();
-  });
-});

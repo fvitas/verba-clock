@@ -1,13 +1,14 @@
 import type * as React from 'react';
 import { cellKey } from '../clock/engine';
 import { cellTiming } from '../clock/transitions';
-import { ditherImage, type Finish } from '../finishes/catalog';
+import { ditherImage } from '../finishes/catalog';
+import type { Theme } from '../themes/model';
 import type { Transition } from '../settings/store';
 
 type ClockFaceProps = {
   rows: string[];
   lit: ReadonlySet<string>;
-  finish: Finish;
+  theme: Theme;
   transition?: Transition;
   dark?: boolean;
   cellOverrides?: Record<string, string>;
@@ -25,7 +26,7 @@ type ClockFaceProps = {
 export function ClockFace({
   rows,
   lit,
-  finish,
+  theme,
   transition = 'instant',
   dark = false,
   cellOverrides,
@@ -39,29 +40,18 @@ export function ClockFace({
   onPointerCancel,
 }: ClockFaceProps) {
   const cols = rows[0].length;
-  const eink = finish.render === 'eink';
-  const litClass = eink
-    ? ''
-    : finish.letter === 'light'
-      ? 'text-white [text-shadow:0_0_0.4em_rgba(255,255,255,0.55)]'
-      : 'text-[#181614] [text-shadow:0_0_0.07em_rgba(0,0,0,0.5),0_0_0.2em_rgba(0,0,0,0.3)]';
-  const litStyle = eink ? { color: finish.ink } : undefined;
-  // The unlit letter is the ink lattice showing through the glyph — clipped to the text, so the
-  // dots live inside the letterform and the field around it stays bare
-  const dimStyle: React.CSSProperties = eink
+  const litStyle: React.CSSProperties = { color: theme.lit.color, textShadow: theme.lit.textShadow };
+  // The unlit e-ink letter is the ink lattice showing through the glyph — clipped to the text,
+  // so the dots live inside the letterform and the field around it stays bare
+  const dimStyle: React.CSSProperties = theme.eink
     ? {
         color: 'transparent',
-        backgroundImage: ditherImage(finish.ink, finish.dither),
-        backgroundSize: `${finish.dither.size}px ${finish.dither.size}px`,
+        backgroundImage: ditherImage(theme.eink.ink, theme.eink.dither),
+        backgroundSize: `${theme.eink.dither.size}px ${theme.eink.dither.size}px`,
         WebkitBackgroundClip: 'text',
         backgroundClip: 'text',
       }
-    : {
-        color:
-          finish.letter === 'light'
-            ? `rgba(255,255,255,${finish.stencilOpacity})`
-            : `rgba(0,0,0,${finish.stencilOpacity})`,
-      };
+    : { color: theme.dim };
   // Every cell takes part in the sweep, not only the ones whose state changed: the effect's
   // geometry is the whole face, so a stagger erases the old words on its way to the new ones.
   const timing = (index: number, count: number): React.CSSProperties => {
@@ -92,7 +82,6 @@ export function ClockFace({
               return (
                 <span
                   key={cellKey(r, c)}
-                  className={on ? litClass : ''}
                   style={{ ...(on ? litStyle : dimStyle), ...timing(rowStart[r] + c, wordCount) }}
                   data-lit={on}
                 >
@@ -127,7 +116,7 @@ export function ClockFace({
           return (
             <span
               key={cellKey(r, c)}
-              className={`flex aspect-square items-center justify-center ${on ? litClass : ''}`}
+              className="flex aspect-square items-center justify-center"
               style={{ ...(on ? litStyle : dimStyle), ...timing(r * cols + c, rows.length * cols) }}
               data-lit={on}
             >

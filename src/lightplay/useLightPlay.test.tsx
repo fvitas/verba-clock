@@ -2,7 +2,7 @@ import { act, fireEvent, render, screen } from '@testing-library/react';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { cellKey } from '../clock/engine';
 import { getLanguage } from '../clock/languages';
-import { getFinish } from '../finishes/catalog';
+import { resolveTheme } from '../themes/model';
 import { getEffect, type LightPlaySetting } from './effects';
 import { EXIT_FADE } from './engine';
 import { useLightPlay } from './useLightPlay';
@@ -11,7 +11,7 @@ const tapHaptic = vi.fn();
 vi.mock('../native/haptics', () => ({ tapHaptic: () => tapHaptic() }));
 
 const ROWS = getLanguage('en').rows;
-const FINISH = getFinish('deep-black');
+const THEME = resolveTheme('deep-black', []);
 const RIPPLE = getEffect('ripple')!;
 const LIT = new Set([cellKey(4, 2), cellKey(4, 3)]);
 
@@ -21,7 +21,7 @@ let api: Api;
 type HarnessProps = { enabled?: boolean; effectId?: LightPlaySetting };
 
 function Harness({ enabled = true, effectId = 'ripple' }: HarnessProps) {
-  const lightPlay = useLightPlay({ enabled, effectId, liveLit: LIT, rows: ROWS, finish: FINISH });
+  const lightPlay = useLightPlay({ enabled, effectId, liveLit: LIT, rows: ROWS, theme: THEME });
   api = lightPlay;
   return (
     <div data-testid="grid" {...lightPlay.gestureProps} onClick={() => lightPlay.consumeClick()}>

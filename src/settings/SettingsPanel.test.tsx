@@ -71,22 +71,50 @@ describe('SettingsPanel', () => {
   it('requests opening via the gear button', () => {
     const onOpenChange = vi.fn();
     renderPanel(false, onOpenChange);
-    expect(screen.queryByText('Finish')).not.toBeInTheDocument();
+    expect(screen.queryByText('Theme')).not.toBeInTheDocument();
     fireEvent.click(screen.getByRole('button', { name: /settings/i }));
     expect(onOpenChange).toHaveBeenCalledWith(true);
   });
 
   it('renders the sheet groups when open', () => {
     renderPanel();
-    expect(screen.getByText('Finish')).toBeInTheDocument();
+    expect(screen.getByText('Theme')).toBeInTheDocument();
     expect(screen.getByText('Brightness')).toBeInTheDocument();
     expect(screen.getByText('Presentation')).toBeInTheDocument();
   });
 
-  it('persists a finish selection', () => {
+  it('persists a theme selection from the theme subview', () => {
     renderPanel();
-    fireEvent.click(screen.getByRole('button', { name: 'Rust' }));
-    expect(loadSettings(localStorage).finishId).toBe('rust');
+    fireEvent.click(screen.getByRole('button', { name: /^Theme/ }));
+    fireEvent.click(screen.getByRole('button', { name: /Rust/ }));
+    expect(loadSettings(localStorage).themeId).toBe('rust');
+  });
+
+  it('creates a custom theme through the editor', () => {
+    renderPanel();
+    fireEvent.click(screen.getByRole('button', { name: /^Theme/ }));
+    fireEvent.click(screen.getByRole('button', { name: /Create custom theme/ }));
+    fireEvent.click(screen.getByRole('button', { name: 'Amber' }));
+    fireEvent.click(screen.getByRole('button', { name: 'Save' }));
+
+    const settings = loadSettings(localStorage);
+    expect(settings.customThemes).toHaveLength(1);
+    expect(settings.customThemes[0].name).toBe('Custom Theme');
+    expect(settings.customThemes[0].ledColor).toBe('#ffb347');
+    expect(settings.themeId).toBe(settings.customThemes[0].id);
+  });
+
+  it('deletes a custom theme and falls back to Deep Black', () => {
+    renderPanel();
+    fireEvent.click(screen.getByRole('button', { name: /^Theme/ }));
+    fireEvent.click(screen.getByRole('button', { name: /Create custom theme/ }));
+    fireEvent.click(screen.getByRole('button', { name: 'Save' }));
+    fireEvent.click(screen.getByRole('button', { name: /Edit Custom Theme/ }));
+    fireEvent.click(screen.getByRole('button', { name: 'Delete' }));
+
+    const settings = loadSettings(localStorage);
+    expect(settings.customThemes).toHaveLength(0);
+    expect(settings.themeId).toBe('deep-black');
   });
 
   it('persists a language selection from the language subview', () => {
@@ -264,9 +292,11 @@ describe('SettingsPanel', () => {
     expect(onPreviewEffect).not.toHaveBeenCalled();
   });
 
-  it('shows the light play row off and unreachable on an e-ink finish', () => {
+  it('shows the light play row off and unreachable on an e-ink theme', () => {
     renderPanel();
-    fireEvent.click(screen.getByRole('button', { name: 'Ink' }));
+    fireEvent.click(screen.getByRole('button', { name: /^Theme/ }));
+    fireEvent.click(screen.getByRole('button', { name: /Ink/ }));
+    fireEvent.click(screen.getByRole('button', { name: 'Back' }));
     expect(screen.queryByRole('button', { name: /^Light play/ })).not.toBeInTheDocument();
     expect(screen.getByText('Light play').parentElement).toHaveTextContent('Off');
   });

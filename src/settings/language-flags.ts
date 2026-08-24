@@ -27,7 +27,6 @@ import si from 'flag-icons/flags/4x3/si.svg';
 import sk from 'flag-icons/flags/4x3/sk.svg';
 import tr from 'flag-icons/flags/4x3/tr.svg';
 import ua from 'flag-icons/flags/4x3/ua.svg';
-import us from 'flag-icons/flags/4x3/us.svg';
 // The four flags whose detail is invisible at 24px yet blew past Vite's 4096 B inline limit as
 // SVG. Rasterized by scripts/render-flag-png.mjs — es 6x, pt 4x, rest 3x — so all 36 now inline.
 import arab from './flags/arab.png';
@@ -42,7 +41,7 @@ import rs from './flags/rs.png';
 // slot either way, so the names stay aligned.
 export const LANGUAGE_FLAGS: Record<string, string | null> = {
   en: gb,
-  e2: us,
+  e2: gb, // E2 is an alternate English grid, not American English — same flag as en
   de,
   d2: de,
   d3: de, // Swabian is a German dialect, so it inherits the German flag

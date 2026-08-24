@@ -4,7 +4,8 @@ import * as Slider from '@radix-ui/react-slider';
 import { Settings } from 'lucide-react';
 import { Drawer } from 'vaul';
 import { getLanguage } from '../clock/languages';
-import { FINISHES, getFinish } from '../finishes/catalog';
+import { resolveTheme, type Theme } from '../themes/model';
+import { loadPhoto } from '../themes/photoStore';
 import {
   endSelectionHaptic,
   selectionHaptic,
@@ -21,11 +22,12 @@ import { LightPlayList } from './LightPlayList';
 import { LanguageFlag } from './LanguageFlag';
 import { LanguageList } from './LanguageList';
 import { useSettings } from './SettingsContext';
+import { ThemeEditor } from './ThemeEditor';
+import { ThemeList } from './ThemeList';
 import type { DotsMode, Presentation, Transition } from './store';
 import { Cell } from './ui/Cell';
 import { Group } from './ui/Group';
 import { Segmented } from './ui/Segmented';
-import { SwatchRow } from './ui/SwatchRow';
 import { Toggle } from './ui/Toggle';
 
 const PRESENTATIONS: { value: Presentation; label: string }[] = [
@@ -65,9 +67,10 @@ type SettingsPanelProps = {
   docked: boolean;
   onOpenChange: (open: boolean) => void;
   onPreviewEffect?: (id: LightPlaySetting) => void;
+  onPreviewTheme?: (theme: Theme | null) => void;
 };
 
-type View = 'main' | 'language' | 'lightplay';
+type View = 'main' | 'language' | 'lightplay' | 'theme' | 'themeEditor';
 
 // Vaul bundles its own Radix Dialog, so the a11y title must come from the
 // namespace that rendered the surrounding Content
@@ -76,14 +79,63 @@ type PanelTitle = React.ComponentType<React.PropsWithChildren<{ className?: stri
 type PanelBodyProps = {
   view: View;
   Title: PanelTitle;
+  editingThemeId: string | null;
   onShowLanguage: () => void;
   onShowLightPlay: () => void;
+  onShowThemes: () => void;
+  onEditTheme: (id: string | null) => void;
   onBack: () => void;
   onPreviewEffect?: (id: LightPlaySetting) => void;
+  onPreviewTheme?: (theme: Theme | null) => void;
 };
 
-function PanelBody({ view, Title, onShowLanguage, onShowLightPlay, onBack, onPreviewEffect }: PanelBodyProps) {
+function PanelBody({
+  view,
+  Title,
+  editingThemeId,
+  onShowLanguage,
+  onShowLightPlay,
+  onShowThemes,
+  onEditTheme,
+  onBack,
+  onPreviewEffect,
+  onPreviewTheme,
+}: PanelBodyProps) {
   const { settings, update } = useSettings();
+  const theme = resolveTheme(settings.themeId, settings.customThemes);
+
+  if (view === 'themeEditor') {
+    return (
+      <>
+        <Title className="sr-only">Theme editor</Title>
+        <div className="flex min-h-0 flex-1 flex-col pt-3">
+          <ThemeEditor
+            themeId={editingThemeId}
+            onDone={onShowThemes}
+            onPreview={(preview) => onPreviewTheme?.(preview)}
+          />
+        </div>
+      </>
+    );
+  }
+
+  if (view === 'theme') {
+    return (
+      <>
+        <Title className="sr-only">Theme</Title>
+        <div className="flex min-h-0 flex-1 flex-col pt-3">
+          <ThemeList
+            selectedId={settings.themeId}
+            customThemes={settings.customThemes}
+            onSelect={(id) => update({ themeId: id })}
+            onCreate={() => onEditTheme(null)}
+            onEdit={(id) => onEditTheme(id)}
+            onBack={onBack}
+          />
+        </div>
+      </>
+    );
+  }
 
   if (view === 'lightplay') {
     return (
@@ -125,12 +177,16 @@ function PanelBody({ view, Title, onShowLanguage, onShowLightPlay, onBack, onPre
       </Title>
       <div className="min-h-0 flex-1 overflow-y-auto px-3.5 pt-2">
         <Group label="Appearance">
-          <Cell label="Finish">
-            <SwatchRow
-              swatches={FINISHES}
-              selectedId={settings.finishId}
-              onSelect={(id) => update({ finishId: id })}
+          <Cell label="Theme" onClick={onShowThemes}>
+            <span
+              className="size-[18px] rounded-full border border-white/20"
+              style={{
+                background: resolveTheme(settings.themeId, settings.customThemes, loadPhoto(localStorage, settings.themeId)).surface,
+                backgroundSize: 'cover',
+                backgroundPosition: 'center',
+              }}
             />
+            <span className="text-sm text-white/45">{theme.name}</span>
           </Cell>
           <Cell label="Word Transition" stacked>
             <Segmented
@@ -191,8 +247,8 @@ function PanelBody({ view, Title, onShowLanguage, onShowLightPlay, onBack, onPre
               onChange={(value) => update({ dots: value })}
             />
           </Cell>
-          {/* Light play is inert on e-ink finishes and word-grid faces, so the row goes with them */}
-          {getFinish(settings.finishId).render !== 'eink' && getLanguage(settings.languageId).layout !== 'word' ? (
+          {/* Light play is inert on e-ink themes and word-grid faces, so the row goes with them */}
+          {!theme.eink && getLanguage(settings.languageId).layout !== 'word' ? (
             <Cell label="Light play" onClick={onShowLightPlay}>
               <span className="text-sm text-white/45">{getEffect(settings.lightPlay)?.label ?? 'Off'}</span>
             </Cell>
@@ -238,12 +294,13 @@ function PanelBody({ view, Title, onShowLanguage, onShowLightPlay, onBack, onPre
   );
 }
 
-export function SettingsPanel({ open, docked, onOpenChange, onPreviewEffect }: SettingsPanelProps) {
+export function SettingsPanel({ open, docked, onOpenChange, onPreviewEffect, onPreviewTheme }: SettingsPanelProps) {
   const { settings } = useSettings();
   const isDesktop = useIsDesktop();
   const [view, setView] = React.useState<View>('main');
+  const [editingThemeId, setEditingThemeId] = React.useState<string | null>(null);
   const cogColor =
-    getFinish(settings.finishId).letter === 'light'
+    resolveTheme(settings.themeId, settings.customThemes).letter === 'light'
       ? 'text-white/50 hover:text-white'
       : 'text-black/50 hover:text-black';
 
@@ -256,6 +313,10 @@ export function SettingsPanel({ open, docked, onOpenChange, onPreviewEffect }: S
   // Android's back gesture: pop the open subview, then the panel, then leave the app
   useBackButton(() => {
     if (!open) return false;
+    if (view === 'themeEditor') {
+      setView('theme');
+      return true;
+    }
     if (view !== 'main') {
       setView('main');
       return true;
@@ -277,10 +338,17 @@ export function SettingsPanel({ open, docked, onOpenChange, onPreviewEffect }: S
     <PanelBody
       view={view}
       Title={isDesktop ? Dialog.Title : Drawer.Title}
+      editingThemeId={editingThemeId}
       onShowLanguage={() => setView('language')}
       onShowLightPlay={() => setView('lightplay')}
+      onShowThemes={() => setView('theme')}
+      onEditTheme={(id) => {
+        setEditingThemeId(id);
+        setView('themeEditor');
+      }}
       onBack={() => setView('main')}
       onPreviewEffect={onPreviewEffect}
+      onPreviewTheme={onPreviewTheme}
     />
   );
 

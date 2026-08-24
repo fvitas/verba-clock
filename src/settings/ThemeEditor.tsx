@@ -42,18 +42,24 @@ type SwatchProps = {
   onClick: () => void;
 };
 
+// Selection is a border-ring with a gap INSIDE the box — an outline overshoots the box and
+// gets clipped by the scrolling shelves and the sheet edge
 function SwatchButton({ title, active, background, onClick }: SwatchProps) {
   return (
     <button
       aria-label={title}
       title={title}
-      className={`size-6 shrink-0 rounded-full border border-white/20 ${active ? 'outline-2 outline-offset-2 outline-white' : ''}`}
-      style={{ background, backgroundSize: 'cover', backgroundPosition: 'center' }}
+      className={`size-6 shrink-0 rounded-full border-2 p-[1.5px] ${active ? 'border-white' : 'border-transparent'}`}
       onClick={() => {
         tapHaptic();
         onClick();
       }}
-    />
+    >
+      <span
+        className="block size-full rounded-full border border-white/20"
+        style={{ background, backgroundSize: 'cover', backgroundPosition: 'center' }}
+      />
+    </button>
   );
 }
 
@@ -68,11 +74,14 @@ type WheelProps = {
 function ColorWheel({ label, active, value, onChange }: WheelProps) {
   return (
     <span
-      className={`relative size-6 shrink-0 rounded-full ${active ? 'outline-2 outline-offset-2 outline-white' : ''}`}
-      style={{ background: WHEEL_RING, boxShadow: 'inset 0 0 0 1px rgba(255,255,255,0.25)' }}
+      className={`relative size-6 shrink-0 rounded-full border-2 p-[1.5px] ${active ? 'border-white' : 'border-transparent'}`}
     >
       <span
-        className="absolute inset-[6px] rounded-full"
+        className="block size-full rounded-full"
+        style={{ background: WHEEL_RING, boxShadow: 'inset 0 0 0 1px rgba(255,255,255,0.25)' }}
+      />
+      <span
+        className="absolute inset-[7px] rounded-full"
         style={{ background: active ? value : '#2a2a2c' }}
       />
       <input
@@ -91,7 +100,7 @@ type EditorRowProps = { label: string; children: React.ReactNode };
 function EditorRow({ label, children }: EditorRowProps) {
   return (
     <div className="flex min-h-[46px] w-full items-center gap-2.5 px-4 py-2">
-      <span className="w-14 shrink-0 text-left text-[13px] text-white/60">{label}</span>
+      <span className="w-10 shrink-0 text-left text-[13px] text-white/60">{label}</span>
       {children}
     </div>
   );
@@ -285,7 +294,7 @@ export function ThemeEditor({ themeId, onDone, onPreview }: ThemeEditorProps) {
           </EditorRow>
           <EditorRow label="Finish">
             <div
-              className="flex flex-1 items-center gap-2 overflow-x-auto p-1 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
+              className="flex flex-1 items-center gap-1.5 overflow-x-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
               data-vaul-no-drag
             >
               {FINISHES.map((finish) => (
@@ -333,9 +342,9 @@ export function ThemeEditor({ themeId, onDone, onPreview }: ThemeEditorProps) {
               </div>
             </EditorRow>
           )}
-          {/* All eight circles fit the 340px sheet at 24px — no scroll, so no clipped outlines */}
+          {/* The 340px sheet leaves 230px after paddings and the label: 8 × 24px + 7 × 4px fits */}
           <EditorRow label="LED">
-            <div className="flex flex-1 items-center justify-end gap-1.5 py-1 pr-1">
+            <div className="flex flex-1 items-center justify-end gap-1">
               {LED_PRESETS.map((preset) => (
                 <SwatchButton
                   key={preset.hex}

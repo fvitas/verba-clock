@@ -71,7 +71,10 @@ export const luminance = (hex: string): number => {
   return (0.2126 * r + 0.7152 * g + 0.0722 * b) / 255;
 };
 
-const lightLetters = (background: ThemeBackground): boolean => {
+// The built-ins' soft black — also the editor's default LED when a background turns light
+export const INK = '#181614';
+
+export const lightLetters = (background: ThemeBackground): boolean => {
   if (background.kind === 'solid') return luminance(background.color) < 0.5;
   if (background.kind === 'finish') return getFinish(background.finishId).letter === 'light';
   return background.luminance < 0.5;
@@ -101,11 +104,11 @@ const fromFinish = (finish: Finish): Theme => {
     letter: finish.letter,
     lit: light
       ? { color: '#ffffff', textShadow: '0 0 0.4em rgba(255,255,255,0.55)' }
-      : { color: '#181614', textShadow: '0 0 0.07em rgba(0,0,0,0.5), 0 0 0.2em rgba(0,0,0,0.3)' },
+      : { color: INK, textShadow: '0 0 0.07em rgba(0,0,0,0.5), 0 0 0.2em rgba(0,0,0,0.3)' },
     dim: light
       ? `rgba(255,255,255,${finish.stencilOpacity})`
       : `rgba(0,0,0,${finish.stencilOpacity})`,
-    dot: light ? 'rgba(255,255,255,0.6)' : '#181614',
+    dot: light ? 'rgba(255,255,255,0.6)' : INK,
     dotGlow: light ? '0 0 10px rgba(255,255,255,0.55)' : '0 0 8px rgba(0,0,0,0.3)',
   };
 };
@@ -116,12 +119,11 @@ const surfaceOf = (background: ThemeBackground, photoUrl?: string | null): strin
   return photoUrl ? `url("${photoUrl}") center / cover no-repeat, #0a0a0c` : '#0a0a0c';
 };
 
-// The mockup's polarity formula: on a light front the LED hue survives as a deep shade
+// The LED color renders literally on both polarities — the editor merely defaults it to ink
+// when the background flips light; a light front still gets no glow (it can't emit)
 export const resolveCustom = (theme: CustomTheme, photoUrl?: string | null): Theme => {
   const light = lightLetters(theme.background);
   const led = theme.ledColor;
-  const [r, g, b] = hexRgb(led);
-  const shade = (v: number): number => Math.round(v * 0.16);
   return {
     id: theme.id,
     name: theme.name,
@@ -134,9 +136,9 @@ export const resolveCustom = (theme: CustomTheme, photoUrl?: string | null): The
           textShadow:
             theme.glow > 0 ? `0 0 ${(0.7 * theme.glow).toFixed(2)}em ${withAlpha(led, theme.glow)}` : 'none',
         }
-      : { color: `rgb(${shade(r)}, ${shade(g)}, ${shade(b)})`, textShadow: 'none' },
+      : { color: led, textShadow: 'none' },
     dim: light ? withAlpha(led, theme.dimOpacity) : `rgba(20, 18, 14, ${theme.dimOpacity * 1.6})`,
-    dot: light ? withAlpha(led, 0.6) : `rgb(${shade(r)}, ${shade(g)}, ${shade(b)})`,
+    dot: light ? withAlpha(led, 0.6) : led,
     dotGlow: light ? `0 0 10px ${withAlpha(led, 0.55)}` : '0 0 8px rgba(0,0,0,0.3)',
   };
 };

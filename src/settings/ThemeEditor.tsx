@@ -14,11 +14,14 @@ import {
   DIM_DEFAULT,
   fallbackName,
   GLOW_DEFAULT,
+  INK,
   LED_PRESETS,
+  lightLetters,
   resolveCustom,
   SOLID_PRESETS,
   type CustomTheme,
   type Theme,
+  type ThemeBackground,
 } from '../themes/model';
 import { deletePhoto, importPhoto, loadPhoto, savePhoto } from '../themes/photoStore';
 import { useSettings } from './SettingsContext';
@@ -42,24 +45,20 @@ type SwatchProps = {
   onClick: () => void;
 };
 
-// Selection is a border-ring with a gap INSIDE the box — an outline overshoots the box and
-// gets clipped by the scrolling shelves and the sheet edge
+// Circles stay full-bleed; selection shrinks the color inside its own ring (iOS-style), so
+// the ring lives INSIDE the box and nothing can clip it
 function SwatchButton({ title, active, background, onClick }: SwatchProps) {
   return (
     <button
       aria-label={title}
       title={title}
-      className={`size-6 shrink-0 rounded-full border-2 p-[1.5px] ${active ? 'border-white' : 'border-transparent'}`}
+      className={`size-6 shrink-0 rounded-full ${active ? 'border-2 border-white p-[1.5px] bg-clip-content' : 'border border-white/20'}`}
+      style={{ background, backgroundSize: 'cover', backgroundPosition: 'center' }}
       onClick={() => {
         tapHaptic();
         onClick();
       }}
-    >
-      <span
-        className="block size-full rounded-full border border-white/20"
-        style={{ background, backgroundSize: 'cover', backgroundPosition: 'center' }}
-      />
-    </button>
+    />
   );
 }
 
@@ -70,20 +69,19 @@ type WheelProps = {
   onChange: (hex: string) => void;
 };
 
-// The iOS-style ring: harmonized hues around a dark hole, the native picker underneath
+// The iOS-style ring: harmonized hues around a dark hole, the native picker underneath.
+// Selection is an outline — safe here because the wheels sit in rows that never scroll
 function ColorWheel({ label, active, value, onChange }: WheelProps) {
   return (
     <span
-      className={`relative size-6 shrink-0 rounded-full border-2 p-[1.5px] ${active ? 'border-white' : 'border-transparent'}`}
+      className={`relative size-6 shrink-0 rounded-full ${active ? 'outline-2 outline-offset-2 outline-white' : ''}`}
+      style={{ background: WHEEL_RING, boxShadow: 'inset 0 0 0 1px rgba(255,255,255,0.25)' }}
     >
       <span
-        className="block size-full rounded-full"
-        style={{ background: WHEEL_RING, boxShadow: 'inset 0 0 0 1px rgba(255,255,255,0.25)' }}
-      />
-      <span
-        className="absolute inset-[7px] rounded-full"
+        className="absolute inset-[6px] rounded-full"
         style={{ background: active ? value : '#2a2a2c' }}
       />
+
       <input
         type="color"
         aria-label={label}
@@ -178,6 +176,15 @@ export function ThemeEditor({ themeId, onDone, onPreview }: ThemeEditorProps) {
     push(next, photo);
   };
 
+  // A polarity flip re-defaults the LED — ink on a light front, white on a dark one — but
+  // only the flip does: whatever the user picks afterwards renders literally
+  const backgroundPatch = (background: ThemeBackground): Partial<Draft> => {
+    if (lightLetters(draft.background) === lightLetters(background)) return { background };
+    return { background, ledColor: lightLetters(background) ? '#ffffff' : INK };
+  };
+
+  const setBackground = (background: ThemeBackground) => set(backgroundPatch(background));
+
   // Mount shows the boot state on the face at once; unmount hands the face back
   React.useEffect(() => {
     push(draft, photo);
@@ -196,7 +203,10 @@ export function ThemeEditor({ themeId, onDone, onPreview }: ThemeEditorProps) {
     if (!file) return;
     try {
       const imported = await importPhoto(file);
-      const next: Draft = { ...draft, background: { kind: 'photo', luminance: imported.luminance } };
+      const next: Draft = {
+        ...draft,
+        ...backgroundPatch({ kind: 'photo', luminance: imported.luminance }),
+      };
       setPhoto(imported.dataUrl);
       setDraft(next);
       push(next, imported.dataUrl);
@@ -273,6 +283,20 @@ export function ThemeEditor({ themeId, onDone, onPreview }: ThemeEditorProps) {
               onChange={(event: React.ChangeEvent<HTMLInputElement>) => set({ name: event.target.value })}
             />
           </EditorRow>
+          <EditorRow label="Finish">
+            {/* 18 finishes don't fit a row — they wrap so every swatch stays fully visible */}
+            <div className="flex flex-1 flex-wrap items-center justify-end gap-1.5">
+              {FINISHES.map((finish) => (
+                <SwatchButton
+                  key={finish.id}
+                  title={finish.name}
+                  active={bg.kind === 'finish' && bg.finishId === finish.id}
+                  background={finish.surface}
+                  onClick={() => setBackground({ kind: 'finish', finishId: finish.id })}
+                />
+              ))}
+            </div>
+          </EditorRow>
           <EditorRow label="Solid">
             <div className="flex flex-1 items-center justify-end gap-2">
               {SOLID_PRESETS.map((preset) => (
@@ -281,31 +305,15 @@ export function ThemeEditor({ themeId, onDone, onPreview }: ThemeEditorProps) {
                   title={preset.name}
                   active={bg.kind === 'solid' && bg.color === preset.hex}
                   background={preset.hex}
-                  onClick={() => set({ background: { kind: 'solid', color: preset.hex } })}
+                  onClick={() => setBackground({ kind: 'solid', color: preset.hex })}
                 />
               ))}
               <ColorWheel
                 label="Custom solid color"
                 active={customSolid}
                 value={customSolid ? bg.color : '#0d1526'}
-                onChange={(hex) => set({ background: { kind: 'solid', color: hex } })}
+                onChange={(hex) => setBackground({ kind: 'solid', color: hex })}
               />
-            </div>
-          </EditorRow>
-          <EditorRow label="Finish">
-            <div
-              className="flex flex-1 items-center gap-1.5 overflow-x-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
-              data-vaul-no-drag
-            >
-              {FINISHES.map((finish) => (
-                <SwatchButton
-                  key={finish.id}
-                  title={finish.name}
-                  active={bg.kind === 'finish' && bg.finishId === finish.id}
-                  background={finish.surface}
-                  onClick={() => set({ background: { kind: 'finish', finishId: finish.id } })}
-                />
-              ))}
             </div>
           </EditorRow>
           {isNative() && (

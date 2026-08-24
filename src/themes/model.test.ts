@@ -61,11 +61,12 @@ describe('custom resolution', () => {
     expect(theme.dim).toBe('rgba(255, 179, 71, 0.15)');
   });
 
-  it('shades the LED hue to a deep tone on a light background', () => {
+  it('renders the picked LED literally on a light background, with no glow', () => {
     const theme = resolveCustom(custom({ background: { kind: 'solid', color: '#e8e2d5' }, ledColor: '#ff4b3a' }));
     expect(theme.letter).toBe('dark');
-    expect(theme.lit.color).toBe('rgb(41, 12, 9)');
+    expect(theme.lit.color).toBe('#ff4b3a');
     expect(theme.lit.textShadow).toBe('none');
+    expect(theme.dot).toBe('#ff4b3a');
     expect(theme.dim).toBe('rgba(20, 18, 14, 0.24)');
   });
 

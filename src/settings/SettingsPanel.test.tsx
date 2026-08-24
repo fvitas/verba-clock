@@ -104,6 +104,40 @@ describe('SettingsPanel', () => {
     expect(settings.themeId).toBe(settings.customThemes[0].id);
   });
 
+  it('defaults the LED to ink when the background flips light', () => {
+    renderPanel();
+    fireEvent.click(screen.getByRole('button', { name: /^Theme/ }));
+    fireEvent.click(screen.getByRole('button', { name: /Create custom theme/ }));
+    fireEvent.click(screen.getByRole('button', { name: 'Cream' }));
+    fireEvent.click(screen.getByRole('button', { name: 'Save' }));
+
+    expect(loadSettings(localStorage).customThemes[0].ledColor).toBe('#181614');
+  });
+
+  it('keeps an explicit LED pick while the polarity stays put', () => {
+    renderPanel();
+    fireEvent.click(screen.getByRole('button', { name: /^Theme/ }));
+    fireEvent.click(screen.getByRole('button', { name: /Create custom theme/ }));
+    fireEvent.click(screen.getByRole('button', { name: 'Cream' }));
+    fireEvent.click(screen.getByRole('button', { name: 'Red' }));
+    // Light → light background: the explicit red survives
+    fireEvent.click(screen.getByRole('button', { name: 'White Pepper' }));
+    fireEvent.click(screen.getByRole('button', { name: 'Save' }));
+
+    expect(loadSettings(localStorage).customThemes[0].ledColor).toBe('#ff4b3a');
+  });
+
+  it('re-defaults the LED to white when the background flips back to dark', () => {
+    renderPanel();
+    fireEvent.click(screen.getByRole('button', { name: /^Theme/ }));
+    fireEvent.click(screen.getByRole('button', { name: /Create custom theme/ }));
+    fireEvent.click(screen.getByRole('button', { name: 'Cream' }));
+    fireEvent.click(screen.getByRole('button', { name: 'Navy' }));
+    fireEvent.click(screen.getByRole('button', { name: 'Save' }));
+
+    expect(loadSettings(localStorage).customThemes[0].ledColor).toBe('#ffffff');
+  });
+
   it('deletes a custom theme and falls back to Deep Black', () => {
     renderPanel();
     fireEvent.click(screen.getByRole('button', { name: /^Theme/ }));

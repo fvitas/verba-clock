@@ -4,6 +4,10 @@ import { SettingsPanel } from './SettingsPanel';
 import { SettingsProvider } from './SettingsContext';
 import { loadSettings } from './store';
 
+// The editor is hidden for v1 but stays built and covered — these tests run with it on;
+// ThemeList.test.tsx pins the real flag's hidden state
+vi.mock('../themes/flags', () => ({ CUSTOM_THEMES_ENABLED: true }));
+
 const haptics = { supported: false };
 const tapHaptic = vi.fn();
 const startSelectionHaptic = vi.fn();

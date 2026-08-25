@@ -2,6 +2,7 @@ import type * as React from 'react';
 import { Check, ChevronLeft, Pencil, Plus } from 'lucide-react';
 import { FINISHES } from '../finishes/catalog';
 import { tapHaptic } from '../native/haptics';
+import { CUSTOM_THEMES_ENABLED } from '../themes/flags';
 import { resolveTheme, type CustomTheme } from '../themes/model';
 import { loadPhoto } from '../themes/photoStore';
 
@@ -94,18 +95,20 @@ export function ThemeList({ selectedId, customThemes, onSelect, onCreate, onEdit
             onEdit={() => onEdit(theme.id)}
           />
         ))}
-        <button
-          className="flex min-h-[46px] w-full items-center gap-2.5 px-4 py-2 transition-colors active:bg-white/10"
-          onClick={() => {
-            tapHaptic();
-            onCreate();
-          }}
-        >
-          <span className="flex size-6 shrink-0 items-center justify-center rounded-full border border-dashed border-white/40">
-            <Plus className="size-3.5 text-white/70" />
-          </span>
-          <span className="flex-1 text-left text-[14.5px] text-neutral-100">Create custom theme</span>
-        </button>
+        {CUSTOM_THEMES_ENABLED && (
+          <button
+            className="flex min-h-[46px] w-full items-center gap-2.5 px-4 py-2 transition-colors active:bg-white/10"
+            onClick={() => {
+              tapHaptic();
+              onCreate();
+            }}
+          >
+            <span className="flex size-6 shrink-0 items-center justify-center rounded-full border border-dashed border-white/40">
+              <Plus className="size-3.5 text-white/70" />
+            </span>
+            <span className="flex-1 text-left text-[14.5px] text-neutral-100">Create custom theme</span>
+          </button>
+        )}
       </div>
     </div>
   );

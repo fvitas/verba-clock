@@ -16,3 +16,4 @@ android/app/src/main/assets/public
 mockups/
 .idea/
 ios/App/VerbaFaceKit/.build
+.DS_Store

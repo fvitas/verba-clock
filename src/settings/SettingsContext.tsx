@@ -14,8 +14,11 @@ export function SettingsProvider({ children }: { children: ReactNode }) {
   const [settings, setSettings] = useState(() => loadSettings(localStorage));
 
   useEffect(() => {
-    syncSettingsToWidgets(settings);
     setHapticsEnabled(settings.haptics);
+    // A slider drag patches settings per step, and Android repaints widget bitmaps on every
+    // sync — trail the drag instead of chasing it
+    const timer = setTimeout(() => syncSettingsToWidgets(settings), 300);
+    return () => clearTimeout(timer);
   }, [settings]);
 
   const update = (patch: Partial<Settings>) => {

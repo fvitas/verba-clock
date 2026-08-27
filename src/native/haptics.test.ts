@@ -1,7 +1,10 @@
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 
 const isNativePlatform = vi.fn();
-vi.mock('@capacitor/core', () => ({ Capacitor: { isNativePlatform: () => isNativePlatform() } }));
+const getPlatform = vi.fn();
+vi.mock('@capacitor/core', () => ({
+  Capacitor: { isNativePlatform: () => isNativePlatform(), getPlatform: () => getPlatform() },
+}));
 
 const impact = vi.fn().mockResolvedValue(undefined);
 const selectionStart = vi.fn().mockResolvedValue(undefined);
@@ -36,7 +39,9 @@ function stubWeb({ vibrate, coarsePointer }: { vibrate: boolean; coarsePointer: 
 beforeEach(() => {
   vi.unstubAllGlobals();
   vi.clearAllMocks();
+  vi.useRealTimers();
   isNativePlatform.mockReturnValue(true);
+  getPlatform.mockReturnValue('ios');
   setHapticsEnabled(true);
 });
 
@@ -108,5 +113,28 @@ describe('selection haptics', () => {
     expect(selectionStart).not.toHaveBeenCalled();
     expect(selectionChanged).not.toHaveBeenCalled();
     expect(selectionEnd).not.toHaveBeenCalled();
+  });
+
+  it('gates ticks on Android, where the Vibrator queues instead of rate-limiting', () => {
+    getPlatform.mockReturnValue('android');
+    vi.useFakeTimers();
+    vi.setSystemTime(1_000_000);
+    selectionHaptic();
+    selectionHaptic();
+    vi.setSystemTime(1_000_040);
+    selectionHaptic();
+    expect(selectionChanged).toHaveBeenCalledOnce();
+    vi.setSystemTime(1_000_090);
+    selectionHaptic();
+    expect(selectionChanged).toHaveBeenCalledTimes(2);
+  });
+
+  it('never gates iOS, whose generator rate-limits itself', () => {
+    vi.useFakeTimers();
+    vi.setSystemTime(2_000_000);
+    selectionHaptic();
+    selectionHaptic();
+    selectionHaptic();
+    expect(selectionChanged).toHaveBeenCalledTimes(3);
   });
 });

@@ -24,5 +24,16 @@ export const tapHaptic = (): void => fire(() => Haptics.impact({ style: ImpactSt
 
 // iOS only vibrates selectionChanged while a generator is prepared, so drags must be bracketed
 export const startSelectionHaptic = (): void => fire(() => Haptics.selectionStart());
-export const selectionHaptic = (): void => fire(() => Haptics.selectionChanged());
+
+// iOS's feedback generator rate-limits itself; Android's Vibrator queues every one-shot, so a
+// fast drag banks buzzes that keep firing after the finger stops — gate them ourselves
+let lastTick = 0;
+export function selectionHaptic(): void {
+  if (Capacitor.getPlatform() === 'android') {
+    const now = Date.now();
+    if (now - lastTick < 80) return;
+    lastTick = now;
+  }
+  fire(() => Haptics.selectionChanged());
+}
 export const endSelectionHaptic = (): void => fire(() => Haptics.selectionEnd());

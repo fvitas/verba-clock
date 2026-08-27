@@ -13,6 +13,7 @@ import { EMPTY_LIT, useLightPlay } from './lightplay/useLightPlay';
 import { resolveTheme, type Theme } from './themes/model';
 import { loadPhoto } from './themes/photoStore';
 import { tapHaptic } from './native/haptics';
+import { syncSystemBarGlyphs } from './native/systemBars';
 import { useDockMode } from './native/useDockMode';
 import { useNative } from './native/useNative';
 import { useReducedMotion } from './native/useReducedMotion';
@@ -84,6 +85,11 @@ function ClockScreen({ settingsOpen, docked, playEffect, previewTheme }: ClockSc
   const theme =
     previewTheme ??
     resolveTheme(settings.themeId, settings.customThemes, loadPhoto(localStorage, settings.themeId));
+  // Tracks the editor's live preview too, so glyphs flip while a draft front is on the face
+  useEffect(() => {
+    syncSystemBarGlyphs(theme);
+  }, [theme.letter]);
+
   const display = resolveTime(time.getHours(), time.getMinutes(), lang, settings.showItIs);
   // Seconds digits render on the letter matrix — word-grid faces (Arabic) have none
   const effectiveMode = lang.layout === 'word' ? 'words' : mode;

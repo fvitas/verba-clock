@@ -13,11 +13,41 @@ const BASE_URL = process.env.BASE_URL ?? 'http://localhost:4173';
 const OUT_DIR = new URL('../mockups/store/graphics/', import.meta.url);
 const TMP_FACE = new URL('../mockups/store/graphics/.face.png', import.meta.url);
 
+// Backdrop, scrim and accent are tuned per finish so the banner reads as one surface
+const THEMES = {
+  gold: {
+    finishId: 'gold',
+    background: 'linear-gradient(170deg, #2e2a25 0%, #211e1c 55%, #151312 100%)',
+    scrim: 'linear-gradient(90deg, rgba(10,9,8,0) 38%, rgba(10,9,8,0.86) 66%, #0d0c0b 100%)',
+    accent: '#d8b45f',
+    tagline: '#b0aca6',
+  },
+  black: {
+    finishId: 'deep-black',
+    background: 'linear-gradient(170deg, #1d1d21 0%, #131315 55%, #0a0a0c 100%)',
+    scrim: 'linear-gradient(90deg, rgba(9,9,11,0) 38%, rgba(9,9,11,0.86) 66%, #0a0a0c 100%)',
+    accent: '#c2c6cc',
+    tagline: '#a2a2a8',
+  },
+  red: {
+    finishId: 'red-pepper',
+    background: 'linear-gradient(170deg, #3a1216 0%, #290d10 55%, #170708 100%)',
+    scrim: 'linear-gradient(90deg, rgba(23,7,8,0) 38%, rgba(23,7,8,0.86) 66%, #170708 100%)',
+    accent: '#d97a7e',
+    tagline: '#c09fa1',
+  },
+};
+
+// black is the shipped v1 banner, so a bare run reproduces the canonical asset
+const themeId = process.env.THEME ?? 'black';
+const THEME = THEMES[themeId];
+if (!THEME) throw new Error(`Unknown THEME "${themeId}" — expected ${Object.keys(THEMES).join(', ')}`);
+
 const FACE_SETTINGS = {
   schemaVersion: 1,
   languageId: 'en',
-  finishId: 'gold',
-  presentation: 'wall',
+  finishId: THEME.finishId,
+  presentation: 'fullbleed',
   showItIs: true,
   dots: 'none',
   transition: 'instant',
@@ -28,9 +58,10 @@ const FACE_SETTINGS = {
   haptics: true,
 };
 
+const outId = themeId === 'black' ? 'play-feature-graphic' : `play-feature-graphic-${themeId}`;
 const VARIANTS = [
-  { id: 'play-feature-graphic', width: 1024, height: 500, scale: 1 },
-  { id: 'play-feature-graphic@2x', width: 1024, height: 500, scale: 2 },
+  { id: outId, width: 1024, height: 500, scale: 1 },
+  { id: `${outId}@2x`, width: 1024, height: 500, scale: 2 },
 ];
 
 function faceInitScript() {
@@ -54,7 +85,7 @@ function composite(faceDataUri) {
 <html><head><meta charset="utf-8"><style>
   * { margin: 0; padding: 0; box-sizing: border-box; }
   body { width: 1024px; height: 500px; overflow: hidden; position: relative;
-    background: linear-gradient(170deg, #2e2a25 0%, #211e1c 55%, #151312 100%);
+    background: ${THEME.background};
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
   .face { position: absolute; inset: 0 auto 0 0; height: 500px; width: 560px;
     display: flex; align-items: center; justify-content: center;
@@ -62,11 +93,11 @@ function composite(faceDataUri) {
     mask-image: linear-gradient(to right, #000 0%, #000 66%, transparent 100%); }
   .face img { height: 520px; }
   .scrim { position: absolute; inset: 0;
-    background: linear-gradient(90deg, rgba(10,9,8,0) 38%, rgba(10,9,8,0.86) 66%, #0d0c0b 100%); }
+    background: ${THEME.scrim}; }
   .copy { position: absolute; right: 72px; top: 50%; transform: translateY(-50%); width: 380px; }
   h1 { font-size: 3.25rem; line-height: 1.02; letter-spacing: -0.03em; color: #f2f2f4; font-weight: 600; }
-  h1 span { display: block; color: #d8b45f; }
-  p { margin-top: 1.1rem; font-size: 1.3125rem; line-height: 1.4; color: #b0aca6; letter-spacing: -0.01em; }
+  h1 span { display: block; color: ${THEME.accent}; }
+  p { margin-top: 1.1rem; font-size: 1.3125rem; line-height: 1.4; color: ${THEME.tagline}; letter-spacing: -0.01em; }
 </style></head><body>
   <div class="face"><img src="${faceDataUri}" alt=""></div>
   <div class="scrim"></div>

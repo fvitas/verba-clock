@@ -34,10 +34,11 @@ const SETS = [
   // 9:16 is the squarest phone canvas here, so the same frame ratio grows taller
   // relative to the canvas than on the 6.9" set — 0.84 put every device over the copy.
   { id: 'play-phone', width: 360, height: 640, scale: 3, frame: 0.74, device: 'phone', render: 'iphone', capture: { width: 400, height: 870 } }, // 1080x1920
-  // Keeps the stretched iPhone render rather than the iPad one: 0.46->0.5625 is
-  // far less distortion than 0.75->0.5625, and Apple tablet hardware has no
-  // business on a Play listing.
-  { id: 'play-tablet', width: 720, height: 1280, scale: 2, frame: 0.8, device: 'tablet', render: 'iphone' }, // 1440x2560
+  // Tablets are used landscape, so this set is a 16:9 canvas: the app is
+  // captured landscape, pre-rotated into the portrait frame, and the whole
+  // framed device is spun back upright at compose time. The iPad render works
+  // here because its 3:4 screen rotated is exactly the 4:3 capture — no 9-slice.
+  { id: 'play-tablet', width: 1280, height: 720, scale: 2, frame: 0.46, device: 'tablet', render: 'ipad', orient: 'landscape', capture: { width: 1024, height: 768 } }, // 2560x1440
 ];
 
 const BASE_SETTINGS = {
@@ -206,6 +207,9 @@ const RENDERS = {
 
 const STAGE_MARGIN = { phone: 0.055, tablet: 0.045 };
 const CLEARANCE = 0.025; // of canvas width, kept between the copy and the tallest device
+// A landscape device shows whole: instead of bleeding off the bottom it floats
+// this far above it, mirroring the stage margin at the top of the group.
+const LANDSCAPE_LIFT = 0.045;
 
 // A fanned group trades word legibility on the outer phones for showing three
 // finishes at once — fine here, because a full-bleed finish reads from a strip.
@@ -262,10 +266,13 @@ function elementBox({ bodyWidth, frame, stretch, holeAspect }) {
 }
 
 // A tilt widens the bounding box, and since the rotation is about the centre,
-// half of that growth goes upward.
-function visualHeight({ tilt, ...box }) {
+// half of that growth goes upward. A landscape device is the same box rotated
+// 90°, and its painted bottom is pinned to the lift line (see place), so its
+// whole rotated bounding box counts as height.
+function visualHeight({ tilt, landscape, ...box }) {
   const { width, height } = elementBox(box);
   const radians = Math.abs(tilt) * (Math.PI / 180);
+  if (landscape) return height * Math.sin(radians) + width * Math.cos(radians);
   return (height + height * Math.cos(radians) + width * Math.sin(radians)) / 2;
 }
 
@@ -273,18 +280,22 @@ function visualHeight({ tilt, ...box }) {
 // tops except this: shrink the whole group until the tallest one clears the copy.
 // The copy height is measured from the rendered DOM, so any headline or subhead
 // length is safe — a device can never land on the text.
-function groupScaleFor({ copyHeight, width, height, frameRatio, device, frame, holeAspect, stretch, count }) {
-  const room = height - copyHeight - Math.round(width * (STAGE_MARGIN[device] + CLEARANCE));
+function groupScaleFor({ copyHeight, width, height, frameRatio, device, frame, holeAspect, stretch, count, landscape }) {
+  // Margins and bleeds scale on the canvas's short side, or a landscape canvas
+  // would get phone-sized gaps from its doubled width
+  const base = landscape ? height : width;
+  const room = height - copyHeight - Math.round(base * (STAGE_MARGIN[device] + CLEARANCE));
   const fits = slotsFor({ count, width, frameRatio, device, groupScale: 1 }).map(
     (slot) =>
-      (room + Math.round(width * slot.bleed)) /
-      visualHeight({ bodyWidth: slot.bodyWidth, tilt: slot.tilt, frame, holeAspect, stretch }),
+      (landscape ? room - Math.round(base * LANDSCAPE_LIFT) : room + Math.round(base * slot.bleed)) /
+      visualHeight({ bodyWidth: slot.bodyWidth, tilt: slot.tilt, frame, holeAspect, stretch, landscape }),
   );
   return Math.min(1, ...fits);
 }
 
-function composed({ shot, width, height, frameRatio, device, frame, holeAspect, stretch, captures, groupScale, frameUri }) {
-  const px = (fraction) => `${Math.round(width * fraction)}px`;
+function composed({ shot, width, height, frameRatio, device, frame, holeAspect, stretch, captures, groupScale, frameUri, landscape }) {
+  const base = landscape ? height : width;
+  const px = (fraction) => `${Math.round(base * fraction)}px`;
   const light = shot.theme === 'light';
   const phone = device === 'phone';
 
@@ -297,7 +308,9 @@ function composed({ shot, width, height, frameRatio, device, frame, holeAspect, 
     if (device !== 'tablet') return slot;
     const box = elementBox({ bodyWidth: slot.bodyWidth, frame, stretch, holeAspect });
     const radians = Math.abs(slot.tilt) * (Math.PI / 180);
-    const half = (box.width * Math.cos(radians) + box.height * Math.sin(radians)) / 2;
+    const half = landscape
+      ? (box.height * Math.cos(radians) + box.width * Math.sin(radians)) / 2
+      : (box.width * Math.cos(radians) + box.height * Math.sin(radians)) / 2;
     const room = Math.max(0, width / 2 - half);
     const offset = (width * slot.center) / 100 - width / 2;
     return { ...slot, center: 50 + (100 * Math.max(-room, Math.min(room, offset))) / width };
@@ -308,11 +321,26 @@ function composed({ shot, width, height, frameRatio, device, frame, holeAspect, 
     uri: captures[index],
   }));
 
-  // Common to both frame kinds: where the element sits on the stage. The tilt is
-  // about the centre, and the bleed is negative so the body runs off the bottom.
-  const place = (slot, extraBleed = 0) => `
-    left: ${slot.center}%; bottom: ${-Math.round(width * slot.bleed) - extraBleed}px; z-index: ${slot.z};
+  // Common to both frame kinds: where the element sits on the stage. Portrait
+  // devices bleed off the bottom; a landscape device is the portrait element
+  // spun -90° and shown whole, floating LANDSCAPE_LIFT above the edge. The
+  // rotation is about the centre, so the painted box ends up shorter than the
+  // layout box and the difference is pushed down to pin the painted bottom to
+  // the lift line. The body gap sits on a side after the spin, so no extraBleed.
+  const place = (slot, extraBleed = 0) => {
+    const box = elementBox({ bodyWidth: slot.bodyWidth, frame, stretch, holeAspect });
+    const radians = Math.abs(slot.tilt) * (Math.PI / 180);
+    if (landscape) {
+      const painted = box.height * Math.sin(radians) + box.width * Math.cos(radians);
+      const sunk = Math.round((box.height - painted) / 2);
+      return `
+    left: ${slot.center}%; bottom: ${Math.round(base * LANDSCAPE_LIFT) - sunk}px; z-index: ${slot.z};
+    transform: translateX(-50%) rotate(${slot.tilt - 90}deg);`;
+    }
+    return `
+    left: ${slot.center}%; bottom: ${-Math.round(base * slot.bleed) - extraBleed}px; z-index: ${slot.z};
     transform: translateX(-50%) rotate(${slot.tilt}deg);`;
+  };
 
   // Frame geometry derives from each body width, so every device in a group
   // keeps the same proportions at its own size. The hole's margins are measured
@@ -438,6 +466,33 @@ async function withoutIsland(uri, box) {
   return erased;
 }
 
+// A landscape capture is pre-rotated clockwise to fill the portrait frame hole;
+// the framed element is spun back counter-clockwise at compose time.
+async function rotatedClockwise(uri) {
+  const page = await browser.newPage();
+  const rotated = await page.evaluate(
+    (source) =>
+      new Promise((resolve, reject) => {
+        const image = new Image();
+        image.onload = () => {
+          const canvas = document.createElement('canvas');
+          canvas.width = image.height;
+          canvas.height = image.width;
+          const context = canvas.getContext('2d');
+          context.translate(canvas.width, 0);
+          context.rotate(Math.PI / 2);
+          context.drawImage(image, 0, 0);
+          resolve(canvas.toDataURL('image/png'));
+        };
+        image.onerror = () => reject(new Error('capture failed to decode'));
+        image.src = source;
+      }),
+    uri,
+  );
+  await page.close();
+  return rotated;
+}
+
 // Inlined: the compose page is set from a string, so it has no base URL to
 // resolve a file path against. Each render is decoded once, in both the variant
 // that keeps its island and the one with it erased.
@@ -465,7 +520,8 @@ async function capture({ set, settings, at, file }) {
   await page.screenshot({ path: fileURLToPath(file), type: 'png' });
   await context.close();
   if (failures.length) throw new Error(`${set.id}: ${failures.join('; ')}`);
-  return `data:image/png;base64,${(await readFile(file)).toString('base64')}`;
+  const uri = `data:image/png;base64,${(await readFile(file)).toString('base64')}`;
+  return set.orient === 'landscape' ? rotatedClockwise(uri) : uri;
 }
 
 const only = process.env.ONLY; // e.g. ONLY=ios-iphone-6.9, to iterate on one set
@@ -501,7 +557,9 @@ for (const set of SETS.filter((candidate) => !only || candidate.id === only)) {
     const composePage = await composeContext.newPage();
     const viewport = set.capture ?? set;
     const frame = RENDERS[set.render];
-    const holeAspect = viewport.width / viewport.height;
+    const landscape = set.orient === 'landscape';
+    // A rotated capture presents its short side as the hole's width
+    const holeAspect = landscape ? viewport.height / viewport.width : viewport.width / viewport.height;
     const geometry = {
       shot,
       width: set.width * set.scale,
@@ -516,6 +574,7 @@ for (const set of SETS.filter((candidate) => !only || candidate.id === only)) {
       holeAspect,
       captures,
       frameUri: frameUris[set.render][set.island ? 'island' : 'plain'],
+      landscape,
     };
     await composePage.setContent(composed({ ...geometry, groupScale: 1 }), { waitUntil: 'load' });
 
